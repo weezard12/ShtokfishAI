@@ -56,7 +56,7 @@ public class BasePiece {
 
     //simple move (just changing pos ones)
     public boolean movePiece(BasePiece piece,int mX,int mY,BasePiece[][] board){
-        Gdx.app.log("movePiece func",String.format("mX: %s, mY: %s",mX,mY));
+        Gdx.app.log("movePiece func",String.format("mX: %s, mY: %s, posX: %s, posY: %s",mX,mY,piece.getPosX(),piece.getPosY()));
 
         //outside the board
         if(mY < 0 || mY > 7 ||mX < 0 || mX > 7)
@@ -71,6 +71,7 @@ public class BasePiece {
         board[mY][mX].isJustMoved = true;
         board[piece.getPosY()][piece.getPosX()] = null;
 
+        Gdx.app.log("movePiece func","moved");
         return true;
     }
     public void movePiece(BasePiece piece,int mX,int mY,BasePiece[][] board,Array<BasePiece[][]> moves){
@@ -85,12 +86,16 @@ public class BasePiece {
 
         BasePiece[][] cBoard = GameBoard.cloneBoard(board);
         boolean stop = false;
-        int cX = piece.getPosX();
-        int cY = piece.getPosY();
+        int cX = piece.getPosX()+mX;
+        int cY = piece.getPosY()+mY;
 
         while (!stop){
 
             if (movePiece(piece, cX, cY, cBoard)){
+                //always null because the piece moved there
+                if (cBoard[cY][cX] != null)
+                    return;
+
                 cX+=mX;
                 cY+=mY;
                 moves.add(cBoard);

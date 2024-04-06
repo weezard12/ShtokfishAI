@@ -14,7 +14,6 @@ public class RookPiece extends BasePiece {
 
     @Override
     public Array<BasePiece[][]> getAllPossibleMoves() {
-        Gdx.app.log("king move", "moved");
         Array<BasePiece[][]> r = new Array<>();
 
         movePieceInRow(this,1,0,GameBoard.cloneBoard(board),r);
