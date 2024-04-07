@@ -24,7 +24,7 @@ public class Tile {
         this.piece = piece;
         this.posX =posX;
         this.posY=posY;
-        bounds = new Rectangle(posX*128,posY*128,128,128);
+        bounds = new Rectangle((posX*128)+gameBoard.offsetToRight,posY*128,128,128);
     }
 
     @Override

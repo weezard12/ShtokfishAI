@@ -10,6 +10,8 @@ import com.weezard12.shtokfishai.scenes.scenesBase.ChessSceneBase;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class MyGdxGame extends Game {
+
+    public static int boardSize = 1024;
     public SpriteBatch batch;
     private Texture image;
 

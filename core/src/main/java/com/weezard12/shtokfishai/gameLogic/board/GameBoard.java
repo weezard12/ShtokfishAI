@@ -11,9 +11,20 @@ import com.badlogic.gdx.math.Rectangle;
 import com.weezard12.shtokfishai.gameLogic.pieces.*;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
+import com.weezard12.shtokfishai.main.MyGdxGame;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
+import java.awt.*;
+
 public class GameBoard {
+    public boolean isWhiteTurn = true;
+
+    //region Scale and UI
+    public BoardUI boardUI = new BoardUI(this);
+    public int offsetToRight = (int)(MyGdxGame.boardSize* 0.1);
+    //endregion
+
+
     //Tiles
     public static Tile[][] tiles;
     Tile selectedTile;
@@ -53,7 +64,7 @@ public class GameBoard {
             for (Tile[] row: tiles) {
                 for (Tile tile: row) {
 
-                    if(tile.bounds.contains(Gdx.input.getX(),Gdx.graphics.getWidth() - Gdx.input.getY())){
+                    if(tile.bounds.contains(Gdx.input.getX(),MyGdxGame.boardSize - Gdx.input.getY())){
                         Gdx.app.log("click on tile",tile.toString());
                         if (selectedTile == null){
                             selectedTile = tile;
@@ -122,7 +133,8 @@ public class GameBoard {
                         break;
                 }
 
-                shapeDrawer.filledRectangle(new Rectangle(x*128,y*128,128,128));
+                //shapeDrawer.filledRectangle(new Rectangle(x*128 + offsetToRight,y*128,128,128));
+                shapeDrawer.filledRectangle(tiles[y][x].bounds);
             }
 
         }
@@ -131,7 +143,7 @@ public class GameBoard {
         for (int x = 0; x<8;x++){
             for (int y = 0; y<8;y++){
                 if(board[y][x]!=null)
-                    batch.draw(board[y][x].texture,board[y][x].getPosX()*128,board[y][x].getPosY()*128 + 8);
+                    batch.draw(board[y][x].texture,board[y][x].getPosX()*128+offsetToRight,board[y][x].getPosY()*128 + 8);
 
             }
 
@@ -186,7 +198,6 @@ public class GameBoard {
 
         }
     }
-
     public static BasePiece[][] cloneBoard(BasePiece[][] board){
         BasePiece[][] rBoard = new BasePiece[8][8];
 
