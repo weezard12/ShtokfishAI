@@ -3,7 +3,9 @@ package com.weezard12.shtokfishai.gameLogic.pieces.baseClasses;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Queue;
 import com.weezard12.shtokfishai.gameLogic.board.GameBoard;
+import com.weezard12.shtokfishai.gameLogic.pieces.PawnPiece;
 
 public class BasePiece {
     protected BasePiece[][] board;
@@ -91,11 +93,14 @@ public class BasePiece {
 
         while (!stop){
 
-            if (movePiece(piece, cX, cY, cBoard)){
-                //always null because the piece moved there
-                if (cBoard[cY][cX] != null)
+            if(cY > -1 && cY < 8 && cX > -1 && cX < 8)
+                if(cBoard[cY][cX] != null){
+                    movePiece(piece, cX, cY, cBoard);
+                    moves.add(cBoard);
                     return;
+                }
 
+            if (movePiece(piece, cX, cY, cBoard)){
                 cX+=mX;
                 cY+=mY;
                 moves.add(cBoard);
@@ -104,8 +109,13 @@ public class BasePiece {
             }
             else stop = true;
 
+
         }
 
     }
 
+    @Override
+    public String toString() {
+        return String.format("pX: %s, pY: %s, type: %s",getPosX(),getPosY(),isEnemy? "Black " + type : type);
+    }
 }

@@ -8,9 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.weezard12.shtokfishai.gameLogic.pieces.KingPiece;
-import com.weezard12.shtokfishai.gameLogic.pieces.KnightPiece;
-import com.weezard12.shtokfishai.gameLogic.pieces.RookPiece;
+import com.weezard12.shtokfishai.gameLogic.pieces.*;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -60,7 +58,8 @@ public class GameBoard {
                         if (selectedTile == null){
                             selectedTile = tile;
                             selectedTile.highlightType=TileHighlightType.SELECTED;
-                            board[selectedTile.posY][selectedTile.posX].getAllPossibleMoves();
+                            if(board[selectedTile.posY][selectedTile.posX] != null)
+                                board[selectedTile.posY][selectedTile.posX].getAllPossibleMoves();
                             //Gdx.app.log("mouse pos",Gdx.input.getX()+" "+ Gdx.input.getY());
                         }
                         else if(tile == selectedTile){
@@ -87,7 +86,14 @@ public class GameBoard {
     public void movePiece(Tile tile){
         clearMoveHighLight();
         if(isFreeMove){
-            board[tile.posY][tile.posX] = board[selectedTile.posY][selectedTile.posX];
+            //check for queen spawn
+            if(board[selectedTile.posY][selectedTile.posX].type==PieceType.PAWN)
+                if(tile.posY== 7 * (board[selectedTile.posY][selectedTile.posX].isEnemy? 0 : 1))
+                    board[tile.posY][tile.posX] = new QueenPiece(PieceType.QUEEN,board[selectedTile.posY][selectedTile.posX].isEnemy,board);
+                else
+                    board[tile.posY][tile.posX] = board[selectedTile.posY][selectedTile.posX];
+            else
+                board[tile.posY][tile.posX] = board[selectedTile.posY][selectedTile.posX];
             board[selectedTile.posY][selectedTile.posX] = null;
 
         }
@@ -148,7 +154,7 @@ public class GameBoard {
                 Gdx .app.log("p: ",piece +" "+x+" "+y +" "+color);
                 switch (piece){
                     case "p":
-                       board[y][x]= new BasePiece(PieceType.PAWN,color,board);
+                       board[y][x]= new PawnPiece(PieceType.PAWN,color,board);
                        break;
                     case "r":
                         board[y][x]= new RookPiece(PieceType.ROOK,color,board);
@@ -157,10 +163,10 @@ public class GameBoard {
                         board[y][x]= new KnightPiece(PieceType.KNIGHT,color,board);
                         break;
                     case "b":
-                        board[y][x]= new BasePiece(PieceType.BISHOP,color,board);
+                        board[y][x]= new BishopPiece(PieceType.BISHOP,color,board);
                         break;
                     case "q":
-                        board[y][x]= new BasePiece(PieceType.QUEEN,color,board);
+                        board[y][x]= new QueenPiece(PieceType.QUEEN,color,board);
                         break;
                     case "K":
                         board[y][x]= new KingPiece(PieceType.KING,color,board);
@@ -196,6 +202,15 @@ public class GameBoard {
                             break;
                         case ROOK:
                             rBoard[y][x] = new RookPiece(board[y][x].type,board[y][x].isEnemy,rBoard);
+                            break;
+                        case BISHOP:
+                            rBoard[y][x] = new BishopPiece(board[y][x].type,board[y][x].isEnemy,rBoard);
+                            break;
+                        case QUEEN:
+                            rBoard[y][x] = new QueenPiece(board[y][x].type,board[y][x].isEnemy,rBoard);
+                            break;
+                        case PAWN:
+                            rBoard[y][x] = new PawnPiece(board[y][x].type,board[y][x].isEnemy,rBoard);
                             break;
                         default:
                             rBoard[y][x] = new BasePiece(board[y][x].type,board[y][x].isEnemy,rBoard);
