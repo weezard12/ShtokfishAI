@@ -207,6 +207,7 @@ public class GameBoard {
                     switch (board[y][x].type){
                         case KING:
                             rBoard[y][x] = new KingPiece(board[y][x].type,board[y][x].isEnemy,rBoard);
+                            ((KingPiece)rBoard[y][x]).isEverMoved = ((KingPiece)board[y][x]).isEverMoved;
                             break;
                         case KNIGHT:
                             rBoard[y][x] = new KnightPiece(board[y][x].type,board[y][x].isEnemy,rBoard);
