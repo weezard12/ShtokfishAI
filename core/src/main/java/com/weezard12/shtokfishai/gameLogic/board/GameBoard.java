@@ -71,7 +71,7 @@ public class GameBoard {
                             selectedTile.highlightType=TileHighlightType.SELECTED;
                             if(board[selectedTile.posY][selectedTile.posX] != null)
                                 board[selectedTile.posY][selectedTile.posX].getAllPossibleMoves();
-                            //Gdx.app.log("mouse pos",Gdx.input.getX()+" "+ Gdx.input.getY());
+                            //Gdx.app.log("check check",""+board[selectedTile.posY][selectedTile.posX].doesCheck(finedKingInBoard(board,board[selectedTile.posY][selectedTile.posX].isEnemy?false:true)));
                         }
                         else if(tile == selectedTile){
                             clearMoveHighLight();
@@ -105,6 +105,9 @@ public class GameBoard {
                     board[tile.posY][tile.posX] = board[selectedTile.posY][selectedTile.posX];
             else
                 board[tile.posY][tile.posX] = board[selectedTile.posY][selectedTile.posX];
+            if(board[tile.posY][tile.posX] instanceof KingPiece)
+                ((KingPiece)board[tile.posY][tile.posX]).isEverMoved = true;
+
             board[selectedTile.posY][selectedTile.posX] = null;
 
         }
@@ -150,21 +153,22 @@ public class GameBoard {
         }
     }
     //endregion
+    //region Setup Board
     public void setBoardByString(String s){
         int idx = 0;
-        String piece = "";
+        StringBuilder piece = new StringBuilder();
         for (int y = 7; y>-1;y--){
             for (int x = 0; x<8;x++){
 
                 while (s.charAt(idx)!=','){
-                    piece+=s.charAt(idx);
+                    piece.append(s.charAt(idx));
                     idx++;
                 }
                 boolean color = piece.charAt(0)=='B';
                 if(color)
-                    piece = piece.substring(1);
+                    piece = new StringBuilder(piece.substring(1));
                 Gdx .app.log("p: ",piece +" "+x+" "+y +" "+color);
-                switch (piece){
+                switch (piece.toString()){
                     case "p":
                        board[y][x]= new PawnPiece(PieceType.PAWN,color,board);
                        break;
@@ -184,7 +188,7 @@ public class GameBoard {
                         board[y][x]= new KingPiece(PieceType.KING,color,board);
                         break;
                 }
-                piece = "";
+                piece = new StringBuilder();
                 idx++;
             }
 
@@ -198,6 +202,7 @@ public class GameBoard {
 
         }
     }
+    //endregion
     public static BasePiece[][] cloneBoard(BasePiece[][] board){
         BasePiece[][] rBoard = new BasePiece[8][8];
 
@@ -236,9 +241,40 @@ public class GameBoard {
         return rBoard;
     }
 
+    public static BasePiece finedKingInBoard(BasePiece[][] board, boolean isEnemy){
+        for (BasePiece[] row : board) {
+            for (BasePiece piece : row) {
+                if(piece != null)
+                    if (piece.type == PieceType.KING && piece.isEnemy == isEnemy)
+                        return piece;
+            }
+        }
+        return null;
+    }
+
+    public static boolean isColorInCheck(BasePiece[][] board, boolean isEnemy){
+
+        BasePiece king = finedKingInBoard(board,isEnemy);
+        for (BasePiece[] row : board) {
+            for (BasePiece piece : row) {
+                if(piece != null)
+                    if (piece.isEnemy == !isEnemy){
+                        Gdx.app.log("check all",piece.toString());
+                        if(piece.doesCheck(piece.getPosX(),piece.getPosY(),king)){
+                            Gdx.app.log("check all","True");
+                            return true;
+                        }
+
+                    }
+
+            }
+        }
+        return false;
+
+    }
+
     private void clearMoveHighLight(){
-        for (Tile[] row :
-            tiles) {
+        for (Tile[] row : tiles) {
             for (Tile tile : row) {
 
                 if(tile.highlightType == TileHighlightType.CAN_MOVE_TO)
@@ -264,4 +300,5 @@ public class GameBoard {
         }
         return s;
     }
+
 }

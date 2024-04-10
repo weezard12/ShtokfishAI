@@ -19,22 +19,41 @@ public class KingPiece extends BasePiece {
         Array<BasePiece[][]> r = new Array<>();
 
 
-        //castle
+        //castle O-O
         if(!this.isEverMoved){
-            if(getPosX() + 2 < 8)
-                if(board[getPosY()][getPosX()+3].type == PieceType.ROOK && board[getPosY()][getPosX()+3].isEnemy == this.isEnemy)
-                    if(!((RookPiece) board[getPosY()][getPosX() + 3]).isEverMoved){
-                        this.isEverMoved = true;
-                        BasePiece[][] shortCastle = GameBoard.cloneBoard(board);
-                        shortCastle[getPosY()][getPosX()+2]=shortCastle[getPosY()][getPosX()];
-                        shortCastle[getPosY()][getPosX()+2].isJustMoved = true;
-                        shortCastle[getPosY()][getPosX()]=new RookPiece(PieceType.ROOK,this.isEnemy,shortCastle);
+            if(getPosX() == 4)
+                if(board[getPosY()][getPosX()+1] == null && board[getPosY()][getPosX()+2] == null)
+                    if(board[getPosY()][getPosX()+3].type == PieceType.ROOK && board[getPosY()][getPosX()+3].isEnemy == this.isEnemy)
+                        if(!((RookPiece) board[getPosY()][getPosX() + 3]).isEverMoved){
+                            this.isEverMoved = true;
+                            BasePiece[][] shortCastle = GameBoard.cloneBoard(board);
+                            shortCastle[getPosY()][getPosX()+2]=shortCastle[getPosY()][getPosX()];
+                            shortCastle[getPosY()][getPosX()+2].isJustMoved = true;
+                            shortCastle[getPosY()][getPosX()]=new RookPiece(PieceType.ROOK,this.isEnemy,shortCastle);
 
-                        r.add(shortCastle);
-                        this.isEverMoved = false;
-                        Gdx.app.log("king move","castle");
+                            r.add(shortCastle);
+                            this.isEverMoved = false;
+                            Gdx.app.log("king move","castle");
                     }
-            //Gdx.app.log("king move","1 castle"+shortCastle[getPosX()][getPosY()].toString());
+
+        }
+
+        //castle O-O-O
+        if(!this.isEverMoved){
+            if(getPosX() == 4)
+                if(board[getPosY()][getPosX()-1] == null && board[getPosY()][getPosX()-2] == null && board[getPosY()][getPosX()-3]==null)
+                    if(board[getPosY()][getPosX()-4].type == PieceType.ROOK && board[getPosY()][getPosX()-4].isEnemy == this.isEnemy)
+                        if(!((RookPiece) board[getPosY()][getPosX() - 4]).isEverMoved){
+                            this.isEverMoved = true;
+                            BasePiece[][] longCastle = GameBoard.cloneBoard(board);
+                            longCastle[getPosY()][getPosX()-2]=longCastle[getPosY()][getPosX()];
+                            longCastle[getPosY()][getPosX()-2].isJustMoved = true;
+                            longCastle[getPosY()][getPosX()]=new RookPiece(PieceType.ROOK,this.isEnemy,longCastle);
+
+                            r.add(longCastle);
+                            this.isEverMoved = false;
+                            Gdx.app.log("king move","castle");
+                        }
 
         }
 
@@ -59,9 +78,21 @@ public class KingPiece extends BasePiece {
         movePiece(this,getPosX()-1,getPosY()-1,option8,r);
 
 
-
         Tile.setTileHighlight(r,this, GameBoard.tiles);
 
         return super.getAllPossibleMoves();
     }
+
+    @Override
+    public boolean doesCheck(int mX,int mY,int kX, int kY) {
+        if(kX == mX+1 || kX == mX-1 || kX == mX)
+            if(kY == mY+1 || kY == mY-1 || kY == mY)
+                return true;
+
+
+        return false;
+    }
+    // 5 5
+    //4 4
+
 }

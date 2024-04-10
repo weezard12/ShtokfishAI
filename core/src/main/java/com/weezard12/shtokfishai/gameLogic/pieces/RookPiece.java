@@ -27,4 +27,22 @@ public class RookPiece extends BasePiece {
 
         return r;
     }
+
+
+    @Override
+    public boolean doesCheck(int mX,int mY,BasePiece king) {
+        //left
+        if(moveInLineUntilHit(this,1,0,board)==king)
+            return true;
+        //right
+        if(moveInLineUntilHit(this,-1,0,board)==king)
+            return true;
+        //up
+        if(moveInLineUntilHit(this,0,1,board)==king)
+            return true;
+        //down
+        if(moveInLineUntilHit(this,0,-1,board)==king)
+            return true;
+        return false;
+    }
 }
