@@ -8,12 +8,16 @@ import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
 
 public class PawnPiece extends BasePiece {
+
+    public boolean isMovedTwo = false;
+
     public PawnPiece(PieceType type, boolean isEnemy, BasePiece[][] board) {
         super(type, isEnemy, board);
     }
 
     @Override
     public Array<BasePiece[][]> getAllPossibleMoves() {
+        Gdx.app.log("moved up",isMovedTwo+"");
         Array<BasePiece[][]> r = new Array<>();
         int isEnemyInt = isEnemy ? 1 : 0;
 
@@ -21,6 +25,7 @@ public class PawnPiece extends BasePiece {
         if (getPosY() == 1 + (5 * isEnemyInt)){
             BasePiece[][] twoMove = GameBoard.cloneBoard(board);
             movePiece(this,getPosX(),getPosY()+2 - (4 * isEnemyInt),twoMove,r);
+            isMovedTwo = true;
         }
 
         BasePiece[][] oneMove = GameBoard.cloneBoard(board);
@@ -29,7 +34,6 @@ public class PawnPiece extends BasePiece {
 
         //one move
         if(board[getPosY()+1 - (2 * isEnemyInt)][getPosX()] == null){
-            Gdx.app.log("moved up",this.toString());
             boolean moved = movePiece(this,getPosX(),getPosY()+1 - (2 * isEnemyInt),oneMove);
 
             //makes a queen
@@ -54,7 +58,17 @@ public class PawnPiece extends BasePiece {
 
                 r.add(eatLeft);
             }
+            //en passant left
+            else {
+                if(board[getPosY()][getPosX()-1]!=null)
+                    if(board[getPosY()][getPosX()-1] instanceof PawnPiece)
+                        if(((PawnPiece)board[getPosY()][getPosX()-1]).isMovedTwo){
+                            BasePiece[][] enPassant = GameBoard.cloneBoard(board);
+                            movePiece(this,getPosX()-1,getPosY()+1 -2 *(this.isEnemy?1:0),enPassant,r);
+                            enPassant[getPosX()-1][getPosY()] = null;
+                        }
 
+            }
         //eat right
         if(getPosX()<7)
             if(board[getPosY()+1 - (2 * isEnemyInt)][getPosX()+1] != null){
@@ -68,7 +82,16 @@ public class PawnPiece extends BasePiece {
 
                 r.add(eatRight);
             }
-
+            //en passant right
+            else {
+                if(board[getPosY()][getPosX()+1]!=null)
+                    if(board[getPosY()][getPosX()+1] instanceof PawnPiece)
+                        if(((PawnPiece)board[getPosY()][getPosX()+1]).isMovedTwo){
+                            BasePiece[][] enPassant = GameBoard.cloneBoard(board);
+                            movePiece(this,getPosX()+1,getPosY()+1 -2 *(this.isEnemy?1:0),enPassant,r);
+                            enPassant[getPosX()+1][getPosY()] = null;
+                        }
+            }
 
 /*        //promote
         if(getPosY() == 7 * isEnemyInt)

@@ -79,7 +79,9 @@ public class GameBoard {
                             selectedTile = null;
                         }
                         else{
-                            movePiece(tile);
+                            if(board[selectedTile.posY][selectedTile.posX] != null)
+                                movePiece(tile,board[selectedTile.posY][selectedTile.posX]);
+
                             selectedTile.highlightType=TileHighlightType.NONE;
                             selectedTile = null;
 
@@ -94,20 +96,47 @@ public class GameBoard {
 
     }
 
-    public void movePiece(Tile tile){
+    public void movePiece(Tile tile,BasePiece selectedPiece){
         clearMoveHighLight();
         if(isFreeMove){
             //check for queen spawn
-            if(board[selectedTile.posY][selectedTile.posX].type==PieceType.PAWN)
+            if(board[selectedTile.posY][selectedTile.posX].type==PieceType.PAWN){
+
+                //if en passant left
+                if(tile.posY == 5 - 3 * (selectedPiece.isEnemy ? 1 : 0))
+                    if(selectedPiece.getPosY() == 4 - (selectedPiece.isEnemy ? 1 : 0))
+                        if(board[selectedPiece.getPosY()][selectedPiece.getPosX()-1] != null)
+                            if(board[selectedPiece.getPosY()][selectedPiece.getPosX()-1] instanceof PawnPiece)
+                                if(((PawnPiece)board[selectedPiece.getPosY()][selectedPiece.getPosX()-1]).isMovedTwo)
+                                    board[selectedPiece.getPosY()][selectedPiece.getPosX()-1] = null;
+
+                //if en passant right
+                if(tile.posY == 5 - 3 * (selectedPiece.isEnemy ? 1 : 0))
+                    if(selectedPiece.getPosY() == 4 - (selectedPiece.isEnemy ? 1 : 0))
+                        if(board[selectedPiece.getPosY()][selectedPiece.getPosX()+1] != null)
+                            if(board[selectedPiece.getPosY()][selectedPiece.getPosX()+1] instanceof PawnPiece)
+                                if(((PawnPiece)board[selectedPiece.getPosY()][selectedPiece.getPosX()+1]).isMovedTwo)
+                                    board[selectedPiece.getPosY()][selectedPiece.getPosX()+1] = null;
+
+                //if first move
+                if(selectedPiece.getPosY() == 6 -5 * (selectedPiece.isEnemy ? 0 : 1))
+                    if(tile.posY == (4 - (board[selectedTile.posY][selectedTile.posX].isEnemy ? 0 : 1))){
+                        ((PawnPiece)selectedPiece).isMovedTwo = true;
+                    }
+
+
+                //promote
                 if(tile.posY== 7 * (board[selectedTile.posY][selectedTile.posX].isEnemy? 0 : 1))
                     board[tile.posY][tile.posX] = new QueenPiece(PieceType.QUEEN,board[selectedTile.posY][selectedTile.posX].isEnemy,board);
                 else
                     board[tile.posY][tile.posX] = board[selectedTile.posY][selectedTile.posX];
+            }
             else
                 board[tile.posY][tile.posX] = board[selectedTile.posY][selectedTile.posX];
             if(board[tile.posY][tile.posX] instanceof KingPiece)
                 ((KingPiece)board[tile.posY][tile.posX]).isEverMoved = true;
 
+            clearEnPassantOptionFromPawns(!selectedPiece.isEnemy);
             board[selectedTile.posY][selectedTile.posX] = null;
 
         }
@@ -280,6 +309,16 @@ public class GameBoard {
                 if(tile.highlightType == TileHighlightType.CAN_MOVE_TO)
                     tile.highlightType = TileHighlightType.NONE;
 
+            }
+        }
+    }
+    private void clearEnPassantOptionFromPawns(boolean isEnemy){
+        for (BasePiece[] row : board) {
+            for (BasePiece piece : row) {
+                if (piece != null)
+                    if(piece.isEnemy==isEnemy)
+                        if(piece instanceof PawnPiece)
+                            ((PawnPiece)piece).isMovedTwo = false;
             }
         }
     }
