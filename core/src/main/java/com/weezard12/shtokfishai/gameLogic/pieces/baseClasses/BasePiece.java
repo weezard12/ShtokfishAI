@@ -70,6 +70,10 @@ public class BasePiece {
     public boolean movePiece(BasePiece piece,int mX,int mY,BasePiece[][] board){
         Gdx.app.log("movePiece func",String.format("mX: %s, mY: %s, posX: %s, posY: %s",mX,mY,piece.getPosX(),piece.getPosY()));
 
+        //don't move a null piece
+        if(board[piece.getPosY()][piece.getPosX()]==null)
+            return false;
+
         //outside the board
         if(mY < 0 || mY > 7 ||mX < 0 || mX > 7)
             return false;
@@ -103,30 +107,38 @@ public class BasePiece {
 
         BasePiece[][] cBoard = GameBoard.cloneBoard(board);
         boolean stop = false;
-        int cX = piece.getPosX()+mX;
-        int cY = piece.getPosY()+mY;
+        int cX = piece.getPosX();
+        int cY = piece.getPosY();
 
         BasePiece hit = moveInLineUntilHit(piece,mX,mY,cBoard);
-        if (hit!=null)
+        int hitX =0;
+        int hitY =0;
+        if (hit!=null){
+            hitX = hit.getPosX();
+            hitY = hit.getPosY();
             if(movePiece(piece, hit.getPosX(), hit.getPosY(), cBoard)){
                 moves.add(cBoard);
                 cBoard = GameBoard.cloneBoard(board);
             }
 
+        }
+
 
 
         while (!stop){
 
-            //if(cY < 0 || cY > 7 || cX < 0 || cX > 7)
-            if(cY > -1 && cY < 7 && cX > -1 && cX < 7)
-                if(cBoard[cY][cX] != null){
-                    movePiece(piece, cX, cY, cBoard,moves);
+            cX+=mX;
+            cY+=mY;
+
+            if(cY < 0 || cY > 7 || cX < 0 || cX > 7)
                     return;
-                }
+
 
             if (movePiece(piece, cX, cY, cBoard)){
-                cX+=mX;
-                cY+=mY;
+
+                if (hit != null)
+                    if (cX==hitX && cY==hitY)
+                        return;
                 moves.add(cBoard);
                 cBoard = GameBoard.cloneBoard(board);
                 Gdx.app.log("Moved in row","");
