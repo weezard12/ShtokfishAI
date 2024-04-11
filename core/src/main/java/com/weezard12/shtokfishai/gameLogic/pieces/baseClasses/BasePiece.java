@@ -106,12 +106,21 @@ public class BasePiece {
         int cX = piece.getPosX()+mX;
         int cY = piece.getPosY()+mY;
 
+        BasePiece hit = moveInLineUntilHit(piece,mX,mY,cBoard);
+        if (hit!=null)
+            if(movePiece(piece, hit.getPosX(), hit.getPosY(), cBoard)){
+                moves.add(cBoard);
+                cBoard = GameBoard.cloneBoard(board);
+            }
+
+
+
         while (!stop){
 
-            if(cY > -1 && cY < 8 && cX > -1 && cX < 8)
+            //if(cY < 0 || cY > 7 || cX < 0 || cX > 7)
+            if(cY > -1 && cY < 7 && cX > -1 && cX < 7)
                 if(cBoard[cY][cX] != null){
-                    movePiece(piece, cX, cY, cBoard);
-                    moves.add(cBoard);
+                    movePiece(piece, cX, cY, cBoard,moves);
                     return;
                 }
 
@@ -124,8 +133,11 @@ public class BasePiece {
             }
             else stop = true;
 
-
         }
+
+
+
+
 
     }
 
