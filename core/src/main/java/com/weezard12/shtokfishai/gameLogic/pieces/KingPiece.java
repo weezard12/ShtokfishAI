@@ -23,37 +23,39 @@ public class KingPiece extends BasePiece {
         if(!this.isEverMoved){
             if(getPosX() == 4)
                 if(board[getPosY()][getPosX()+1] == null && board[getPosY()][getPosX()+2] == null)
-                    if(board[getPosY()][getPosX()+3].type == PieceType.ROOK && board[getPosY()][getPosX()+3].isEnemy == this.isEnemy)
-                        if(!((RookPiece) board[getPosY()][getPosX() + 3]).isEverMoved){
-                            this.isEverMoved = true;
-                            BasePiece[][] shortCastle = GameBoard.cloneBoard(board);
-                            shortCastle[getPosY()][getPosX()+2]=shortCastle[getPosY()][getPosX()];
-                            shortCastle[getPosY()][getPosX()+2].isJustMoved = true;
-                            shortCastle[getPosY()][getPosX()]=new RookPiece(PieceType.ROOK,this.isEnemy,shortCastle);
+                    if (board[getPosY()][getPosX()+3]!=null)
+                        if(board[getPosY()][getPosX()+3].type == PieceType.ROOK && board[getPosY()][getPosX()+3].isEnemy == this.isEnemy)
+                            if(!((RookPiece) board[getPosY()][getPosX() + 3]).isEverMoved){
+                                this.isEverMoved = true;
+                                BasePiece[][] shortCastle = GameBoard.cloneBoard(board);
+                                shortCastle[getPosY()][getPosX()+2]=shortCastle[getPosY()][getPosX()];
+                                shortCastle[getPosY()][getPosX()+2].isJustMoved = true;
+                                shortCastle[getPosY()][getPosX()]=new RookPiece(PieceType.ROOK,this.isEnemy,shortCastle);
 
-                            r.add(shortCastle);
-                            this.isEverMoved = false;
-                            Gdx.app.log("king move","castle");
-                    }
+                                r.add(shortCastle);
+                                this.isEverMoved = false;
+                                Gdx.app.log("king move","castle");
+                        }
 
         }
 
         //castle O-O-O
         if(!this.isEverMoved){
             if(getPosX() == 4)
-                if(board[getPosY()][getPosX()-1] == null && board[getPosY()][getPosX()-2] == null && board[getPosY()][getPosX()-3]==null)
-                    if(board[getPosY()][getPosX()-4].type == PieceType.ROOK && board[getPosY()][getPosX()-4].isEnemy == this.isEnemy)
-                        if(!((RookPiece) board[getPosY()][getPosX() - 4]).isEverMoved){
-                            this.isEverMoved = true;
-                            BasePiece[][] longCastle = GameBoard.cloneBoard(board);
-                            longCastle[getPosY()][getPosX()-2]=longCastle[getPosY()][getPosX()];
-                            longCastle[getPosY()][getPosX()-2].isJustMoved = true;
-                            longCastle[getPosY()][getPosX()]=new RookPiece(PieceType.ROOK,this.isEnemy,longCastle);
+                if (board[getPosY()][getPosX()-4]!=null)
+                    if(board[getPosY()][getPosX()-1] == null && board[getPosY()][getPosX()-2] == null && board[getPosY()][getPosX()-3]==null)
+                        if(board[getPosY()][getPosX()-4].type == PieceType.ROOK && board[getPosY()][getPosX()-4].isEnemy == this.isEnemy)
+                            if(!((RookPiece) board[getPosY()][getPosX() - 4]).isEverMoved){
+                                this.isEverMoved = true;
+                                BasePiece[][] longCastle = GameBoard.cloneBoard(board);
+                                longCastle[getPosY()][getPosX()-2]=longCastle[getPosY()][getPosX()];
+                                longCastle[getPosY()][getPosX()-2].isJustMoved = true;
+                                longCastle[getPosY()][getPosX()]=new RookPiece(PieceType.ROOK,this.isEnemy,longCastle);
 
-                            r.add(longCastle);
-                            this.isEverMoved = false;
-                            Gdx.app.log("king move","castle");
-                        }
+                                r.add(longCastle);
+                                this.isEverMoved = false;
+                                Gdx.app.log("king move","castle");
+                            }
 
         }
 

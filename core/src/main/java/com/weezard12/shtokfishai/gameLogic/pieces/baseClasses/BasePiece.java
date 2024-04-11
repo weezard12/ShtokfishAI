@@ -118,32 +118,30 @@ public class BasePiece {
             hitY = hit.getPosY();
             if(movePiece(piece, hit.getPosX(), hit.getPosY(), cBoard)){
                 moves.add(cBoard);
-                cBoard = GameBoard.cloneBoard(board);
             }
 
         }
 
-
-
         while (!stop){
 
+            cBoard = GameBoard.cloneBoard(board);
             cX+=mX;
             cY+=mY;
 
             if(cY < 0 || cY > 7 || cX < 0 || cX > 7)
                     return;
 
+            if (hit != null)
+                if (cX==hitX && cY==hitY)
+                    return;
 
             if (movePiece(piece, cX, cY, cBoard)){
 
-                if (hit != null)
-                    if (cX==hitX && cY==hitY)
-                        return;
                 moves.add(cBoard);
-                cBoard = GameBoard.cloneBoard(board);
+
                 Gdx.app.log("Moved in row","");
             }
-            else stop = true;
+
 
         }
 

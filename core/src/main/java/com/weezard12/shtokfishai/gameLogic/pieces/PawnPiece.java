@@ -23,9 +23,11 @@ public class PawnPiece extends BasePiece {
 
         //first move
         if (getPosY() == 1 + (5 * isEnemyInt)){
-            BasePiece[][] twoMove = GameBoard.cloneBoard(board);
-            movePiece(this,getPosX(),getPosY()+2 - (4 * isEnemyInt),twoMove,r);
-            isMovedTwo = true;
+            if(board[getPosY() + 2 * (isEnemy?- 1 : 1)][getPosX()] == null){
+                BasePiece[][] twoMove = GameBoard.cloneBoard(board);
+                movePiece(this,getPosX(),getPosY()+2 - (4 * isEnemyInt),twoMove,r);
+                isMovedTwo = true;
+            }
         }
 
         BasePiece[][] oneMove = GameBoard.cloneBoard(board);
@@ -99,7 +101,7 @@ public class PawnPiece extends BasePiece {
 
         Tile.setTileHighlight(r,this, GameBoard.tiles);
         //Gdx.app.log("pawn move",GameBoard.toStringBoardArray(oneMove));
-        return super.getAllPossibleMoves();
+        return r;
     }
 
     @Override

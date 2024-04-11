@@ -21,7 +21,7 @@ public class GameBoard {
 
     //region Scale and UI
     public BoardUI boardUI = new BoardUI(this);
-    public int offsetToRight = (int)(MyGdxGame.boardSize* 0.1);
+    public final int offsetToRight = ((int)(MyGdxGame.boardSize * 0.1f));
     //endregion
 
 
@@ -149,6 +149,7 @@ public class GameBoard {
         drawBoard();
         drawPieces();
         batch.end();
+        boardUI.render();
     }
     protected void drawBoard(){
         for (int y = 0; y<8;y++){
@@ -302,7 +303,7 @@ public class GameBoard {
 
     }
 
-    private void clearMoveHighLight(){
+    public void clearMoveHighLight(){
         for (Tile[] row : tiles) {
             for (Tile tile : row) {
 

@@ -20,6 +20,16 @@ public class ChessSceneBase extends AllScreensBase{
             "p,p,p,p,p,p,p,p," +
             "r,k,b,q,K,b,k,r,"
         );
+/*        gameBoard.setBoardByString(
+            "Br,e,e,e,BK,e,e,e,"+
+                "e,e,e,e,e,e,e,e,"+
+                "e,e,e,e,e,e,e,e,"+
+                "e,e,e,e,e,e,e,e,"+
+                "e,e,e,e,e,e,e,e,"+
+                "e,e,e,e,e,e,e,e,"+
+                "e,e,e,e,e,e,e,e,"+
+                "r,e,e,e,K,e,e,e,"
+        );*/
 
     }
 
