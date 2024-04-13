@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Queue;
 import com.weezard12.shtokfishai.gameLogic.board.GameBoard;
 import com.weezard12.shtokfishai.gameLogic.pieces.PawnPiece;
+import com.weezard12.shtokfishai.main.MyGdxGame;
+import com.weezard12.shtokfishai.main.MyUtils;
 
 public class BasePiece {
     protected BasePiece[][] board;
@@ -50,7 +52,7 @@ public class BasePiece {
         this.type=type;
         this.isEnemy=isEnemy;
 
-        texture = new Texture( String.format("pieces\\%s%s.png",Gdx.files.internal(String.valueOf(type)),isEnemy ? 1 : 0 ));
+        texture = MyGdxGame.piecesTextures.get(String.format("%s%s.png",Gdx.files.internal(String.valueOf(type)),isEnemy ? 1 : 0 ));
     }
     public Array<BasePiece[][]> getAllPossibleMoves(){
         return null;
@@ -68,7 +70,7 @@ public class BasePiece {
 
     //simple move (just changing pos ones)
     public boolean movePiece(BasePiece piece,int mX,int mY,BasePiece[][] board){
-        Gdx.app.log("movePiece func",String.format("mX: %s, mY: %s, posX: %s, posY: %s",mX,mY,piece.getPosX(),piece.getPosY()));
+        MyUtils.log("movePiece func",String.format("mX: %s, mY: %s, posX: %s, posY: %s",mX,mY,piece.getPosX(),piece.getPosY()));
 
         //don't move a null piece
         if(board[piece.getPosY()][piece.getPosX()]==null)
@@ -92,7 +94,7 @@ public class BasePiece {
         if(GameBoard.isColorInCheck(board,piece.isEnemy))
             return false;
 
-        Gdx.app.log("movePiece func","moved");
+        MyUtils.log("movePiece func","moved");
         return true;
     }
     public void movePiece(BasePiece piece,int mX,int mY,BasePiece[][] board,Array<BasePiece[][]> moves){
@@ -135,12 +137,10 @@ public class BasePiece {
                 if (cX==hitX && cY==hitY)
                     return;
 
-            if (movePiece(piece, cX, cY, cBoard)){
+            movePiece(piece, cX, cY, cBoard, moves);
 
-                moves.add(cBoard);
+                //Gdx.app.log("Moved in row","");
 
-                Gdx.app.log("Moved in row","");
-            }
 
 
         }

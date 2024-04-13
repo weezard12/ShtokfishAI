@@ -82,7 +82,7 @@ public class KingPiece extends BasePiece {
 
         Tile.setTileHighlight(r,this, GameBoard.tiles);
 
-        return super.getAllPossibleMoves();
+        return r;
     }
 
     @Override

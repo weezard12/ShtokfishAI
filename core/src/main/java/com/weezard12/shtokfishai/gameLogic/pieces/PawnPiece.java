@@ -62,13 +62,14 @@ public class PawnPiece extends BasePiece {
             }
             //en passant left
             else {
-                if(board[getPosY()][getPosX()-1]!=null)
-                    if(board[getPosY()][getPosX()-1] instanceof PawnPiece)
-                        if(((PawnPiece)board[getPosY()][getPosX()-1]).isMovedTwo){
-                            BasePiece[][] enPassant = GameBoard.cloneBoard(board);
-                            movePiece(this,getPosX()-1,getPosY()+1 -2 *(this.isEnemy?1:0),enPassant,r);
-                            enPassant[getPosX()-1][getPosY()] = null;
-                        }
+                if (getPosY() == 4 - isEnemyInt)
+                    if(board[getPosY()][getPosX()-1]!=null)
+                        if(board[getPosY()][getPosX()-1] instanceof PawnPiece)
+                            if(((PawnPiece)board[getPosY()][getPosX()-1]).isMovedTwo){
+                                BasePiece[][] enPassant = GameBoard.cloneBoard(board);
+                                movePiece(this,getPosX()-1,getPosY()+1 -2 *(this.isEnemy?1:0),enPassant,r);
+                                enPassant[getPosX()-1][getPosY()] = null;
+                            }
 
             }
         //eat right
@@ -86,13 +87,14 @@ public class PawnPiece extends BasePiece {
             }
             //en passant right
             else {
-                if(board[getPosY()][getPosX()+1]!=null)
-                    if(board[getPosY()][getPosX()+1] instanceof PawnPiece)
-                        if(((PawnPiece)board[getPosY()][getPosX()+1]).isMovedTwo){
-                            BasePiece[][] enPassant = GameBoard.cloneBoard(board);
-                            movePiece(this,getPosX()+1,getPosY()+1 -2 *(this.isEnemy?1:0),enPassant,r);
-                            enPassant[getPosX()+1][getPosY()] = null;
-                        }
+                if (getPosY() == 4 - isEnemyInt)
+                    if(board[getPosY()][getPosX()+1]!=null)
+                        if(board[getPosY()][getPosX()+1] instanceof PawnPiece)
+                            if(((PawnPiece)board[getPosY()][getPosX()+1]).isMovedTwo){
+                                BasePiece[][] enPassant = GameBoard.cloneBoard(board);
+                                movePiece(this,getPosX()+1,getPosY()+1 -2 *(this.isEnemy?1:0),enPassant,r);
+                                enPassant[getPosX()+1][getPosY()] = null;
+                            }
             }
 
 /*        //promote

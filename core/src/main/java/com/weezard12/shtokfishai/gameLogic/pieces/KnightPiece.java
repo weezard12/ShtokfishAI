@@ -45,7 +45,7 @@ public class KnightPiece extends BasePiece {
 
     @Override
     public boolean doesCheck(int mX, int mY, int kX, int kY) {
-        Gdx.app.log("doesCheck func",String.format("mX: %s, mY: %s, kX: %s, kY: %s",mX,mY,kX,kY));
+        //Gdx.app.log("doesCheck func",String.format("mX: %s, mY: %s, kX: %s, kY: %s",mX,mY,kX,kY));
         if(kX == mX+1 && kY==mY-2)
             return true;
         if(kX == mX+1 && kY==mY+2)

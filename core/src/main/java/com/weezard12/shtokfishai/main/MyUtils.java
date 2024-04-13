@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class MyUtils {
+
+    private static final boolean logEnabled = false;
     public static BitmapFont getBitMapFont(String fontPath, int size, Color textColor, Color borderColor){
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(fontPath));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -17,6 +19,10 @@ public class MyUtils {
         fontGenerator.dispose();
 
         return font;
+    }
+    public static void log(String tag, String message){
+        if(logEnabled)
+            Gdx.app.log(tag,message);
     }
 
 }

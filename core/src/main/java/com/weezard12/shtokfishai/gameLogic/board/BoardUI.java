@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.weezard12.shtokfishai.gameLogic.ai.BoardEval;
 import com.weezard12.shtokfishai.gameLogic.ai.PositionEval;
 import com.weezard12.shtokfishai.gameLogic.ai.Shtokfish;
 import com.weezard12.shtokfishai.main.MyGdxGame;
@@ -42,12 +43,14 @@ public class BoardUI {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
+                Gdx.app.log("",GameBoard.toStringBoardArray(gameBoard.board));
                 gameBoard.clearMoveHighLight();
 
-                 PositionEval ev = Shtokfish.getBestPosition(gameBoard.board,checkForBlack);
+                 BoardEval boardEv = Shtokfish.getBestPosition(gameBoard.board,checkForBlack);
+                 PositionEval ev = checkForBlack? boardEv.blackEval : boardEv.whiteEval;
                  if(ev.position!=null)
                      gameBoard.board = ev.position;
-                 Gdx.app.log("pos",ev.toString());
+                 Gdx.app.log("pos",""+ev.materialValue);
             }
         });
 

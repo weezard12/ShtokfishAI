@@ -29,6 +29,10 @@ public class PositionEval {
         return (materialValue > otherEval.materialValue);
     }
     public static boolean isLeftBiggerThanRight(PositionEval firstEval,PositionEval firstEnemyEval,PositionEval secondEval,PositionEval secondEnemyEval){
+        if(firstEval.position==null || firstEnemyEval.position==null)
+            return false;
+        if(secondEval.position == null || secondEnemyEval.position==null)
+            return true;
         return ((firstEval.getSumEval() - firstEnemyEval.getSumEval()) > (secondEval.getSumEval() - secondEnemyEval.getSumEval()));
     }
 

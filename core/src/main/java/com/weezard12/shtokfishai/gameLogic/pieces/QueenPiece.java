@@ -28,7 +28,7 @@ public class QueenPiece extends BasePiece {
         movePieceInRow(this,-1,1,GameBoard.cloneBoard(board),r);
 
         Tile.setTileHighlight(r,this, GameBoard.tiles);
-        return super.getAllPossibleMoves();
+        return r;
     }
     @Override
     public boolean doesCheck(int mX,int mY,BasePiece king) {

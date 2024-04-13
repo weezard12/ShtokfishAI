@@ -12,6 +12,7 @@ import com.weezard12.shtokfishai.gameLogic.pieces.*;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
 import com.weezard12.shtokfishai.main.MyGdxGame;
+import com.weezard12.shtokfishai.main.MyUtils;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 import java.awt.*;
@@ -289,9 +290,9 @@ public class GameBoard {
             for (BasePiece piece : row) {
                 if(piece != null)
                     if (piece.isEnemy == !isEnemy){
-                        Gdx.app.log("check all",piece.toString());
+                        MyUtils.log("check all",piece.toString());
                         if(piece.doesCheck(piece.getPosX(),piece.getPosY(),king)){
-                            Gdx.app.log("check all","True");
+                            MyUtils.log("check all","True");
                             return true;
                         }
 
@@ -330,7 +331,8 @@ public class GameBoard {
 
                 if (board[y][x] != null) {
                     s+= board[y][x].isJustMoved ? "m":"";
-                    s += board[y][x].type+" ";
+                    s += board[y][x].type+"-";
+                    s += board[y][x].isEnemy?"black ":"white ";
 
                 }
                 else s += "empty ";
