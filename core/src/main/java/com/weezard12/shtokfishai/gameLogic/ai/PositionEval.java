@@ -11,10 +11,11 @@ public class PositionEval {
     public TurnType evalForColor;
 
     public float materialValue;
+    public float piecesActivity;
 
     private float sumEval;
     public float getSumEval() {
-        return materialValue;
+        return materialValue + piecesActivity;
     }
 
     public PositionEval(){

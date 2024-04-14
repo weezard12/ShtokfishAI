@@ -23,7 +23,7 @@ public class BishopPiece extends BasePiece {
 
         Tile.setTileHighlight(r,this, GameBoard.tiles);
 
-        return super.getAllPossibleMoves();
+        return r;
     }
 
     @Override

@@ -50,7 +50,7 @@ public class PawnPiece extends BasePiece {
         //eat left
         if(getPosX()>0)
             if(board[getPosY()+1 - (2 * isEnemyInt)][getPosX()-1] != null){
-                movePiece(this,getPosX()-1,getPosY()+1 - (2 * isEnemyInt),eatLeft);
+                movePiece(this,getPosX()-1,getPosY()+1 - (2 * isEnemyInt),eatLeft,r);
 
                 //makes a queen
                 if((getPosY() + 1 - (2 * isEnemyInt)) == (7 * (isEnemy? 0 : 1))){
@@ -58,7 +58,6 @@ public class PawnPiece extends BasePiece {
                     eatLeft[getPosY()+1 - (2 * isEnemyInt)][getPosX()-1].isJustMoved = true;
                 }
 
-                r.add(eatLeft);
             }
             //en passant left
             else {
@@ -75,7 +74,7 @@ public class PawnPiece extends BasePiece {
         //eat right
         if(getPosX()<7)
             if(board[getPosY()+1 - (2 * isEnemyInt)][getPosX()+1] != null){
-                movePiece(this,getPosX()+1,getPosY()+1 - (2 * isEnemyInt),eatRight);
+                movePiece(this,getPosX()+1,getPosY()+1 - (2 * isEnemyInt),eatRight,r);
 
                 //makes a queen
                 if((getPosY() + 1 - (2 * isEnemyInt)) == (7 * (isEnemy? 0 : 1))){
@@ -83,7 +82,6 @@ public class PawnPiece extends BasePiece {
                     eatRight[getPosY()+1 - (2 * isEnemyInt)][getPosX()+1].isJustMoved = true;
                 }
 
-                r.add(eatRight);
             }
             //en passant right
             else {

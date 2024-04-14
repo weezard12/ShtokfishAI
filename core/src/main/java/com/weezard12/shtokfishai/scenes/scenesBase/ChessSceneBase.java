@@ -10,7 +10,7 @@ public class ChessSceneBase extends AllScreensBase{
     public ChessSceneBase(MyGdxGame game) {
         super(game);
         gameBoard = new GameBoard(game.batch);
-        gameBoard.setBoardByString(
+/*        gameBoard.setBoardByString(
             "Br,Bk,Bb,Bq,BK,Bb,Bk,Br,"+
             "Bp,Bp,Bp,Bp,Bp,Bp,Bp,Bp,"+
             "e,e,e,e,e,e,e,e,"+
@@ -19,17 +19,17 @@ public class ChessSceneBase extends AllScreensBase{
             "e,e,e,e,e,e,e,e,"+
             "p,p,p,p,p,p,p,p," +
             "r,k,b,q,K,b,k,r,"
-        );
-/*        gameBoard.setBoardByString(
-            "e,e,e,e,BK,e,e,e,"+
-                "Bq,Br,e,e,e,e,e,e,"+
-                "e,e,e,e,e,e,e,e,"+
-                "e,e,e,e,e,e,e,e,"+
-                "e,e,e,e,e,e,e,e,"+
-                "e,e,e,e,e,e,e,e,"+
-                "e,e,e,e,e,e,e,e,"+
-                "q,e,e,e,K,e,e,e,"
         );*/
+        gameBoard.setBoardByString(
+            "e,e,e,e,BK,e,e,e,"+
+                "e,Br,e,e,e,e,e,e,"+
+                "e,e,e,e,e,e,e,e,"+
+                "e,e,e,e,e,e,e,e,"+
+                "e,e,Bb,e,e,e,e,e,"+
+                "p,p,e,e,Bq,e,e,e,"+
+                "p,p,p,e,e,e,p,e,"+
+                "r,e,e,e,K,e,e,r,"
+        );
 
     }
 

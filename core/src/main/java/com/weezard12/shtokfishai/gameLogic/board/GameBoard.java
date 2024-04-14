@@ -68,6 +68,8 @@ public class GameBoard {
                     if(tile.bounds.contains(Gdx.input.getX(),MyGdxGame.boardSize - Gdx.input.getY())){
                         Gdx.app.log("click on tile",tile.toString());
                         if (selectedTile == null){
+                            clearMoveHighLight();
+
                             selectedTile = tile;
                             selectedTile.highlightType=TileHighlightType.SELECTED;
                             if(board[selectedTile.posY][selectedTile.posX] != null)
@@ -98,6 +100,10 @@ public class GameBoard {
     }
 
     public void movePiece(Tile tile,BasePiece selectedPiece){
+
+        if(tile.highlightType!=TileHighlightType.CAN_MOVE_TO)
+            return;
+
         clearMoveHighLight();
         if(isFreeMove){
             //check for queen spawn
@@ -131,6 +137,34 @@ public class GameBoard {
                     board[tile.posY][tile.posX] = new QueenPiece(PieceType.QUEEN,board[selectedTile.posY][selectedTile.posX].isEnemy,board);
                 else
                     board[tile.posY][tile.posX] = board[selectedTile.posY][selectedTile.posX];
+            }
+            else if(board[selectedTile.posY][selectedTile.posX].type==PieceType.KING){
+                if(selectedPiece.getPosX() == 4)
+                {
+                    if(!((KingPiece)selectedPiece).isEverMoved)
+                        if(tile.posX==2){
+                            if(board[selectedPiece.getPosY()][0] != null)
+                                if(board[selectedPiece.getPosY()][0].type == PieceType.ROOK)
+                                    if(!((RookPiece)board[selectedPiece.getPosY()][0]).isEverMoved){
+                                        board[tile.posY][2] = selectedPiece;
+                                        board[tile.posY][3] = board[tile.posY][0];
+                                        board[tile.posY][0] = null;
+                                    }
+                        }
+                        else if(tile.posX==6){
+                            if(board[selectedPiece.getPosY()][7] != null)
+                                if(board[selectedPiece.getPosY()][7].type == PieceType.ROOK)
+                                    if(!((RookPiece)board[selectedPiece.getPosY()][7]).isEverMoved){
+                                        board[tile.posY][6] = selectedPiece;
+                                        board[tile.posY][5] = board[tile.posY][7];
+                                        board[tile.posY][7] = null;
+                                    }
+                        }
+                }
+
+
+
+
             }
             else
                 board[tile.posY][tile.posX] = board[selectedTile.posY][selectedTile.posX];

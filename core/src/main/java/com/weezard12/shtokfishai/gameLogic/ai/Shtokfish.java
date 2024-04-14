@@ -83,15 +83,24 @@ public class Shtokfish {
     }
 
     public static void calculateEvalForPosition(BasePiece[][] position, PositionEval eval,boolean forBlack){
-        eval.materialValue = 0;
         eval.position = position;
+
+        eval.piecesActivity=0;
+        eval.materialValue = 0;
         for (BasePiece[] row : position) {
             for (BasePiece piece : row) {
-                if(piece!=null)
-                    if(forBlack==piece.isEnemy)
+                if(piece != null)
+                    if(forBlack==piece.isEnemy){
+                        //material
                         eval.materialValue+=piece.type.materialValue;
+
+                        //piece activity
+                        eval.piecesActivity += piece.getAllPossibleMoves().size*piece.type.materialValue * 0.01f;
+                    }
+
             }
         }
+
 
     }
 
