@@ -139,8 +139,11 @@ public class GameBoard {
                     board[tile.posY][tile.posX] = board[selectedTile.posY][selectedTile.posX];
             }
             else if(board[selectedTile.posY][selectedTile.posX].type==PieceType.KING){
+                boolean isCastled = false;
                 if(selectedPiece.getPosX() == 4)
                 {
+
+
                     if(!((KingPiece)selectedPiece).isEverMoved)
                         if(tile.posX==2){
                             if(board[selectedPiece.getPosY()][0] != null)
@@ -149,6 +152,7 @@ public class GameBoard {
                                         board[tile.posY][2] = selectedPiece;
                                         board[tile.posY][3] = board[tile.posY][0];
                                         board[tile.posY][0] = null;
+                                        isCastled = true;
                                     }
                         }
                         else if(tile.posX==6){
@@ -158,12 +162,12 @@ public class GameBoard {
                                         board[tile.posY][6] = selectedPiece;
                                         board[tile.posY][5] = board[tile.posY][7];
                                         board[tile.posY][7] = null;
+                                        isCastled = true;
                                     }
                         }
                 }
-
-
-
+                if(!isCastled)
+                    board[tile.posY][tile.posX] = board[selectedTile.posY][selectedTile.posX];
 
             }
             else

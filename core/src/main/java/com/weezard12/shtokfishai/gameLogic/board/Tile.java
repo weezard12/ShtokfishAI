@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.weezard12.shtokfishai.gameLogic.pieces.QueenPiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
-
+import com.weezard12.shtokfishai.main.MyUtils;
 
 
 public class Tile {
@@ -40,7 +40,7 @@ public class Tile {
                     if(p != null)
                         if(p.isJustMoved){
                             tiles[p.getPosY()][p.getPosX()].highlightType = TileHighlightType.CAN_MOVE_TO;
-                            Gdx.app.log("highlight",p.getPosX()+" "+p.getPosY()+" "+p.type+" "+bCount);
+                            MyUtils.log("highlight",p.getPosX()+" "+p.getPosY()+" "+p.type+" "+bCount);
                         }
                 }
 

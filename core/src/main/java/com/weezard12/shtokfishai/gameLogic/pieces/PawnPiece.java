@@ -21,14 +21,7 @@ public class PawnPiece extends BasePiece {
         Array<BasePiece[][]> r = new Array<>();
         int isEnemyInt = isEnemy ? 1 : 0;
 
-        //first move
-        if (getPosY() == 1 + (5 * isEnemyInt)){
-            if(board[getPosY() + 2 * (isEnemy?- 1 : 1)][getPosX()] == null){
-                BasePiece[][] twoMove = GameBoard.cloneBoard(board);
-                movePiece(this,getPosX(),getPosY()+2 - (4 * isEnemyInt),twoMove,r);
-                isMovedTwo = true;
-            }
-        }
+
 
         BasePiece[][] oneMove = GameBoard.cloneBoard(board);
         BasePiece[][] eatLeft = GameBoard.cloneBoard(board);
@@ -36,6 +29,16 @@ public class PawnPiece extends BasePiece {
 
         //one move
         if(board[getPosY()+1 - (2 * isEnemyInt)][getPosX()] == null){
+
+            //double move
+            if (getPosY() == 1 + (5 * isEnemyInt)){
+                if(board[getPosY() + 2 * (isEnemy?- 1 : 1)][getPosX()] == null){
+                    BasePiece[][] twoMove = GameBoard.cloneBoard(board);
+                    movePiece(this,getPosX(),getPosY()+2 - (4 * isEnemyInt),twoMove,r);
+                    isMovedTwo = true;
+                }
+            }
+
             boolean moved = movePiece(this,getPosX(),getPosY()+1 - (2 * isEnemyInt),oneMove);
 
             //makes a queen

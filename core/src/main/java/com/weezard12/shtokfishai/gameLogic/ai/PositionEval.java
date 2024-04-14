@@ -13,9 +13,10 @@ public class PositionEval {
     public float materialValue;
     public float piecesActivity;
 
-    private float sumEval;
+    public float kingMoves;
+
     public float getSumEval() {
-        return materialValue + piecesActivity;
+        return materialValue + piecesActivity + kingMoves;
     }
 
     public PositionEval(){
@@ -30,7 +31,7 @@ public class PositionEval {
         return (materialValue > otherEval.materialValue);
     }
     public static boolean isLeftBiggerThanRight(PositionEval firstEval,PositionEval firstEnemyEval,PositionEval secondEval,PositionEval secondEnemyEval){
-        if(firstEval.position==null || firstEnemyEval.position==null)
+        if(firstEval.position == null || firstEnemyEval.position==null)
             return false;
         if(secondEval.position == null || secondEnemyEval.position==null)
             return true;

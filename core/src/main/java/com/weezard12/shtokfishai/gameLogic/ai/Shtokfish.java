@@ -77,6 +77,9 @@ public class Shtokfish {
                     }
             }
         }
+        //is checkmate
+        if(movesCount==0)
+            bestEval.kingMoves = -100;
         Gdx.app.log("shtokfish","moves possible: " + movesCount);
         return new BoardEval(forBlack ? bestEvalForEnemy : bestEval, forBlack ? bestEval : bestEvalForEnemy);
         //return new BoardEval(bestEval, bestEvalForEnemy);
@@ -87,6 +90,13 @@ public class Shtokfish {
 
         eval.piecesActivity=0;
         eval.materialValue = 0;
+        eval.kingMoves = 0;
+        BasePiece king = GameBoard.finedKingInBoard(position,forBlack);
+
+        eval.kingMoves = (king.getAllPossibleMoves().size == 0) ? -10 : king.getAllPossibleMoves().size * 0.6f;
+        Gdx.app.log("EVAL",""+eval.kingMoves);
+
+
         for (BasePiece[] row : position) {
             for (BasePiece piece : row) {
                 if(piece != null)
@@ -95,11 +105,12 @@ public class Shtokfish {
                         eval.materialValue+=piece.type.materialValue;
 
                         //piece activity
-                        eval.piecesActivity += piece.getAllPossibleMoves().size*piece.type.materialValue * 0.01f;
+                        eval.piecesActivity += piece.getAllPossibleMoves().size * piece.type.materialValue * 0.01f;
                     }
 
             }
         }
+        if(eval.kingMoves==-10);
 
 
     }

@@ -22,13 +22,13 @@ public class ChessSceneBase extends AllScreensBase{
         );*/
         gameBoard.setBoardByString(
             "e,e,e,e,BK,e,e,e,"+
-                "e,Br,e,e,e,e,e,e,"+
-                "e,e,e,e,e,e,e,e,"+
-                "e,e,e,e,e,e,e,e,"+
-                "e,e,Bb,e,e,e,e,e,"+
-                "p,p,e,e,Bq,e,e,e,"+
-                "p,p,p,e,e,e,p,e,"+
-                "r,e,e,e,K,e,e,r,"
+            "e,e,e,e,e,e,e,e,"+
+            "e,e,e,e,e,e,e,e,"+
+            "e,e,Bk,e,e,e,e,e,"+
+            "e,e,e,e,Bp,e,e,e,"+
+            "k,e,e,e,e,e,e,e,"+
+            "p,e,b,e,e,k,e,e,"+
+            "e,e,e,e,K,e,e,r,"
         );
 
     }
