@@ -21,7 +21,7 @@ public class BishopPiece extends BasePiece {
         movePieceInRow(this,-1,1,GameBoard.cloneBoard(board),r);
 
 
-        Tile.setTileHighlight(r,this, GameBoard.tiles);
+        //Tile.setTileHighlight(r,this, GameBoard.tiles);
 
         return r;
     }

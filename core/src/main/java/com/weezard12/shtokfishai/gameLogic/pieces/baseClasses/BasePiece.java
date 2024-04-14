@@ -52,7 +52,6 @@ public class BasePiece {
         this.type=type;
         this.isEnemy=isEnemy;
 
-        texture = MyGdxGame.piecesTextures.get(String.format("%s%s.png",Gdx.files.internal(String.valueOf(type)),isEnemy ? 1 : 0 ));
     }
     public Array<BasePiece[][]> getAllPossibleMoves(){
         return null;

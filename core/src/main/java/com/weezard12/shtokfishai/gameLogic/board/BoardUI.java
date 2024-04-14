@@ -42,15 +42,15 @@ public class BoardUI {
         askForBestMove.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-                Gdx.app.log("",GameBoard.toStringBoardArray(gameBoard.board));
                 gameBoard.clearMoveHighLight();
 
-                 BoardEval boardEv = Shtokfish.getBestPosition(gameBoard.board,checkForBlack);
-                 PositionEval ev = checkForBlack? boardEv.blackEval : boardEv.whiteEval;
-                 if(ev.position!=null)
-                     gameBoard.board = ev.position;
-                 Gdx.app.log("pos",""+ev.materialValue);
+                 new Thread(() -> {
+                     BoardEval boardEv = Shtokfish.getBestPosition(gameBoard.board,checkForBlack);
+                     PositionEval ev = checkForBlack? boardEv.blackEval : boardEv.whiteEval;
+                     if(ev.position!=null)
+                         gameBoard.board = ev.position;
+                     Gdx.app.log("pos",""+ev.materialValue);
+                 }).start();
             }
         });
 

@@ -17,18 +17,15 @@ public class PawnPiece extends BasePiece {
 
     @Override
     public Array<BasePiece[][]> getAllPossibleMoves() {
-        Gdx.app.log("moved up",isMovedTwo+"");
         Array<BasePiece[][]> r = new Array<>();
         int isEnemyInt = isEnemy ? 1 : 0;
 
 
 
-        BasePiece[][] oneMove = GameBoard.cloneBoard(board);
-        BasePiece[][] eatLeft = GameBoard.cloneBoard(board);
-        BasePiece[][] eatRight = GameBoard.cloneBoard(board);
-
         //one move
         if(board[getPosY()+1 - (2 * isEnemyInt)][getPosX()] == null){
+
+            BasePiece[][] oneMove = GameBoard.cloneBoard(board);
 
             //double move
             if (getPosY() == 1 + (5 * isEnemyInt)){
@@ -53,6 +50,7 @@ public class PawnPiece extends BasePiece {
         //eat left
         if(getPosX()>0)
             if(board[getPosY()+1 - (2 * isEnemyInt)][getPosX()-1] != null){
+                BasePiece[][] eatLeft = GameBoard.cloneBoard(board);
                 movePiece(this,getPosX()-1,getPosY()+1 - (2 * isEnemyInt),eatLeft,r);
 
                 //makes a queen
@@ -77,6 +75,7 @@ public class PawnPiece extends BasePiece {
         //eat right
         if(getPosX()<7)
             if(board[getPosY()+1 - (2 * isEnemyInt)][getPosX()+1] != null){
+                BasePiece[][] eatRight = GameBoard.cloneBoard(board);
                 movePiece(this,getPosX()+1,getPosY()+1 - (2 * isEnemyInt),eatRight,r);
 
                 //makes a queen
@@ -102,15 +101,13 @@ public class PawnPiece extends BasePiece {
         if(getPosY() == 7 * isEnemyInt)
             board[getPosY()][getPosX()] = new QueenPiece(PieceType.QUEEN,this.isEnemy,board);*/
 
-        Tile.setTileHighlight(r,this, GameBoard.tiles);
+        //Tile.setTileHighlight(r,this, GameBoard.tiles);
         //Gdx.app.log("pawn move",GameBoard.toStringBoardArray(oneMove));
         return r;
     }
 
     @Override
     public boolean doesCheck(int mX, int mY, int kX, int kY) {
-        if( (kX==mX-1 || kX==mX+1) && kY==mY+1-2*(isEnemy?1:0))
-            return true;
-        return false;
+        return (kX == mX - 1 || kX == mX + 1) && kY == mY + 1 - 2 * (isEnemy ? 1 : 0);
     }
 }

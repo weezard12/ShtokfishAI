@@ -73,7 +73,7 @@ public class GameBoard {
                             selectedTile = tile;
                             selectedTile.highlightType=TileHighlightType.SELECTED;
                             if(board[selectedTile.posY][selectedTile.posX] != null)
-                                board[selectedTile.posY][selectedTile.posX].getAllPossibleMoves();
+                                Tile.setTileHighlight(board[selectedTile.posY][selectedTile.posX].getAllPossibleMoves(),board[selectedTile.posY][selectedTile.posX],tiles);
                             //Gdx.app.log("check check",""+board[selectedTile.posY][selectedTile.posX].doesCheck(finedKingInBoard(board,board[selectedTile.posY][selectedTile.posX].isEnemy?false:true)));
                         }
                         else if(tile == selectedTile){
@@ -110,20 +110,22 @@ public class GameBoard {
             if(board[selectedTile.posY][selectedTile.posX].type==PieceType.PAWN){
 
                 //if en passant left
-                if(tile.posY == 5 - 3 * (selectedPiece.isEnemy ? 1 : 0))
-                    if(selectedPiece.getPosY() == 4 - (selectedPiece.isEnemy ? 1 : 0))
-                        if(board[selectedPiece.getPosY()][selectedPiece.getPosX()-1] != null)
-                            if(board[selectedPiece.getPosY()][selectedPiece.getPosX()-1] instanceof PawnPiece)
-                                if(((PawnPiece)board[selectedPiece.getPosY()][selectedPiece.getPosX()-1]).isMovedTwo)
-                                    board[selectedPiece.getPosY()][selectedPiece.getPosX()-1] = null;
+                if(tile.posX > 0)
+                    if(tile.posY == 5 - 3 * (selectedPiece.isEnemy ? 1 : 0))
+                        if(selectedPiece.getPosY() == 4 - (selectedPiece.isEnemy ? 1 : 0))
+                            if(board[selectedPiece.getPosY()][selectedPiece.getPosX()-1] != null)
+                                if(board[selectedPiece.getPosY()][selectedPiece.getPosX()-1] instanceof PawnPiece)
+                                    if(((PawnPiece)board[selectedPiece.getPosY()][selectedPiece.getPosX()-1]).isMovedTwo)
+                                        board[selectedPiece.getPosY()][selectedPiece.getPosX()-1] = null;
 
                 //if en passant right
-                if(tile.posY == 5 - 3 * (selectedPiece.isEnemy ? 1 : 0))
-                    if(selectedPiece.getPosY() == 4 - (selectedPiece.isEnemy ? 1 : 0))
-                        if(board[selectedPiece.getPosY()][selectedPiece.getPosX()+1] != null)
-                            if(board[selectedPiece.getPosY()][selectedPiece.getPosX()+1] instanceof PawnPiece)
-                                if(((PawnPiece)board[selectedPiece.getPosY()][selectedPiece.getPosX()+1]).isMovedTwo)
-                                    board[selectedPiece.getPosY()][selectedPiece.getPosX()+1] = null;
+                if(tile.posX < 7)
+                    if(tile.posY == 5 - 3 * (selectedPiece.isEnemy ? 1 : 0))
+                        if(selectedPiece.getPosY() == 4 - (selectedPiece.isEnemy ? 1 : 0))
+                            if(board[selectedPiece.getPosY()][selectedPiece.getPosX()+1] != null)
+                                if(board[selectedPiece.getPosY()][selectedPiece.getPosX()+1] instanceof PawnPiece)
+                                    if(((PawnPiece)board[selectedPiece.getPosY()][selectedPiece.getPosX()+1]).isMovedTwo)
+                                        board[selectedPiece.getPosY()][selectedPiece.getPosX()+1] = null;
 
                 //if first move
                 if(selectedPiece.getPosY() == 6 -5 * (selectedPiece.isEnemy ? 0 : 1))
@@ -214,9 +216,11 @@ public class GameBoard {
     protected void drawPieces(){
         for (int x = 0; x<8;x++){
             for (int y = 0; y<8;y++){
-                if(board[y][x]!=null)
+                if(board[y][x]!=null){
+                    if(board[y][x].texture==null)
+                        board[y][x].texture = MyGdxGame.piecesTextures.get(String.format("%s%s.png",Gdx.files.internal(String.valueOf(board[y][x].type)),board[y][x].isEnemy ? 1 : 0 ));
                     batch.draw(board[y][x].texture,board[y][x].getPosX()*128+offsetToRight,board[y][x].getPosY()*128 + 8);
-
+                }
             }
 
         }

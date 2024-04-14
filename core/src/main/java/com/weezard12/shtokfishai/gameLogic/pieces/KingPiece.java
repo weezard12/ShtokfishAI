@@ -15,7 +15,6 @@ public class KingPiece extends BasePiece {
 
     @Override
     public Array<BasePiece[][]> getAllPossibleMoves() {
-        //Gdx.app.log("king move","moved");
         Array<BasePiece[][]> r = new Array<>();
 
 
@@ -37,7 +36,6 @@ public class KingPiece extends BasePiece {
                                 shortCastle[getPosY()][getPosX()+3] = null;
 
                                 r.add(shortCastle);
-                                Gdx.app.log("king move","castle");
                         }
 
         }
@@ -85,7 +83,7 @@ public class KingPiece extends BasePiece {
         movePiece(this,getPosX()-1,getPosY()-1,option8,r);
 
 
-        Tile.setTileHighlight(r,this, GameBoard.tiles);
+        //Tile.setTileHighlight(r,this, GameBoard.tiles);
 
         return r;
     }
