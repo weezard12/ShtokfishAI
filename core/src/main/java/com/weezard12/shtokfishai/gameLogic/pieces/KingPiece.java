@@ -14,26 +14,25 @@ public class KingPiece extends BasePiece {
     }
 
     @Override
-    public Array<BasePiece[][]> getAllPossibleMoves() {
-        Array<BasePiece[][]> r = new Array<>();
-
+    public void getAllPossibleMoves(Array<BasePiece[][]> r) {
+        updatePos();
 
         //castle O-O
         if(!this.isEverMoved){
-            if(getPosX() == 4)
-                if(board[getPosY()][getPosX()+1] == null && board[getPosY()][getPosX()+2] == null)
-                    if (board[getPosY()][getPosX()+3]!=null)
-                        if(board[getPosY()][getPosX()+3].type == PieceType.ROOK && board[getPosY()][getPosX()+3].isEnemy == this.isEnemy)
-                            if(!((RookPiece) board[getPosY()][getPosX() + 3]).isEverMoved){
+            if(posX == 4)
+                if(board[posY][posX+1] == null && board[posY][posX+2] == null)
+                    if (board[posY][posX+3]!=null)
+                        if(board[posY][posX+3].type == PieceType.ROOK && board[posY][posX+3].isEnemy == this.isEnemy)
+                            if(!((RookPiece) board[posY][posX + 3]).isEverMoved){
 
                                 BasePiece[][] shortCastle = GameBoard.cloneBoard(board);
-                                shortCastle[getPosY()][getPosX()+2] = shortCastle[getPosY()][getPosX()];
-                                ((KingPiece)shortCastle[getPosY()][getPosX()+2]).isEverMoved = true;
+                                shortCastle[posY][posX+2] = shortCastle[posY][posX];
+                                ((KingPiece)shortCastle[posY][posX+2]).isEverMoved = true;
 
-                                shortCastle[getPosY()][getPosX()] = null;
-                                shortCastle[getPosY()][getPosX()+2].isJustMoved = true;
-                                shortCastle[getPosY()][getPosX()+1] = shortCastle[getPosY()][getPosX()+3];
-                                shortCastle[getPosY()][getPosX()+3] = null;
+                                shortCastle[posY][posX] = null;
+                                shortCastle[posY][posX+2].isJustMoved = true;
+                                shortCastle[posY][posX+1] = shortCastle[posY][posX+3];
+                                shortCastle[posY][posX+3] = null;
 
                                 r.add(shortCastle);
                         }
@@ -42,20 +41,20 @@ public class KingPiece extends BasePiece {
 
         //castle O-O-O
         if(!this.isEverMoved){
-            if(getPosX() == 4)
-                if(board[getPosY()][getPosX()-1] == null && board[getPosY()][getPosX()-2] == null && board[getPosY()][getPosX()-3]==null)
-                    if (board[getPosY()][getPosX()-4] != null)
-                        if(board[getPosY()][getPosX()-4].type == PieceType.ROOK && board[getPosY()][getPosX()-4].isEnemy == this.isEnemy)
-                            if(!((RookPiece) board[getPosY()][getPosX() - 4]).isEverMoved){
+            if(posX == 4)
+                if(board[posY][posX-1] == null && board[posY][posX-2] == null && board[posY][posX-3]==null)
+                    if (board[posY][posX-4] != null)
+                        if(board[posY][posX-4].type == PieceType.ROOK && board[posY][posX-4].isEnemy == this.isEnemy)
+                            if(!((RookPiece) board[posY][posX - 4]).isEverMoved){
 
                                 BasePiece[][] longCastle = GameBoard.cloneBoard(board);
-                                longCastle[getPosY()][getPosX()-2] = longCastle[getPosY()][getPosX()];
-                                ((KingPiece)longCastle[getPosY()][getPosX()-2]).isEverMoved = true;
+                                longCastle[posY][posX-2] = longCastle[posY][posX];
+                                ((KingPiece)longCastle[posY][posX-2]).isEverMoved = true;
 
-                                longCastle[getPosY()][getPosX()] = null;
-                                longCastle[getPosY()][getPosX()-2].isJustMoved=true;
-                                longCastle[getPosY()][getPosX()-1] = longCastle[getPosY()][getPosX()-4];
-                                longCastle[getPosY()][getPosX()-4] = null;
+                                longCastle[posY][posX] = null;
+                                longCastle[posY][posX-2].isJustMoved=true;
+                                longCastle[posY][posX-1] = longCastle[posY][posX-4];
+                                longCastle[posY][posX-4] = null;
 
                                 r.add(longCastle);
                             }
@@ -71,21 +70,20 @@ public class KingPiece extends BasePiece {
         BasePiece[][] option7 = GameBoard.cloneBoard(board);
         BasePiece[][] option8 = GameBoard.cloneBoard(board);
 
-        movePiece(this,getPosX()+1,getPosY() +1 ,option1,r);
-        movePiece(this,getPosX()+1,getPosY(),option2,r);
-        movePiece(this,getPosX()+1,getPosY()-1,option3,r);
+        movePiece(posX,posY,isEnemy,posX+1,posY +1 ,option1,r);
+        movePiece(posX,posY,isEnemy,posX+1,posY,option2,r);
+        movePiece(posX,posY,isEnemy,posX+1,posY-1,option3,r);
 
-        movePiece(this,getPosX(),getPosY()+1,option4,r);
-        movePiece(this,getPosX(),getPosY()-1,option5,r);
+        movePiece(posX,posY,isEnemy,posX,posY+1,option4,r);
+        movePiece(posX,posY,isEnemy,posX,posY-1,option5,r);
 
-        movePiece(this,getPosX()-1,getPosY()+1,option6,r);
-        movePiece(this,getPosX()-1,getPosY(),option7,r);
-        movePiece(this,getPosX()-1,getPosY()-1,option8,r);
+        movePiece(posX,posY,isEnemy,posX-1,posY+1,option6,r);
+        movePiece(posX,posY,isEnemy,posX-1,posY,option7,r);
+        movePiece(posX,posY,isEnemy,posX-1,posY-1,option8,r);
 
 
         //Tile.setTileHighlight(r,this, GameBoard.tiles);
 
-        return r;
     }
 
     @Override

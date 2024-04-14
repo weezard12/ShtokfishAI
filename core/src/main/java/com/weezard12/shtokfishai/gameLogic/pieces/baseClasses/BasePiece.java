@@ -19,9 +19,18 @@ public class BasePiece {
 
 
     //from 0 - 8 (tiles on the board)
-    private int posX;
+    protected int posX;
     public int getPosX() {
-        for (int y = 0; y < board.length; y++) {
+        if(isEnemy){
+            for (int y = board.length-1; y > -1; y--) {
+                for (int x = 0; x < board[y].length; x++) {
+                    if (board[x][y] == this) {
+                        return y;
+                    }
+                }
+            }
+        }
+        else for (int y = 0; y < board.length; y++) {
             for (int x = 0; x < board[y].length; x++) {
                 if (board[x][y] == this) {
                     return y;
@@ -32,9 +41,18 @@ public class BasePiece {
         return 0;
     }
 
-    private int posY;
+    protected int posY;
     public int getPosY() {
-        for (int y = 0; y < board.length; y++) {
+        if(isEnemy){
+            for (int y = board.length-1; y > -1; y--) {
+                for (int x = 0; x < board[y].length; x++) {
+                    if (board[x][y] == this) {
+                        return x;
+                    }
+                }
+            }
+        }
+        else for (int y = 0; y < board.length; y++) {
             for (int x = 0; x < board[y].length; x++) {
                 if (board[x][y] == this) {
                     return x;
@@ -45,6 +63,11 @@ public class BasePiece {
         return 0;
     }
 
+    public void updatePos(){
+        posX=getPosX();
+        posY=getPosY();
+    }
+
     public Texture texture;
     public BasePiece( PieceType type,boolean isEnemy,BasePiece[][] board){
         this.board = board;
@@ -53,8 +76,7 @@ public class BasePiece {
         this.isEnemy=isEnemy;
 
     }
-    public Array<BasePiece[][]> getAllPossibleMoves(){
-        return null;
+    public void getAllPossibleMoves(Array<BasePiece[][]> r){
     }
     public boolean doesCheck(int mX,int mY, int kX,int kY){
         //Gdx.app.log("doesCheck func",String.format("mX: %s, mY: %s, kX: %s, kY: %s",mX,mY,kX,kY));
@@ -68,11 +90,11 @@ public class BasePiece {
     }
 
     //simple move (just changing pos ones)
-    public boolean movePiece(BasePiece piece,int mX,int mY,BasePiece[][] board){
-        MyUtils.log("movePiece func",String.format("mX: %s, mY: %s, posX: %s, posY: %s",mX,mY,piece.getPosX(),piece.getPosY()));
+    public boolean movePiece(int cX, int cY,boolean isEnemy, int mX,int mY,BasePiece[][] board){
+        MyUtils.log("movePiece func",String.format("mX: %s, mY: %s, posX: %s, posY: %s",mX,mY,cX,cY));
 
         //don't move a null piece
-        if(board[piece.getPosY()][piece.getPosX()]==null)
+        if(board[cY][cX]==null)
             return false;
 
         //outside the board
@@ -81,43 +103,44 @@ public class BasePiece {
 
         //don't move to the same color (if not null)
         if(board[mY][mX] != null)
-            if (piece.isEnemy == board[mY][mX].isEnemy)
+            if (isEnemy == board[mY][mX].isEnemy)
                 return false;
 
-
-        board[mY][mX] = board[piece.getPosY()][piece.getPosX()];
+        board[mY][mX] = board[cY][cX];
         board[mY][mX].isJustMoved = true;
-        board[piece.getPosY()][piece.getPosX()] = null;
+        board[cY][cX] = null;
 
         //don't move if there is check (might be a pin)
-        if(GameBoard.isColorInCheck(board,piece.isEnemy))
+        if(GameBoard.isColorInCheck(board,isEnemy))
             return false;
 
         MyUtils.log("movePiece func","moved");
         return true;
     }
-    public void movePiece(BasePiece piece,int mX,int mY,BasePiece[][] board,Array<BasePiece[][]> moves){
-         if(movePiece(piece,mX,mY,board))
+    public void movePiece(int cX,int cY, boolean isEnemy,int mX,int mY,BasePiece[][] board,Array<BasePiece[][]> moves){
+         if(movePiece(cX,cY,isEnemy,mX,mY,board))
             moves.add(board);
 
     }
 
 
+
     //move the piece in a line
-    public void movePieceInRow(BasePiece piece,int mX,int mY,BasePiece[][] board,Array<BasePiece[][]> moves){
+    public void movePieceInRow(int sX, int sY,boolean isEnemy, int mX,int mY,BasePiece[][] board,Array<BasePiece[][]> moves){
 
         BasePiece[][] cBoard = GameBoard.cloneBoard(board);
         boolean stop = false;
-        int cX = piece.getPosX();
-        int cY = piece.getPosY();
+        int cX = sX;
+        int cY = sY;
 
-        BasePiece hit = moveInLineUntilHit(piece,mX,mY,cBoard);
+        BasePiece hit = moveInLineUntilHit(sX, sY, mX,mY,cBoard);
         int hitX =0;
         int hitY =0;
         if (hit!=null){
-            hitX = hit.getPosX();
-            hitY = hit.getPosY();
-            if(movePiece(piece, hit.getPosX(), hit.getPosY(), cBoard)){
+            hit.updatePos();
+            hitX = hit.posX;
+            hitY = hit.posY;
+            if(movePiece(sX,sY,isEnemy, hit.posX, hit.posY, cBoard)){
                 moves.add(cBoard);
             }
 
@@ -126,8 +149,8 @@ public class BasePiece {
         while (!stop){
 
             cBoard = GameBoard.cloneBoard(board);
-            cX+=mX;
-            cY+=mY;
+            cX += mX;
+            cY += mY;
 
             if(cY < 0 || cY > 7 || cX < 0 || cX > 7)
                     return;
@@ -136,7 +159,7 @@ public class BasePiece {
                 if (cX==hitX && cY==hitY)
                     return;
 
-            movePiece(piece, cX, cY, cBoard, moves);
+            movePiece(sX,sY,isEnemy, cX, cY, cBoard, moves);
 
                 //Gdx.app.log("Moved in row","");
 
@@ -151,11 +174,10 @@ public class BasePiece {
     }
 
     //check for piece in line without moving
-    public BasePiece moveInLineUntilHit(BasePiece piece, int mX,int mY,BasePiece[][] board){
-        boolean stop = false;
-        int cX = piece.getPosX()+mX;
-        int cY = piece.getPosY()+mY;
-        while (!stop){
+    public BasePiece moveInLineUntilHit(int cX, int cY, int mX,int mY,BasePiece[][] board){
+        cX += mX;
+        cY += mY;
+        while (true){
             if(cX > 7 || cX < 0 || cY>7 || cY<0)
                 return null;
 
@@ -165,7 +187,6 @@ public class BasePiece {
             cY +=mY;
 
         }
-        return null;
 
     }
 

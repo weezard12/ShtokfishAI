@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.weezard12.shtokfishai.gameLogic.pieces.*;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
@@ -34,6 +35,8 @@ public class GameBoard {
     public SpriteBatch batch;
     ShapeDrawer shapeDrawer;
     BoardColors boardColors;
+
+    Array<BasePiece[][]> possibleMoves = new Array<>();
 
     //Debug
     boolean isFreeMove = true;
@@ -72,8 +75,12 @@ public class GameBoard {
 
                             selectedTile = tile;
                             selectedTile.highlightType=TileHighlightType.SELECTED;
-                            if(board[selectedTile.posY][selectedTile.posX] != null)
-                                Tile.setTileHighlight(board[selectedTile.posY][selectedTile.posX].getAllPossibleMoves(),board[selectedTile.posY][selectedTile.posX],tiles);
+                            if(board[selectedTile.posY][selectedTile.posX] != null){
+                                possibleMoves.clear();
+                                board[selectedTile.posY][selectedTile.posX].getAllPossibleMoves(possibleMoves);
+                                Tile.setTileHighlight(possibleMoves,board[selectedTile.posY][selectedTile.posX],tiles);
+                            }
+
                             //Gdx.app.log("check check",""+board[selectedTile.posY][selectedTile.posX].doesCheck(finedKingInBoard(board,board[selectedTile.posY][selectedTile.posX].isEnemy?false:true)));
                         }
                         else if(tile == selectedTile){

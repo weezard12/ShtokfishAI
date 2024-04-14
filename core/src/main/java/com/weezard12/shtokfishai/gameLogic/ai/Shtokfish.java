@@ -19,10 +19,10 @@ public class Shtokfish {
         PositionEval bestEvalForEnemy = new PositionEval(0);
 
         Gdx.app.log("shtokfish","thinking");
-        return getBestPosition(board,forBlack,3,bestEval,bestEvalForEnemy);
+        return getBestPosition(board,forBlack,2,bestEval,bestEvalForEnemy);
     }
     private static BoardEval getBestPosition(BasePiece[][] board, boolean forBlack, int steps, PositionEval bestEval, PositionEval bestEvalForEnemy){
-        Array<BasePiece[][]> allPositions;
+        Array<BasePiece[][]> allPositions = new Array<>();
         int movesCount = 0;
 
         PositionEval currentEval = new PositionEval();
@@ -35,44 +35,44 @@ public class Shtokfish {
                     //getPosition only for one color
                     if(piece.isEnemy == forBlack){
 
-                        allPositions = piece.getAllPossibleMoves();
-                        if(allPositions!=null)
-                            for (BasePiece[][] position : allPositions){
-                                if(position!=null){
-                                    if(steps > 0){
+                        allPositions.clear();
+                        piece.getAllPossibleMoves(allPositions);
+                        for (BasePiece[][] position : allPositions){
+                            if(position!=null){
+                                if(steps > 0){
 
-                                        //moves the other color to get the real position
-                                        BoardEval boardEval = getBestPosition(GameBoard.cloneBoard(position), !forBlack,steps-1, new PositionEval(), new PositionEval());
+                                    //moves the other color to get the real position
+                                    BoardEval boardEval = getBestPosition(GameBoard.cloneBoard(position), !forBlack,steps-1, new PositionEval(), new PositionEval());
 
-                                        //sets the current eval to the eval after other color moved
-                                        currentEval = forBlack ? boardEval.blackEval : boardEval.whiteEval;
+                                    //sets the current eval to the eval after other color moved
+                                    currentEval = forBlack ? boardEval.blackEval : boardEval.whiteEval;
 
-                                        //sets the position after the other color moved to the current position (overriding the other color move)
-                                        currentEval.position = position;
+                                    //sets the position after the other color moved to the current position (overriding the other color move)
+                                    currentEval.position = position;
 
-                                        currentEvalForEnemy = forBlack ? boardEval.whiteEval : boardEval.blackEval;
+                                    currentEvalForEnemy = forBlack ? boardEval.whiteEval : boardEval.blackEval;
 
-                                        currentEvalForEnemy.position = position;
+                                    currentEvalForEnemy.position = position;
 
-                                    }
-                                    else {
-                                        //gets the eval in the position (foe black and white)
-                                        calculateEvalForPosition(position, currentEval,forBlack);
-                                        calculateEvalForPosition(position, currentEvalForEnemy,!forBlack);
-                                    }
-
-
-                                    if (PositionEval.isLeftBiggerThanRight(currentEval,currentEvalForEnemy,bestEval,bestEvalForEnemy)){
-                                        bestEval = currentEval;
-                                        bestEvalForEnemy = currentEvalForEnemy;
-                                        currentEval = new PositionEval();
-                                        currentEvalForEnemy = new PositionEval();
-                                        //Gdx.app.log("shtokfish","found pos for "+(forBlack?"black":"white"));
-                                    }
-                                    movesCount++;
+                                }
+                                else {
+                                    //gets the eval in the position (foe black and white)
+                                    calculateEvalForPosition(position, currentEval,forBlack);
+                                    calculateEvalForPosition(position, currentEvalForEnemy,!forBlack);
                                 }
 
+
+                                if (PositionEval.isLeftBiggerThanRight(currentEval,currentEvalForEnemy,bestEval,bestEvalForEnemy)){
+                                    bestEval = currentEval;
+                                    bestEvalForEnemy = currentEvalForEnemy;
+                                    currentEval = new PositionEval();
+                                    currentEvalForEnemy = new PositionEval();
+                                    //Gdx.app.log("shtokfish","found pos for "+(forBlack?"black":"white"));
+                                }
+                                movesCount++;
                             }
+
+                        }
 
                     }
             }
@@ -93,17 +93,21 @@ public class Shtokfish {
         eval.kingMoves = 0;
         BasePiece king = GameBoard.finedKingInBoard(position,forBlack);
 
-        eval.kingMoves = (king.getAllPossibleMoves().size == 0) ? -10 : king.getAllPossibleMoves().size * 0.5f;
+        Array<BasePiece[][]> moves = new Array<>();
+        king.getAllPossibleMoves(moves);
+        eval.kingMoves = moves.size==0 ? -10 : moves.size * 0.5f;
+
 
         for (BasePiece[] row : position) {
             for (BasePiece piece : row) {
                 if(piece != null)
                     if(forBlack==piece.isEnemy){
                         //material
-                        eval.materialValue+=piece.type.materialValue;
+                        eval.materialValue += piece.type.materialValue;
 
                         //piece activity
-                        eval.piecesActivity += piece.getAllPossibleMoves().size * piece.type.materialValue * 0.005f;
+                        piece.getAllPossibleMoves(moves);
+                        eval.piecesActivity += moves.size * piece.type.materialValue * 0.002f;
                     }
 
             }
