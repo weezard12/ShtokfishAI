@@ -7,6 +7,7 @@ import com.weezard12.shtokfishai.gameLogic.pieces.*;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.TurnType;
 
+import java.awt.*;
 import java.util.Objects;
 
 public class Shtokfish {
@@ -28,15 +29,15 @@ public class Shtokfish {
         PositionEval currentEval = new PositionEval();
         PositionEval currentEvalForEnemy = new PositionEval();
 
-        for (BasePiece[] row : board) {
-            for (BasePiece piece : row) {
+        for (int x = 0; x<8;x++){
+            for (int y = 0; y<8;y++){
 
-                if(piece!=null)
+                if(board[y][x]!=null)
                     //getPosition only for one color
-                    if(piece.isEnemy == forBlack){
+                    if(board[y][x].isEnemy == forBlack){
 
                         allPositions.clear();
-                        piece.getAllPossibleMoves(allPositions);
+                        board[y][x].getAllPossibleMoves(allPositions);
                         for (BasePiece[][] position : allPositions){
                             if(position!=null){
                                 if(steps > 0){
@@ -91,7 +92,8 @@ public class Shtokfish {
         eval.piecesActivity = 0;
         eval.materialValue = 0;
         eval.kingMoves = 0;
-        BasePiece king = GameBoard.finedKingInBoard(position,forBlack);
+        Point p = GameBoard.finedKingInBoard(position,forBlack);
+        BasePiece king = position[p.y][p.x];
 
         Array<BasePiece[][]> moves = new Array<>();
         king.getAllPossibleMoves(moves);

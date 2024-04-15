@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.weezard12.shtokfishai.gameLogic.pieces.*;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
@@ -321,26 +322,25 @@ public class GameBoard {
         return rBoard;
     }
 
-    public static BasePiece finedKingInBoard(BasePiece[][] board, boolean isEnemy){
-        for (BasePiece[] row : board) {
-            for (BasePiece piece : row) {
-                if(piece != null)
-                    if (piece.type == PieceType.KING && piece.isEnemy == isEnemy)
-                        return piece;
+    public static Point finedKingInBoard(BasePiece[][] board, boolean isEnemy){
+        for (int x = 0; x<8;x++){
+            for (int y = 0; y<8;y++){
+                if(board[y][x] != null)
+                    if (board[y][x].type == PieceType.KING && board[y][x].isEnemy == isEnemy)
+                        return new Point(x,y);
             }
         }
         return null;
     }
 
     public static boolean isColorInCheck(BasePiece[][] board, boolean isEnemy){
-
-        BasePiece king = finedKingInBoard(board,isEnemy);
-        for (BasePiece[] row : board) {
-            for (BasePiece piece : row) {
-                if(piece != null)
-                    if (piece.isEnemy == !isEnemy){
-                        MyUtils.log("check all",piece.toString());
-                        if(piece.doesCheck(piece.getPosX(),piece.getPosY(),king)){
+        Point p = finedKingInBoard(board,isEnemy);
+        for (int x = 0; x<8;x++){
+            for (int y = 0; y<8;y++){
+                if(board[y][x] != null)
+                    if (board[y][x].isEnemy == !isEnemy){
+                        MyUtils.log("check all",board[y][x].toString());
+                        if(board[y][x].doesCheck(x,y, p.x, p.y)){
                             MyUtils.log("check all","True");
                             return true;
                         }

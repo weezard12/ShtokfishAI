@@ -26,20 +26,20 @@ public class BishopPiece extends BasePiece {
     }
 
     @Override
-    public boolean doesCheck(int mX,int mY,BasePiece king) {
+    public boolean doesCheck(int mX,int mY,int kX,int kY) {
         updatePos();
 
         //left
-        if(moveInLineUntilHit(posX,posY,1,1,board)==king)
+        if(moveInLineUntilHit(posX,posY,1,1,board)==board[kY][kX])
             return true;
         //right
-        if(moveInLineUntilHit(posX,posY,1,-1,board)==king)
+        if(moveInLineUntilHit(posX,posY,1,-1,board)==board[kY][kX])
             return true;
         //up
-        if(moveInLineUntilHit(posX,posY,-1,-1,board)==king)
+        if(moveInLineUntilHit(posX,posY,-1,-1,board)==board[kY][kX])
             return true;
         //down
-        if(moveInLineUntilHit(posX,posY,-1,1,board)==king)
+        if(moveInLineUntilHit(posX,posY,-1,1,board)==board[kY][kX])
             return true;
         return false;
     }

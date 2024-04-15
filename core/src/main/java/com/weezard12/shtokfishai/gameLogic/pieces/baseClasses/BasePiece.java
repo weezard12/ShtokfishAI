@@ -82,12 +82,7 @@ public class BasePiece {
         //Gdx.app.log("doesCheck func",String.format("mX: %s, mY: %s, kX: %s, kY: %s",mX,mY,kX,kY));
         return false;
     }
-    public boolean doesCheck(BasePiece king){
-        return doesCheck(this.getPosX(),this.getPosY(),king.getPosX(),king.getPosY());
-    }
-    public boolean doesCheck(int mX, int mY,BasePiece king){
-        return doesCheck(mX,mY,king.getPosX(),king.getPosY());
-    }
+
 
     //simple move (just changing pos ones)
     public boolean movePiece(int cX, int cY,boolean isEnemy, int mX,int mY,BasePiece[][] board){
