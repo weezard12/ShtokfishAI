@@ -76,7 +76,7 @@ public class BasePiece {
         this.isEnemy=isEnemy;
 
     }
-    public void getAllPossibleMoves(Array<BasePiece[][]> r){
+    public void getAllPossibleMoves(int pX, int pY, Array<BasePiece[][]> r){
     }
     public boolean doesCheck(int mX,int mY, int kX,int kY){
         //Gdx.app.log("doesCheck func",String.format("mX: %s, mY: %s, kX: %s, kY: %s",mX,mY,kX,kY));
@@ -124,13 +124,12 @@ public class BasePiece {
     public void movePieceInRow(int sX, int sY,boolean isEnemy, int mX,int mY,BasePiece[][] board,Array<BasePiece[][]> moves){
 
         BasePiece[][] cBoard = GameBoard.cloneBoard(board);
-        boolean stop = false;
         int cX = sX;
         int cY = sY;
 
         BasePiece hit = moveInLineUntilHit(sX, sY, mX,mY,cBoard);
-        int hitX =0;
-        int hitY =0;
+        int hitX = 0;
+        int hitY = 0;
         if (hit!=null){
             hit.updatePos();
             hitX = hit.posX;
@@ -141,7 +140,7 @@ public class BasePiece {
 
         }
 
-        while (!stop){
+        while (true){
 
             cBoard = GameBoard.cloneBoard(board);
             cX += mX;

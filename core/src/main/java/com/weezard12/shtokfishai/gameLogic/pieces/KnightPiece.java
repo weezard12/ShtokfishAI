@@ -12,8 +12,8 @@ public class KnightPiece extends BasePiece {
         super(type, isEnemy, board);
     }
     @Override
-    public void getAllPossibleMoves(Array<BasePiece[][]> r) {
-        updatePos();
+    public void getAllPossibleMoves(int pX, int pY, Array<BasePiece[][]> r) {
+
 
         BasePiece[][] option1 = GameBoard.cloneBoard(board);
         BasePiece[][] option2 = GameBoard.cloneBoard(board);
@@ -24,17 +24,17 @@ public class KnightPiece extends BasePiece {
         BasePiece[][] option7 = GameBoard.cloneBoard(board);
         BasePiece[][] option8 = GameBoard.cloneBoard(board);
 
-        movePiece(posX,posY,isEnemy,getPosX()+1,getPosY() +2 ,option1,r);
-        movePiece(posX,posY,isEnemy,getPosX()-1,getPosY()+2,option2,r);
+        movePiece(pX,pY,isEnemy,getPosX()+1,getPosY() +2 ,option1,r);
+        movePiece(pX,pY,isEnemy,getPosX()-1,getPosY()+2,option2,r);
 
-        movePiece(posX,posY,isEnemy,getPosX()+2,getPosY()+1,option3,r);
-        movePiece(posX,posY,isEnemy,getPosX()+2,getPosY()-1,option4,r);
+        movePiece(pX,pY,isEnemy,getPosX()+2,getPosY()+1,option3,r);
+        movePiece(pX,pY,isEnemy,getPosX()+2,getPosY()-1,option4,r);
 
-        movePiece(posX,posY,isEnemy,getPosX()-2,getPosY()+1,option5,r);
-        movePiece(posX,posY,isEnemy,getPosX()-2,getPosY()-1,option6,r);
+        movePiece(pX,pY,isEnemy,getPosX()-2,getPosY()+1,option5,r);
+        movePiece(pX,pY,isEnemy,getPosX()-2,getPosY()-1,option6,r);
 
-        movePiece(posX,posY,isEnemy,getPosX()-1,getPosY()-2,option7,r);
-        movePiece(posX,posY,isEnemy,getPosX()+1,getPosY()-2,option8,r);
+        movePiece(pX,pY,isEnemy,getPosX()-1,getPosY()-2,option7,r);
+        movePiece(pX,pY,isEnemy,getPosX()+1,getPosY()-2,option8,r);
 
 
         //Tile.setTileHighlight(r,this, GameBoard.tiles);

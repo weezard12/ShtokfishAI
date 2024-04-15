@@ -1,4 +1,4 @@
-package com.weezard12.shtokfishai.gameLogic.board;
+package com.weezard12.shtokfishai.gameLogic.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import com.weezard12.shtokfishai.gameLogic.ai.BoardEval;
 import com.weezard12.shtokfishai.gameLogic.ai.PositionEval;
 import com.weezard12.shtokfishai.gameLogic.ai.Shtokfish;
+import com.weezard12.shtokfishai.gameLogic.board.GameBoard;
 import com.weezard12.shtokfishai.main.MyGdxGame;
 import com.weezard12.shtokfishai.main.MyUtils;
 

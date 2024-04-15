@@ -16,8 +16,9 @@ public class PawnPiece extends BasePiece {
     }
 
     @Override
-    public void getAllPossibleMoves(Array<BasePiece[][]> r) {
-        updatePos();
+    public void getAllPossibleMoves(int pX, int pY, Array<BasePiece[][]> r) {
+        posX = pX;
+        posY = pY;
 
         int isEnemyInt = isEnemy ? 1 : 0;
 

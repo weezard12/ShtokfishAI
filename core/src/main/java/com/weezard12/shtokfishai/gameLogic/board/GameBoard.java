@@ -7,12 +7,11 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.weezard12.shtokfishai.gameLogic.pieces.*;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
+import com.weezard12.shtokfishai.gameLogic.ui.BoardUI;
 import com.weezard12.shtokfishai.main.MyGdxGame;
 import com.weezard12.shtokfishai.main.MyUtils;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -24,7 +23,7 @@ public class GameBoard {
 
     //region Scale and UI
     public BoardUI boardUI = new BoardUI(this);
-    public final int offsetToRight = ((int)(MyGdxGame.boardSize * 0.1f));
+    public final int offsetToRight = ((int)(MyGdxGame.boardSize * 0.08f));
     //endregion
 
 
@@ -78,7 +77,7 @@ public class GameBoard {
                             selectedTile.highlightType=TileHighlightType.SELECTED;
                             if(board[selectedTile.posY][selectedTile.posX] != null){
                                 possibleMoves.clear();
-                                board[selectedTile.posY][selectedTile.posX].getAllPossibleMoves(possibleMoves);
+                                board[selectedTile.posY][selectedTile.posX].getAllPossibleMoves(selectedTile.posX,selectedTile.posY,possibleMoves);
                                 Tile.setTileHighlight(possibleMoves,board[selectedTile.posY][selectedTile.posX],tiles);
                             }
 
@@ -323,20 +322,22 @@ public class GameBoard {
     }
 
     public static Point finedKingInBoard(BasePiece[][] board, boolean isEnemy){
-        for (int x = 0; x<8;x++){
-            for (int y = 0; y<8;y++){
+        for (int y = 0; y<8;y++){
+            for (int x = 0; x<8;x++){
                 if(board[y][x] != null)
                     if (board[y][x].type == PieceType.KING && board[y][x].isEnemy == isEnemy)
                         return new Point(x,y);
             }
         }
-        return null;
+        return new Point(-10,-1);
     }
 
     public static boolean isColorInCheck(BasePiece[][] board, boolean isEnemy){
         Point p = finedKingInBoard(board,isEnemy);
-        for (int x = 0; x<8;x++){
-            for (int y = 0; y<8;y++){
+        if(p.x==-10)
+            return true;
+        for (int y = 0; y<8;y++){
+            for (int x = 0; x<8;x++){
                 if(board[y][x] != null)
                     if (board[y][x].isEnemy == !isEnemy){
                         MyUtils.log("check all",board[y][x].toString());

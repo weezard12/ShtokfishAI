@@ -20,7 +20,7 @@ public class Shtokfish {
         PositionEval bestEvalForEnemy = new PositionEval(0);
 
         Gdx.app.log("shtokfish","thinking");
-        return getBestPosition(board,forBlack,2,bestEval,bestEvalForEnemy);
+        return getBestPosition(board,forBlack,3,bestEval,bestEvalForEnemy);
     }
     private static BoardEval getBestPosition(BasePiece[][] board, boolean forBlack, int steps, PositionEval bestEval, PositionEval bestEvalForEnemy){
         Array<BasePiece[][]> allPositions = new Array<>();
@@ -29,15 +29,15 @@ public class Shtokfish {
         PositionEval currentEval = new PositionEval();
         PositionEval currentEvalForEnemy = new PositionEval();
 
-        for (int x = 0; x<8;x++){
-            for (int y = 0; y<8;y++){
+        for (int y = 0; y<8;y++){
+            for (int x = 0; x<8;x++){
 
                 if(board[y][x]!=null)
                     //getPosition only for one color
                     if(board[y][x].isEnemy == forBlack){
 
                         allPositions.clear();
-                        board[y][x].getAllPossibleMoves(allPositions);
+                        board[y][x].getAllPossibleMoves(x,y,allPositions);
                         for (BasePiece[][] position : allPositions){
                             if(position!=null){
                                 if(steps > 0){
@@ -93,23 +93,35 @@ public class Shtokfish {
         eval.materialValue = 0;
         eval.kingMoves = 0;
         Point p = GameBoard.finedKingInBoard(position,forBlack);
-        BasePiece king = position[p.y][p.x];
+        BasePiece king;
+        if(p.x != -10)
+            king = position[p.y][p.x];
+        else{
+            eval.kingMoves = -100;
+            return;
+        }
 
         Array<BasePiece[][]> moves = new Array<>();
-        king.getAllPossibleMoves(moves);
-        eval.kingMoves = moves.size==0 ? -10 : moves.size * 0.5f;
+        king.getAllPossibleMoves(p.x, p.y, moves);
 
+        if(moves.size > 0)
+            eval.kingMoves = moves.size * 0.5f;
 
-        for (BasePiece[] row : position) {
-            for (BasePiece piece : row) {
-                if(piece != null)
-                    if(forBlack==piece.isEnemy){
+        else{
+            eval.kingMoves = -100;
+            return;
+        }
+
+        for (int y = 0; y<8;y++){
+            for (int x = 0; x<8;x++){
+                if(position[y][x] != null)
+                    if(forBlack==position[y][x].isEnemy){
                         //material
-                        eval.materialValue += piece.type.materialValue;
+                        eval.materialValue += position[y][x].type.materialValue;
 
                         //piece activity
-                        piece.getAllPossibleMoves(moves);
-                        eval.piecesActivity += moves.size * piece.type.materialValue * 0.002f;
+                        //position[y][x].getAllPossibleMoves(x,y,moves);
+                        //eval.piecesActivity += moves.size * position[y][x].type.materialValue * 0.002f;
                     }
 
             }

@@ -12,13 +12,12 @@ public class BishopPiece extends BasePiece {
     }
 
     @Override
-    public void getAllPossibleMoves(Array<BasePiece[][]> r) {
-        updatePos();
+    public void getAllPossibleMoves(int pX, int pY, Array<BasePiece[][]> r) {
 
-        movePieceInRow(posX,posY,isEnemy,1,1, GameBoard.cloneBoard(board),r);
-        movePieceInRow(posX,posY,isEnemy,-1,-1,GameBoard.cloneBoard(board),r);
-        movePieceInRow(posX,posY,isEnemy,1,-1,GameBoard.cloneBoard(board),r);
-        movePieceInRow(posX,posY,isEnemy,-1,1,GameBoard.cloneBoard(board),r);
+        movePieceInRow(pX,pY,isEnemy,1,1, GameBoard.cloneBoard(board),r);
+        movePieceInRow(pX,pY,isEnemy,-1,-1,GameBoard.cloneBoard(board),r);
+        movePieceInRow(pX,pY,isEnemy,1,-1,GameBoard.cloneBoard(board),r);
+        movePieceInRow(pX,pY,isEnemy,-1,1,GameBoard.cloneBoard(board),r);
 
 
         //Tile.setTileHighlight(r,this, GameBoard.tiles);
@@ -27,19 +26,18 @@ public class BishopPiece extends BasePiece {
 
     @Override
     public boolean doesCheck(int mX,int mY,int kX,int kY) {
-        updatePos();
 
         //left
-        if(moveInLineUntilHit(posX,posY,1,1,board)==board[kY][kX])
+        if(moveInLineUntilHit(mX,mY,1,1,board)==board[kY][kX])
             return true;
         //right
-        if(moveInLineUntilHit(posX,posY,1,-1,board)==board[kY][kX])
+        if(moveInLineUntilHit(mX,mY,1,-1,board)==board[kY][kX])
             return true;
         //up
-        if(moveInLineUntilHit(posX,posY,-1,-1,board)==board[kY][kX])
+        if(moveInLineUntilHit(mX,mY,-1,-1,board)==board[kY][kX])
             return true;
         //down
-        if(moveInLineUntilHit(posX,posY,-1,1,board)==board[kY][kX])
+        if(moveInLineUntilHit(mX,mY,-1,1,board)==board[kY][kX])
             return true;
         return false;
     }
