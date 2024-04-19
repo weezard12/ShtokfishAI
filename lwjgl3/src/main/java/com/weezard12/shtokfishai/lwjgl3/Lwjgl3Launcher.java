@@ -26,6 +26,10 @@ public class Lwjgl3Launcher {
         //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.
         configuration.setWindowedMode(MyGdxGame.boardSize+(int)(MyGdxGame.boardSize*0.6), MyGdxGame.boardSize);
         configuration.setWindowIcon("windowIcon\\knight128.png", "windowIcon\\knight64.png", "windowIcon\\knight32.png", "windowIcon\\knight16.png");
+
+        //sets the assets path to be for desktop
+        MyGdxGame.assetsPath = "assets\\";
+
         return configuration;
     }
 }

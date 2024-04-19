@@ -16,7 +16,7 @@ import com.weezard12.shtokfishai.main.MyGdxGame;
 import com.weezard12.shtokfishai.main.MyUtils;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
-import java.awt.*;
+import com.weezard12.shtokfishai.main.Point;
 
 public class GameBoard {
     public boolean isWhiteTurn = true;

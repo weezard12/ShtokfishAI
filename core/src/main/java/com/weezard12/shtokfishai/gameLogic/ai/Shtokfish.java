@@ -7,7 +7,7 @@ import com.weezard12.shtokfishai.gameLogic.pieces.*;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.TurnType;
 
-import java.awt.*;
+import com.weezard12.shtokfishai.main.Point;
 import java.util.Objects;
 
 public class Shtokfish {
@@ -20,7 +20,7 @@ public class Shtokfish {
 
         Gdx.app.log("shtokfish","thinking");
 
-        currentBoardEval = getBestPosition(board,forBlack,1,bestEval,bestEvalForEnemy);
+        currentBoardEval = getBestPosition(board,forBlack,0,bestEval,bestEvalForEnemy);
 
     }
     private static BoardEval getBestPosition(BasePiece[][] board, boolean forBlack, int steps, PositionEval bestEval, PositionEval bestEvalForEnemy){

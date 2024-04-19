@@ -7,7 +7,7 @@ This project was generated with a template including simple application launcher
 ## Platforms
 
 - `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3.
+- `lwjgl3`: Primar[AndroidLauncher.java](..%2F3D%20Game%2Fandroid%2Fsrc%2Fcom%2Fmygdx%2Fgame%2FAndroidLauncher.java)y desktop platform using LWJGL3.
 
 ## Gradle
 

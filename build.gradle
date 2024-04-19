@@ -9,7 +9,7 @@ buildscript {
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
   }
   dependencies {
-
+    classpath "com.android.tools.build:gradle:8.1.4"
 
   }
 }
@@ -27,7 +27,7 @@ allprojects {
   }
 }
 
-configure(subprojects) {
+configure(subprojects - project(':android')) {
   apply plugin: 'java-library'
   sourceCompatibility = 11
   compileJava {
@@ -48,12 +48,6 @@ configure(subprojects) {
     // and append it to the file assets.txt
     fileTree(assetsFolder).collect { assetsFolder.relativePath(it) }.each {
       assetsFile.append(it + "\n")
-    }
-  }
-
-  java {
-    toolchain {
-      languageVersion = JavaLanguageVersion.of(11)
     }
   }
 }

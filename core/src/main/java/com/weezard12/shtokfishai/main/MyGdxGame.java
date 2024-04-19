@@ -18,9 +18,13 @@ public class MyGdxGame extends Game {
     public static final int boardSize = 1024;
     public SpriteBatch batch;
 
+    public static String assetsPath = "";
+
     @Override
     public void create() {
-        loadPiecesTextures("assets/pieces/");
+
+        //for android or desktop
+        loadPiecesTextures(assetsPath+"pieces/");
 
         batch = new SpriteBatch();
         setScreen(new ChessSceneBase(this));
