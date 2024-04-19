@@ -12,15 +12,16 @@ import java.util.Objects;
 
 public class Shtokfish {
 
-    public PositionEval whiteEval;
-    public PositionEval blackEval;
+    public static BoardEval currentBoardEval = new BoardEval(new PositionEval(),new PositionEval());
 
-    public static BoardEval getBestPosition(BasePiece[][] board, boolean forBlack){
+    public static void getBestPosition(BasePiece[][] board, boolean forBlack){
         PositionEval bestEval = new PositionEval(0);
         PositionEval bestEvalForEnemy = new PositionEval(0);
 
         Gdx.app.log("shtokfish","thinking");
-        return getBestPosition(board,forBlack,3,bestEval,bestEvalForEnemy);
+
+        currentBoardEval = getBestPosition(board,forBlack,1,bestEval,bestEvalForEnemy);
+
     }
     private static BoardEval getBestPosition(BasePiece[][] board, boolean forBlack, int steps, PositionEval bestEval, PositionEval bestEvalForEnemy){
         Array<BasePiece[][]> allPositions = new Array<>();
@@ -82,6 +83,7 @@ public class Shtokfish {
         //is checkmate
         if(movesCount==0)
             bestEval.kingMoves = -100;
+
         //Gdx.app.log("shtokfish","moves possible: " + movesCount);
         return new BoardEval(forBlack ? bestEvalForEnemy : bestEval, forBlack ? bestEval : bestEvalForEnemy);
     }
@@ -120,8 +122,8 @@ public class Shtokfish {
                         eval.materialValue += position[y][x].type.materialValue;
 
                         //piece activity
-                        //position[y][x].getAllPossibleMoves(x,y,moves);
-                        //eval.piecesActivity += moves.size * position[y][x].type.materialValue * 0.002f;
+                        position[y][x].getAllPossibleMoves(x,y,moves);
+                        eval.piecesActivity += moves.size * position[y][x].type.materialValue * 0.002f;
                     }
 
             }

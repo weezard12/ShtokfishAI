@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -25,6 +26,7 @@ public class BoardUI {
     private TextButton askForBestMove;
     private TextButton changeColor;
 
+    EvaluationBar evaluationBar;
 
     public  BoardUI(GameBoard gameBoard){
         this.gameBoard = gameBoard;
@@ -35,10 +37,10 @@ public class BoardUI {
         stage.setDebugAll(true);
         table.setFillParent(true);
         table.top().left();
-        table.setBounds(MyGdxGame.boardSize + gameBoard.offsetToRight,0, 0,0);
+        table.setBounds(MyGdxGame.boardSize + GameBoard.offsetToRight,0, 0,0);
 
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = MyUtils.getBitMapFont("ui/fonts/Roboto-Bold.ttf",40, Color.WHITE,Color.BLACK);
+        style.font = MyUtils.getBitMapFont("ui/fonts/Roboto-Bold.ttf",40, Color.WHITE);
         askForBestMove =  new TextButton("Calculate Best Move",style);
         askForBestMove.addListener(new ClickListener(){
             @Override
@@ -46,11 +48,21 @@ public class BoardUI {
                 gameBoard.clearMoveHighLight();
 
                  new Thread(() -> {
-                     BoardEval boardEv = Shtokfish.getBestPosition(gameBoard.board,checkForBlack);
+                     while (true){
+                         Shtokfish.getBestPosition(gameBoard.board,checkForBlack);
+                         try {
+                             Thread.sleep(400);
+                         } catch (InterruptedException e) {
+                             throw new RuntimeException(e);
+                         }
+                     }
+
+/*                     BoardEval boardEv = Shtokfish.currentBoardEval;
                      PositionEval ev = checkForBlack? boardEv.blackEval : boardEv.whiteEval;
                      if(ev.position!=null)
                          gameBoard.board = ev.position;
-                     Gdx.app.log("pos",""+ev.materialValue);
+                     Gdx.app.log("white pos",""+boardEv.whiteEval.getSumEval());
+                     Gdx.app.log("black pos",""+boardEv.blackEval.getSumEval());*/
                  }).start();
             }
         });
@@ -73,10 +85,24 @@ public class BoardUI {
         table.add(changeColor).left().row();
 
 
+        evaluationBar = new EvaluationBar(gameBoard.shapeDrawer,stage);
+        //stage.addActor(evaluationBar);
+        evaluationBar.setup();
+
         Gdx.input.setInputProcessor(stage);
     }
-    public void render(){
+    public void renderUI(){
+
+        //ui
         stage.act();
         stage.draw();
+
+
+
+    }
+    public void renderE(){
+
+        //shape renderer
+        evaluationBar.draw();
     }
 }

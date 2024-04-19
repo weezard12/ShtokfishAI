@@ -22,8 +22,8 @@ public class GameBoard {
     public boolean isWhiteTurn = true;
 
     //region Scale and UI
-    public BoardUI boardUI = new BoardUI(this);
-    public final int offsetToRight = ((int)(MyGdxGame.boardSize * 0.08f));
+    public BoardUI boardUI;
+    public static final int offsetToRight = ((int)(MyGdxGame.boardSize * 0.08f));
     //endregion
 
 
@@ -33,7 +33,7 @@ public class GameBoard {
 
     public BasePiece[][] board;
     public SpriteBatch batch;
-    ShapeDrawer shapeDrawer;
+    public ShapeDrawer shapeDrawer;
     BoardColors boardColors;
 
     Array<BasePiece[][]> possibleMoves = new Array<>();
@@ -58,6 +58,8 @@ public class GameBoard {
         TextureRegion region = new TextureRegion(texture, 0, 0, 1, 1);
 
         shapeDrawer = new ShapeDrawer(batch, region);
+        boardUI = new BoardUI(this);
+
     }
     //update
     public void updateBoard(){
@@ -194,10 +196,11 @@ public class GameBoard {
     //region Render
     public void renderBoard(){
         batch.begin();
+        boardUI.renderE();
         drawBoard();
         drawPieces();
+        boardUI.renderUI();
         batch.end();
-        boardUI.render();
     }
     protected void drawBoard(){
         for (int y = 0; y<8;y++){

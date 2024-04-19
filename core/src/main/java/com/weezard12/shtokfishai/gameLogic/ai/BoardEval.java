@@ -8,4 +8,11 @@ public class BoardEval {
         this.whiteEval = whiteEval;
         this.blackEval = blackEval;
     }
+
+    public float getWhiteEvalAsPresent(){
+        return whiteEval.getSumEval() / (whiteEval.getSumEval() + blackEval.getSumEval());
+    }
+    public int getWhiteEvalSubtractByBlack(){
+        return (int)(whiteEval.getSumEval() - blackEval.getSumEval());
+    }
 }
