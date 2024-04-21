@@ -9,8 +9,8 @@ public class ChessSceneBase extends AllScreensBase{
     GameBoard gameBoard;
     public ChessSceneBase(MyGdxGame game) {
         super(game);
-        gameBoard = new GameBoard(game.batch);
-        gameBoard.setBoardByString(
+        gameBoard = new GameBoard(MyGdxGame.batch);
+/*        gameBoard.setBoardByString(
             "Br,Bk,Bb,Bq,BK,Bb,Bk,Br,"+
             "Bp,Bp,Bp,Bp,Bp,Bp,Bp,Bp,"+
             "e,e,e,e,e,e,e,e,"+
@@ -19,17 +19,17 @@ public class ChessSceneBase extends AllScreensBase{
             "e,e,e,e,e,e,e,e,"+
             "p,p,p,p,p,p,p,p," +
             "r,k,b,q,K,b,k,r,"
-        );
-/*        gameBoard.setBoardByString(
+        );*/
+        gameBoard.setBoardByString(
             "e,e,e,e,BK,e,e,e,"+
-            "e,e,e,e,e,e,e,e,"+
+            "e,p,e,e,e,e,e,e,"+
             "e,e,e,e,e,e,e,e,"+
             "e,e,e,e,e,e,e,e,"+
             "e,e,e,e,e,e,e,e,"+
             "r,e,e,e,e,e,e,e,"+
-            "e,e,e,e,e,e,e,e,"+
+            "e,Bp,e,e,e,e,e,e,"+
             "e,e,e,e,K,e,e,r,"
-        );*/
+        );
 
     }
 

@@ -64,8 +64,8 @@ public class BasePiece {
     }
 
     public void updatePos(){
-        posX=getPosX();
-        posY=getPosY();
+        posX = getPosX();
+        posY = getPosY();
     }
 
     public Texture texture;
@@ -76,6 +76,11 @@ public class BasePiece {
         this.isEnemy=isEnemy;
 
     }
+
+    public void removeFromBoard(){
+        board[posY][posX] = null;
+    }
+
     public void getAllPossibleMoves(int pX, int pY, Array<BasePiece[][]> r){
     }
     public boolean doesCheck(int mX,int mY, int kX,int kY){

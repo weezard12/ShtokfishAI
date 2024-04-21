@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
 import java.util.Locale;
 
@@ -32,6 +33,12 @@ public class MyUtils {
     public static void log(String tag, String message){
         if(logEnabled)
             Gdx.app.log(tag,message);
+    }
+
+    //shape drawer
+    public static void drawX(ShapeDrawer shapeDrawer, float x1, float y1, float x2, float y2, Color color, int lineWidth){
+        shapeDrawer.line(x1, y1, x2, y2, color,lineWidth);
+        shapeDrawer.line(x2, y1, x1, y2, color,lineWidth);
     }
 
     public static String floatToShortString(float num){

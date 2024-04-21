@@ -67,7 +67,13 @@ public class GameBoard {
     }
     protected void checkForInput(){
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
-            for (Tile[] row: tiles) {
+
+            //if promotion is in process
+            if(PromotionSelection.isPromoting)
+                PromotionSelection.checkForInput();
+
+            //if not promoting
+            else for (Tile[] row: tiles) {
                 for (Tile tile: row) {
 
                     if(tile.bounds.contains(Gdx.input.getX(),MyGdxGame.boardSize - Gdx.input.getY())){
@@ -145,7 +151,7 @@ public class GameBoard {
 
                 //promote
                 if(tile.posY== 7 * (board[selectedTile.posY][selectedTile.posX].isEnemy? 0 : 1))
-                    board[tile.posY][tile.posX] = new QueenPiece(PieceType.QUEEN,board[selectedTile.posY][selectedTile.posX].isEnemy,board);
+                    PromotionSelection.startPromotion(board[selectedTile.posY][selectedTile.posX],this);
                 else
                     board[tile.posY][tile.posX] = board[selectedTile.posY][selectedTile.posX];
             }
@@ -187,7 +193,8 @@ public class GameBoard {
                 ((KingPiece)board[tile.posY][tile.posX]).isEverMoved = true;
 
             clearEnPassantOptionFromPawns(!selectedPiece.isEnemy);
-            board[selectedTile.posY][selectedTile.posX] = null;
+            if (!PromotionSelection.isPromoting)
+                board[selectedTile.posY][selectedTile.posX] = null;
 
         }
 
@@ -199,6 +206,10 @@ public class GameBoard {
         boardUI.renderE();
         drawBoard();
         drawPieces();
+        if(PromotionSelection.isPromoting)
+            PromotionSelection.renderPromotion();
+        batch.end();
+        batch.begin();
         boardUI.renderUI();
         batch.end();
     }
@@ -224,11 +235,11 @@ public class GameBoard {
         }
     }
     protected void drawPieces(){
-        for (int x = 0; x<8;x++){
-            for (int y = 0; y<8;y++){
+        for (int y = 0; y < 8;y++){
+            for (int x = 0; x < 8;x++){
                 if(board[y][x]!=null){
-                    if(board[y][x].texture==null)
-                        board[y][x].texture = MyGdxGame.piecesTextures.get(String.format("%s%s.png",Gdx.files.internal(String.valueOf(board[y][x].type)),board[y][x].isEnemy ? 1 : 0 ));
+                    if(board[y][x].texture == null)
+                        board[y][x].texture = MyGdxGame.piecesTextures.get(String.format("%s%s.png",board[y][x].type,board[y][x].isEnemy ? 1 : 0 ));
                     batch.draw(board[y][x].texture,board[y][x].getPosX()*128+offsetToRight,board[y][x].getPosY()*128 + 8);
                 }
             }

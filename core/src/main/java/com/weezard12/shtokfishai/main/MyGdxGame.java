@@ -7,6 +7,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.weezard12.shtokfishai.scenes.HomeScreen;
 import com.weezard12.shtokfishai.scenes.scenesBase.ChessSceneBase;
 
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public class MyGdxGame extends Game {
     public static final HashMap<String,Texture> piecesTextures = new HashMap<>();
 
     public static final int boardSize = 1024;
-    public SpriteBatch batch;
+    public static SpriteBatch batch;
 
     public static String assetsPath = "";
 
@@ -27,6 +28,7 @@ public class MyGdxGame extends Game {
         loadPiecesTextures(assetsPath+"pieces/");
 
         batch = new SpriteBatch();
+        //setScreen(new HomeScreen(this));
         setScreen(new ChessSceneBase(this));
 
     }
@@ -37,7 +39,7 @@ public class MyGdxGame extends Game {
 
         piecesTextures.clear();
         for (FileHandle file : files) {
-            Gdx.app.log("a",file.name());
+            Gdx.app.log("loadPiecesTextures",file.name());
             piecesTextures.put(file.name(),new Texture(file));
         }
 

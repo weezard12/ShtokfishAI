@@ -10,7 +10,6 @@ import com.weezard12.shtokfishai.main.MyUtils;
 
 public class Tile {
     GameBoard gameBoard;
-    public BasePiece piece;
     public TileHighlightType highlightType = TileHighlightType.NONE;
 
     //from 0 - 8 (tiles on the board)
@@ -21,9 +20,8 @@ public class Tile {
 
     public Tile(int posX, int posY,GameBoard gameBoard){
         this.gameBoard = gameBoard;
-        this.piece = piece;
-        this.posX =posX;
-        this.posY=posY;
+        this.posX = posX;
+        this.posY = posY;
         bounds = new Rectangle((posX*128)+gameBoard.offsetToRight,posY*128,128,128);
     }
 
