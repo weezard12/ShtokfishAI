@@ -1,4 +1,4 @@
 package com.weezard12.shtokfishai.scenes;
 
-public class ClassicChess {
+public class ChessMultiplayer {
 }

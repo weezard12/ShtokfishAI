@@ -20,7 +20,7 @@ public class Shtokfish {
 
         Gdx.app.log("shtokfish","thinking");
 
-        currentBoardEval = getBestPosition(board,forBlack,0,bestEval,bestEvalForEnemy);
+        currentBoardEval = getBestPosition(board,forBlack,1,bestEval,bestEvalForEnemy);
 
     }
     private static BoardEval getBestPosition(BasePiece[][] board, boolean forBlack, int steps, PositionEval bestEval, PositionEval bestEvalForEnemy){

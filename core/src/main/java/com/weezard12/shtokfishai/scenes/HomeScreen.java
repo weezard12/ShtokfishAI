@@ -68,7 +68,7 @@ public class HomeScreen extends AllScreensBase implements ISceneWithUI {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                game.setScreen(new ChessSceneBase((MyGdxGame) game));
+                game.setScreen(new ChessVsBot((MyGdxGame) game));
             }
         });
 

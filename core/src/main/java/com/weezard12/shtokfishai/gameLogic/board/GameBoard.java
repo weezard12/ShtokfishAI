@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.weezard12.shtokfishai.gameLogic.pieces.*;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
-import com.weezard12.shtokfishai.gameLogic.ui.BoardUI;
+import com.weezard12.shtokfishai.gameLogic.ui.base.BoardUI;
 import com.weezard12.shtokfishai.main.MyGdxGame;
 import com.weezard12.shtokfishai.main.MyUtils;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -22,7 +22,6 @@ public class GameBoard {
     public boolean isWhiteTurn = true;
 
     //region Scale and UI
-    public BoardUI boardUI;
     public static final int offsetToRight = ((int)(MyGdxGame.boardSize * 0.08f));
     //endregion
 
@@ -58,9 +57,10 @@ public class GameBoard {
         TextureRegion region = new TextureRegion(texture, 0, 0, 1, 1);
 
         shapeDrawer = new ShapeDrawer(batch, region);
-        boardUI = new BoardUI(this);
 
     }
+
+
     //update
     public void updateBoard(){
         checkForInput();
@@ -202,16 +202,12 @@ public class GameBoard {
 
     //region Render
     public void renderBoard(){
-        batch.begin();
-        boardUI.renderE();
+
         drawBoard();
         drawPieces();
         if(PromotionSelection.isPromoting)
             PromotionSelection.renderPromotion();
-        batch.end();
-        batch.begin();
-        boardUI.renderUI();
-        batch.end();
+
     }
     protected void drawBoard(){
         for (int y = 0; y<8;y++){
