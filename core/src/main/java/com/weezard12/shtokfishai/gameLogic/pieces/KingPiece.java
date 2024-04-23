@@ -9,8 +9,9 @@ import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
 
 public class KingPiece extends BasePiece {
     public boolean isEverMoved = false;
-    public KingPiece(PieceType type, boolean isEnemy, BasePiece[][] board) {
-        super(type, isEnemy, board);
+    public KingPiece(boolean isEnemy, BasePiece[][] board) {
+        super(isEnemy, board);
+        type = PieceType.KING;
     }
 
     @Override

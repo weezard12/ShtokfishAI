@@ -7,8 +7,9 @@ import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
 
 public class BishopPiece extends BasePiece {
-    public BishopPiece(PieceType type, boolean isEnemy, BasePiece[][] board) {
-        super(type, isEnemy, board);
+    public BishopPiece(boolean isEnemy, BasePiece[][] board) {
+        super(isEnemy, board);
+        type = PieceType.BISHOP;
     }
 
     @Override

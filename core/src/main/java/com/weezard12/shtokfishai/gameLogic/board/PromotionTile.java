@@ -18,26 +18,24 @@ public class PromotionTile extends Tile{
     public void setNewPieceAt(int x, int y){
         switch (type){
             case KING:
-            gameBoard.board[y][x] = new KingPiece(type,isEnemy,gameBoard.board);
+            gameBoard.board[y][x] = new KingPiece(isEnemy,gameBoard.board);
             break;
             case KNIGHT:
-                gameBoard.board[y][x] = new KnightPiece(type,isEnemy,gameBoard.board);
+                gameBoard.board[y][x] = new KnightPiece(isEnemy,gameBoard.board);
             break;
             case ROOK:
-                gameBoard.board[y][x] = new RookPiece(type,isEnemy,gameBoard.board);
+                gameBoard.board[y][x] = new RookPiece(isEnemy,gameBoard.board);
             break;
             case BISHOP:
-                gameBoard.board[y][x] = new BishopPiece(type,isEnemy,gameBoard.board);
+                gameBoard.board[y][x] = new BishopPiece(isEnemy,gameBoard.board);
             break;
             case QUEEN:
-                gameBoard.board[y][x] = new QueenPiece(type,isEnemy,gameBoard.board);
+                gameBoard.board[y][x] = new QueenPiece(isEnemy,gameBoard.board);
             break;
             case PAWN:
-                gameBoard.board[y][x] = new PawnPiece(type,isEnemy,gameBoard.board);
+                gameBoard.board[y][x] = new PawnPiece(isEnemy,gameBoard.board);
             break;
-            default:
-                gameBoard.board[y][x] = new BasePiece(type,isEnemy,gameBoard.board);
-            break;
+
         }
 
     }

@@ -7,8 +7,9 @@ import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
 
 public class QueenPiece extends BasePiece {
-    public QueenPiece(PieceType type, boolean isEnemy, BasePiece[][] board) {
-        super(type, isEnemy, board);
+    public QueenPiece(boolean isEnemy, BasePiece[][] board) {
+        super(isEnemy, board);
+        type = PieceType.QUEEN;
     }
 
     @Override

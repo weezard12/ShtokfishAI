@@ -13,7 +13,7 @@ import com.weezard12.shtokfishai.gameLogic.board.GameBoard;
 import com.weezard12.shtokfishai.main.MyGdxGame;
 import com.weezard12.shtokfishai.main.MyUtils;
 
-public class BoardUI {
+public abstract class BoardUI {
     protected GameBoard gameBoard;
     protected Stage stage = new Stage();
     protected Table table = new Table();

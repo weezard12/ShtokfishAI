@@ -11,8 +11,9 @@ public class PawnPiece extends BasePiece {
 
     public boolean isMovedTwo = false;
 
-    public PawnPiece(PieceType type, boolean isEnemy, BasePiece[][] board) {
-        super(type, isEnemy, board);
+    public PawnPiece(boolean isEnemy, BasePiece[][] board) {
+        super(isEnemy, board);
+        type = PieceType.PAWN;
     }
 
     @Override
@@ -41,7 +42,7 @@ public class PawnPiece extends BasePiece {
 
             //makes a queen
             if((posY + 1 - (2 * isEnemyInt)) == (7 * (isEnemy? 0 : 1))){
-                oneMove[posY+1 - (2 * isEnemyInt)][posX] = new QueenPiece(PieceType.QUEEN,this.isEnemy,oneMove);
+                oneMove[posY+1 - (2 * isEnemyInt)][posX] = new QueenPiece(this.isEnemy,oneMove);
                 oneMove[posY+1 - (2 * isEnemyInt)][posX].isJustMoved = true;
             }
             if(moved)
@@ -56,7 +57,7 @@ public class PawnPiece extends BasePiece {
 
                 //makes a queen
                 if((posY + 1 - (2 * isEnemyInt)) == (7 * (isEnemy? 0 : 1))){
-                    eatLeft[posY+1 - (2 * isEnemyInt)][posX-1] = new QueenPiece(PieceType.QUEEN,this.isEnemy,eatLeft);
+                    eatLeft[posY+1 - (2 * isEnemyInt)][posX-1] = new QueenPiece(this.isEnemy,eatLeft);
                     eatLeft[posY+1 - (2 * isEnemyInt)][posX-1].isJustMoved = true;
                 }
 
@@ -81,7 +82,7 @@ public class PawnPiece extends BasePiece {
 
                 //makes a queen
                 if((posY + 1 - (2 * isEnemyInt)) == (7 * (isEnemy? 0 : 1))){
-                    eatRight[posY+1 - (2 * isEnemyInt)][posX+1] = new QueenPiece(PieceType.QUEEN,this.isEnemy,eatRight);
+                    eatRight[posY+1 - (2 * isEnemyInt)][posX+1] = new QueenPiece(this.isEnemy,eatRight);
                     eatRight[posY+1 - (2 * isEnemyInt)][posX+1].isJustMoved = true;
                 }
 

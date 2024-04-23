@@ -9,7 +9,7 @@ import com.weezard12.shtokfishai.gameLogic.pieces.PawnPiece;
 import com.weezard12.shtokfishai.main.MyGdxGame;
 import com.weezard12.shtokfishai.main.MyUtils;
 
-public class BasePiece {
+public abstract class BasePiece {
     protected BasePiece[][] board;
     public PieceType type;
     public boolean isEnemy;
@@ -69,10 +69,9 @@ public class BasePiece {
     }
 
     public Texture texture;
-    public BasePiece( PieceType type,boolean isEnemy,BasePiece[][] board){
+    public BasePiece(boolean isEnemy,BasePiece[][] board){
         this.board = board;
 
-        this.type=type;
         this.isEnemy=isEnemy;
 
     }

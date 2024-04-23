@@ -4,10 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.weezard12.shtokfishai.gameLogic.board.GameBoard;
+import com.weezard12.shtokfishai.gameLogic.ui.DebugBoardUI;
 import com.weezard12.shtokfishai.gameLogic.ui.base.BoardUI;
 import com.weezard12.shtokfishai.main.MyGdxGame;
 
-public class ChessSceneBase extends AllScreensBase{
+public abstract class ChessSceneBase extends AllScreensBase{
     protected GameBoard gameBoard;
 
     SpriteBatch batch = MyGdxGame.batch;
@@ -41,7 +42,7 @@ public class ChessSceneBase extends AllScreensBase{
 
     }
     protected void setupUI(){
-        boardUI = new BoardUI(gameBoard);
+        boardUI = new DebugBoardUI(gameBoard);
     }
 
     @Override

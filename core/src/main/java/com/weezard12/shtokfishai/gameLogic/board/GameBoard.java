@@ -261,22 +261,22 @@ public class GameBoard {
                 Gdx .app.log("p: ",piece +" "+x+" "+y +" "+color);
                 switch (piece.toString()){
                     case "p":
-                       board[y][x]= new PawnPiece(PieceType.PAWN,color,board);
+                       board[y][x]= new PawnPiece(color,board);
                        break;
                     case "r":
-                        board[y][x]= new RookPiece(PieceType.ROOK,color,board);
+                        board[y][x]= new RookPiece(color,board);
                         break;
                     case "k":
-                        board[y][x]= new KnightPiece(PieceType.KNIGHT,color,board);
+                        board[y][x]= new KnightPiece(color,board);
                         break;
                     case "b":
-                        board[y][x]= new BishopPiece(PieceType.BISHOP,color,board);
+                        board[y][x]= new BishopPiece(color,board);
                         break;
                     case "q":
-                        board[y][x]= new QueenPiece(PieceType.QUEEN,color,board);
+                        board[y][x]= new QueenPiece(color,board);
                         break;
                     case "K":
-                        board[y][x]= new KingPiece(PieceType.KING,color,board);
+                        board[y][x]= new KingPiece(color,board);
                         break;
                 }
                 piece = new StringBuilder();
@@ -302,26 +302,23 @@ public class GameBoard {
                 if(board[y][x] != null)
                     switch (board[y][x].type){
                         case KING:
-                            rBoard[y][x] = new KingPiece(board[y][x].type,board[y][x].isEnemy,rBoard);
+                            rBoard[y][x] = new KingPiece(board[y][x].isEnemy,rBoard);
                             ((KingPiece)rBoard[y][x]).isEverMoved = ((KingPiece)board[y][x]).isEverMoved;
                             break;
                         case KNIGHT:
-                            rBoard[y][x] = new KnightPiece(board[y][x].type,board[y][x].isEnemy,rBoard);
+                            rBoard[y][x] = new KnightPiece(board[y][x].isEnemy,rBoard);
                             break;
                         case ROOK:
-                            rBoard[y][x] = new RookPiece(board[y][x].type,board[y][x].isEnemy,rBoard);
+                            rBoard[y][x] = new RookPiece(board[y][x].isEnemy,rBoard);
                             break;
                         case BISHOP:
-                            rBoard[y][x] = new BishopPiece(board[y][x].type,board[y][x].isEnemy,rBoard);
+                            rBoard[y][x] = new BishopPiece(board[y][x].isEnemy,rBoard);
                             break;
                         case QUEEN:
-                            rBoard[y][x] = new QueenPiece(board[y][x].type,board[y][x].isEnemy,rBoard);
+                            rBoard[y][x] = new QueenPiece(board[y][x].isEnemy,rBoard);
                             break;
                         case PAWN:
-                            rBoard[y][x] = new PawnPiece(board[y][x].type,board[y][x].isEnemy,rBoard);
-                            break;
-                        default:
-                            rBoard[y][x] = new BasePiece(board[y][x].type,board[y][x].isEnemy,rBoard);
+                            rBoard[y][x] = new PawnPiece(board[y][x].isEnemy,rBoard);
                             break;
                     }
 
@@ -386,22 +383,22 @@ public class GameBoard {
         }
     }
     public static String toStringBoardArray(BasePiece[][] board){
-        String s ="";
+        StringBuilder s = new StringBuilder();
         for (int y = 0; y<8;y++) {
             for (int x = 0; x < 8; x++) {
 
                 if (board[y][x] != null) {
-                    s+= board[y][x].isJustMoved ? "m":"";
-                    s += board[y][x].type+"-";
-                    s += board[y][x].isEnemy?"black ":"white ";
+                    s.append(board[y][x].isJustMoved ? "m" : "");
+                    s.append(board[y][x].type).append("-");
+                    s.append(board[y][x].isEnemy ? "black " : "white ");
 
                 }
-                else s += "empty ";
+                else s.append("empty ");
 
             }
-            s += "\n";
+            s.append("\n");
         }
-        return s;
+        return s.toString();
     }
 
 }

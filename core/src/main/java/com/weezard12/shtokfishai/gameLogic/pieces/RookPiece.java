@@ -9,8 +9,9 @@ import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
 
 public class RookPiece extends BasePiece {
     public boolean isEverMoved = false;
-    public RookPiece(PieceType type, boolean isEnemy, BasePiece[][] board) {
-        super(type, isEnemy, board);
+    public RookPiece(boolean isEnemy, BasePiece[][] board) {
+        super(isEnemy, board);
+        type = PieceType.ROOK;
     }
 
     @Override

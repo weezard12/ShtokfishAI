@@ -8,8 +8,9 @@ import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
 
 public class KnightPiece extends BasePiece {
-    public KnightPiece(PieceType type, boolean isEnemy, BasePiece[][] board) {
-        super(type, isEnemy, board);
+    public KnightPiece(boolean isEnemy, BasePiece[][] board) {
+        super(isEnemy, board);
+        type = PieceType.KNIGHT;
     }
     @Override
     public void getAllPossibleMoves(int pX, int pY, Array<BasePiece[][]> r) {
