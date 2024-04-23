@@ -30,14 +30,14 @@ public abstract class ChessSceneBase extends AllScreensBase{
             "r,k,b,q,K,b,k,r,"
         );*/
         gameBoard.setBoardByString(
-            "Bp,e,Bp,e,BK,e,e,e,"+
+            "Br,e,Bp,e,BK,e,e,Br,"+
             "e,p,e,e,e,e,e,e,"+
             "e,e,e,e,e,e,e,e,"+
-            "e,e,e,e,e,e,e,e,"+
+            "e,Br,e,e,e,e,e,e,"+
             "e,e,e,e,e,e,e,e,"+
             "r,e,e,e,e,e,e,e,"+
-            "e,Bp,e,e,e,e,e,e,"+
-            "p,e,e,e,K,e,e,r,"
+            "e,e,e,e,e,e,e,e,"+
+            "r,e,e,e,K,e,e,r,"
         );
 
     }

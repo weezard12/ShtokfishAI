@@ -8,6 +8,7 @@ import com.weezard12.shtokfishai.gameLogic.board.GameBoard;
 import com.weezard12.shtokfishai.gameLogic.pieces.PawnPiece;
 import com.weezard12.shtokfishai.main.MyGdxGame;
 import com.weezard12.shtokfishai.main.MyUtils;
+import com.weezard12.shtokfishai.main.Point;
 
 public abstract class BasePiece {
     protected BasePiece[][] board;
@@ -122,6 +123,37 @@ public abstract class BasePiece {
 
     }
 
+    //like the move method but without moving ( ONLY FOR KING)
+    public boolean canKingMove(int cX, int cY,boolean isEnemy, int mX,int mY,BasePiece[][] board){
+        MyUtils.log("movePiece func",String.format("mX: %s, mY: %s, posX: %s, posY: %s",mX,mY,cX,cY));
+
+        //don't move a null piece
+        if(board[cY][cX]==null)
+            return false;
+
+        //outside the board
+        if(mY < 0 || mY > 7 ||mX < 0 || mX > 7)
+            return false;
+
+        //don't move to the same color (if not null)
+        if(board[mY][mX] != null)
+            if (isEnemy == board[mY][mX].isEnemy)
+                return false;
+
+        for (int y = 0; y<8;y++) {
+            for (int x = 0; x < 8; x++) {
+                if (board[y][x] != null)
+                    if (board[y][x].isEnemy == !isEnemy) {
+                        if(board[y][x].doesCheck(x,y,mX,mY))
+                            return false;
+                    }
+            }
+        }
+
+        MyUtils.log("movePiece func","moved");
+        return true;
+    }
+
 
 
     //move the piece in a line
@@ -166,9 +198,6 @@ public abstract class BasePiece {
         }
 
 
-
-
-
     }
 
     //check for piece in line without moving
@@ -186,6 +215,32 @@ public abstract class BasePiece {
 
         }
 
+    }
+    public Point moveInLineUntilHit(int cX, int cY, int mX,int mY,BasePiece[][] board,int kX,int kY ,Point point){
+        cX += mX;
+        cY += mY;
+        while (true){
+            if(cX > 7 || cX < 0 || cY>7 || cY<0){
+                return point;
+            }
+
+
+            if(board[cY][cX] != null)
+            {
+                point.x = cX;
+                point.y = cY;
+                return point;
+            }
+            else if(cX==kX && cY == kY){
+                point.x = cX;
+                point.y = cY;
+                return point;
+            }
+
+            cX +=mX;
+            cY +=mY;
+
+        }
     }
 
     @Override

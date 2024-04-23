@@ -70,7 +70,6 @@ public class PromotionSelection {
             if(tile.bounds.contains(Gdx.input.getX(),MyGdxGame.boardSize - Gdx.input.getY())) {
                 tile.setNewPieceAt(tile.posX, pieceToPromote.posY +1 -2 * (pieceToPromote.isEnemy?1:0));
 
-                pieceToPromote.updatePos();
 
                 pieceToPromote.removeFromBoard();
                 pieceToPromote = null;

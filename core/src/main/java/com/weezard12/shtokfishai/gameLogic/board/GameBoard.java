@@ -122,6 +122,9 @@ public class GameBoard {
 
         clearMoveHighLight();
         if(isFreeMove){
+            if(board[selectedTile.posY][selectedTile.posX].type==PieceType.ROOK)
+                ((RookPiece)board[selectedTile.posY][selectedTile.posX]).isEverMoved = true;
+
             //check for queen spawn
             if(board[selectedTile.posY][selectedTile.posX].type==PieceType.PAWN){
 
@@ -310,6 +313,7 @@ public class GameBoard {
                             break;
                         case ROOK:
                             rBoard[y][x] = new RookPiece(board[y][x].isEnemy,rBoard);
+                            ((RookPiece)rBoard[y][x]).isEverMoved = ((RookPiece)board[y][x]).isEverMoved;
                             break;
                         case BISHOP:
                             rBoard[y][x] = new BishopPiece(board[y][x].isEnemy,rBoard);

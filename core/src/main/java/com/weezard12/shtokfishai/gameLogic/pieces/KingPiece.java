@@ -19,49 +19,60 @@ public class KingPiece extends BasePiece {
         posX = pX;
         posY = pY;
 
-        //castle O-O
-        if(!this.isEverMoved){
-            if(posX == 4)
-                if(board[posY][posX+1] == null && board[posY][posX+2] == null)
-                    if (board[posY][posX+3]!=null)
-                        if(board[posY][posX+3].type == PieceType.ROOK && board[posY][posX+3].isEnemy == this.isEnemy)
-                            if(!((RookPiece) board[posY][posX + 3]).isEverMoved){
 
-                                BasePiece[][] shortCastle = GameBoard.cloneBoard(board);
-                                shortCastle[posY][posX+2] = shortCastle[posY][posX];
-                                ((KingPiece)shortCastle[posY][posX+2]).isEverMoved = true;
+        if(!this.isEverMoved)
+            if(posX == 4){
 
-                                shortCastle[posY][posX] = null;
-                                shortCastle[posY][posX+2].isJustMoved = true;
-                                shortCastle[posY][posX+1] = shortCastle[posY][posX+3];
-                                shortCastle[posY][posX+3] = null;
+                //castle O-O
+                if (board[posY][posX + 3] != null)
+                    if (board[posY][posX + 3].type == PieceType.ROOK && board[posY][posX + 3].isEnemy == this.isEnemy)
+                        if (!((RookPiece) board[posY][posX + 3]).isEverMoved) {
 
-                                r.add(shortCastle);
+                            //check if there is a check when moved
+                            if (canKingMove(posX, posY, isEnemy, posX + 1, posY, board)) {
+                                if (canKingMove(posX, posY, isEnemy, posX + 2, posY, board)) {
+                                    BasePiece[][] shortCastle = GameBoard.cloneBoard(board);
+                                    shortCastle[posY][posX + 2] = shortCastle[posY][posX];
+                                    ((KingPiece) shortCastle[posY][posX + 2]).isEverMoved = true;
+
+                                    shortCastle[posY][posX] = null;
+                                    shortCastle[posY][posX + 2].isJustMoved = true;
+                                    shortCastle[posY][posX + 1] = shortCastle[posY][posX + 3];
+                                    shortCastle[posY][posX + 3] = null;
+
+                                    r.add(shortCastle);
+                                }
+                            }
                         }
 
-        }
 
-        //castle O-O-O
-        if(!this.isEverMoved){
-            if(posX == 4)
-                if(board[posY][posX-1] == null && board[posY][posX-2] == null && board[posY][posX-3]==null)
-                    if (board[posY][posX-4] != null)
-                        if(board[posY][posX-4].type == PieceType.ROOK && board[posY][posX-4].isEnemy == this.isEnemy)
-                            if(!((RookPiece) board[posY][posX - 4]).isEverMoved){
+                //castle O-O-O
+                if (board[posY][posX - 4] != null)
+                    if (board[posY][posX - 4].type == PieceType.ROOK && board[posY][posX - 4].isEnemy == this.isEnemy)
+                        if (!((RookPiece) board[posY][posX - 4]).isEverMoved) {
 
-                                BasePiece[][] longCastle = GameBoard.cloneBoard(board);
-                                longCastle[posY][posX-2] = longCastle[posY][posX];
-                                ((KingPiece)longCastle[posY][posX-2]).isEverMoved = true;
+                            //check if there is a check when moved
+                            if (canKingMove(posX, posY, isEnemy, posX - 1, posY, board)) {
+                                if (canKingMove(posX, posY, isEnemy, posX - 2, posY, board)) {
 
-                                longCastle[posY][posX] = null;
-                                longCastle[posY][posX-2].isJustMoved=true;
-                                longCastle[posY][posX-1] = longCastle[posY][posX-4];
-                                longCastle[posY][posX-4] = null;
+                                    if (canKingMove(posX, posY, isEnemy, posX - 3, posY, board)) {
+                                        BasePiece[][] longCastle = GameBoard.cloneBoard(board);
+                                        longCastle[posY][posX - 2] = longCastle[posY][posX];
+                                        ((KingPiece) longCastle[posY][posX - 2]).isEverMoved = true;
 
-                                r.add(longCastle);
+                                        longCastle[posY][posX] = null;
+                                        longCastle[posY][posX - 2].isJustMoved = true;
+                                        longCastle[posY][posX - 1] = longCastle[posY][posX - 4];
+                                        longCastle[posY][posX - 4] = null;
+
+                                        r.add(longCastle);
+                                    }
+                                }
                             }
+                        }
 
-        }
+            }
+
 
         BasePiece[][] option1 = GameBoard.cloneBoard(board);
         BasePiece[][] option2 = GameBoard.cloneBoard(board);
