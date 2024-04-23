@@ -19,19 +19,23 @@ public class PromotionSelection {
 
     private static final PromotionTile[] tiles = new PromotionTile[4];
 
+
     public static boolean isPromoting = false;
 
-    public static void startPromotion(BasePiece pieceToPromote, GameBoard board){
+    public static void startPromotion(BasePiece pieceToPromote, GameBoard board,int moveToX){
+        pieceToPromote.updatePos();
+
         shapeDrawer = board.shapeDrawer;
         PromotionSelection.pieceToPromote = pieceToPromote;
         PromotionSelection.board = board;
-        outlineBounds = new Rectangle((pieceToPromote.getPosX() *128)+GameBoard.offsetToRight,(pieceToPromote.getPosY() -2.4f + (pieceToPromote.isEnemy ? 1.4f : 0)) * 128,128,128*4.4f);
+        outlineBounds = new Rectangle((moveToX *128)+GameBoard.offsetToRight,(pieceToPromote.getPosY() -2.4f + (pieceToPromote.isEnemy ? 1.4f : 0)) * 128,128,128*4.4f);
 
-        tiles[0] = new PromotionTile(pieceToPromote.getPosX(), pieceToPromote.isEnemy?0:7,board,PieceType.QUEEN,pieceToPromote.isEnemy);
-        tiles[1] = new PromotionTile(pieceToPromote.getPosX(), pieceToPromote.isEnemy?1:6,board,PieceType.KNIGHT,pieceToPromote.isEnemy);
-        tiles[2] = new PromotionTile(pieceToPromote.getPosX(), pieceToPromote.isEnemy?2:5,board,PieceType.ROOK,pieceToPromote.isEnemy);
-        tiles[3] = new PromotionTile(pieceToPromote.getPosX(), pieceToPromote.isEnemy?3:4,board,PieceType.BISHOP,pieceToPromote.isEnemy);
+        tiles[0] = new PromotionTile(moveToX, pieceToPromote.isEnemy?0:7,board,PieceType.QUEEN,pieceToPromote.isEnemy);
+        tiles[1] = new PromotionTile(moveToX, pieceToPromote.isEnemy?1:6,board,PieceType.KNIGHT,pieceToPromote.isEnemy);
+        tiles[2] = new PromotionTile(moveToX, pieceToPromote.isEnemy?2:5,board,PieceType.ROOK,pieceToPromote.isEnemy);
+        tiles[3] = new PromotionTile(moveToX, pieceToPromote.isEnemy?3:4,board,PieceType.BISHOP,pieceToPromote.isEnemy);
 
+        board.board[pieceToPromote.posY][pieceToPromote.posX] = null;
         isPromoting = true;
     }
 
@@ -64,7 +68,7 @@ public class PromotionSelection {
     public static void checkForInput(){
         for (PromotionTile tile: tiles) {
             if(tile.bounds.contains(Gdx.input.getX(),MyGdxGame.boardSize - Gdx.input.getY())) {
-                tile.setNewPieceAt(pieceToPromote.getPosX(), pieceToPromote.getPosY() +1 -2 * (pieceToPromote.isEnemy?1:0));
+                tile.setNewPieceAt(tile.posX, pieceToPromote.posY +1 -2 * (pieceToPromote.isEnemy?1:0));
 
                 pieceToPromote.updatePos();
 
@@ -72,8 +76,10 @@ public class PromotionSelection {
                 pieceToPromote = null;
 
                 isPromoting = false;
+                break;
             }
             else if(outlineBounds.contains(Gdx.input.getX(),MyGdxGame.boardSize - Gdx.input.getY())){
+                board.board[pieceToPromote.posY][pieceToPromote.posX] = pieceToPromote;
                 isPromoting = false;
             }
         }

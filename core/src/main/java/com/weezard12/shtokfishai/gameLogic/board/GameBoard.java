@@ -100,6 +100,7 @@ public class GameBoard {
                             if(board[selectedTile.posY][selectedTile.posX] != null)
                                 movePiece(tile,board[selectedTile.posY][selectedTile.posX]);
 
+                            clearMoveHighLight();
                             selectedTile.highlightType=TileHighlightType.NONE;
                             selectedTile = null;
 
@@ -151,7 +152,7 @@ public class GameBoard {
 
                 //promote
                 if(tile.posY== 7 * (board[selectedTile.posY][selectedTile.posX].isEnemy? 0 : 1))
-                    PromotionSelection.startPromotion(board[selectedTile.posY][selectedTile.posX],this);
+                    PromotionSelection.startPromotion(board[selectedTile.posY][selectedTile.posX],this,tile.posX);
                 else
                     board[tile.posY][tile.posX] = board[selectedTile.posY][selectedTile.posX];
             }

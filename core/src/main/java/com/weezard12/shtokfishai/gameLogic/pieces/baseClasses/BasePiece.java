@@ -19,7 +19,7 @@ public class BasePiece {
 
 
     //from 0 - 8 (tiles on the board)
-    protected int posX;
+    public int posX;
     public int getPosX() {
         if(isEnemy){
             for (int y = board.length-1; y > -1; y--) {
@@ -41,7 +41,7 @@ public class BasePiece {
         return 0;
     }
 
-    protected int posY;
+    public int posY;
     public int getPosY() {
         if(isEnemy){
             for (int y = board.length-1; y > -1; y--) {
