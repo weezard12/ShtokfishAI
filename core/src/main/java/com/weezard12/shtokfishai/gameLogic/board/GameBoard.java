@@ -19,7 +19,8 @@ import space.earlygrey.shapedrawer.ShapeDrawer;
 import com.weezard12.shtokfishai.main.Point;
 
 public class GameBoard {
-    public boolean isWhiteTurn = true;
+    public boolean isBlackTurn = false;
+    public boolean isBlackRotationBoard = false;
 
     //region Scale and UI
     public static final int offsetToRight = ((int)(MyGdxGame.boardSize * 0.08f));
@@ -47,7 +48,7 @@ public class GameBoard {
         board = new BasePiece[8][8];
 
         tiles = new Tile[8][8];
-        createTiles();
+        createTiles(false);
 
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
@@ -79,14 +80,19 @@ public class GameBoard {
                     if(tile.bounds.contains(Gdx.input.getX(),MyGdxGame.boardSize - Gdx.input.getY())){
                         Gdx.app.log("click on tile",tile.toString());
                         if (selectedTile == null){
+
                             clearMoveHighLight();
 
                             selectedTile = tile;
                             selectedTile.highlightType=TileHighlightType.SELECTED;
                             if(board[selectedTile.posY][selectedTile.posX] != null){
-                                possibleMoves.clear();
-                                board[selectedTile.posY][selectedTile.posX].getAllPossibleMoves(selectedTile.posX,selectedTile.posY,possibleMoves);
-                                Tile.setTileHighlight(possibleMoves,board[selectedTile.posY][selectedTile.posX],tiles);
+                                if (isBlackTurn == board[selectedTile.posY][selectedTile.posX].isEnemy)
+                                {
+                                    possibleMoves.clear();
+                                    board[selectedTile.posY][selectedTile.posX].getAllPossibleMoves(selectedTile.posX,selectedTile.posY,possibleMoves);
+                                    Tile.setTileHighlight(possibleMoves,board[selectedTile.posY][selectedTile.posX],tiles);
+                                }
+
                             }
 
                             //Gdx.app.log("check check",""+board[selectedTile.posY][selectedTile.posX].doesCheck(finedKingInBoard(board,board[selectedTile.posY][selectedTile.posX].isEnemy?false:true)));
@@ -155,7 +161,7 @@ public class GameBoard {
 
                 //promote
                 if(tile.posY== 7 * (board[selectedTile.posY][selectedTile.posX].isEnemy? 0 : 1))
-                    PromotionSelection.startPromotion(board[selectedTile.posY][selectedTile.posX],this,tile.posX);
+                    PromotionSelection.startPromotion(board[selectedTile.posY][selectedTile.posX],this,tile);
                 else
                     board[tile.posY][tile.posX] = board[selectedTile.posY][selectedTile.posX];
             }
@@ -200,6 +206,8 @@ public class GameBoard {
             if (!PromotionSelection.isPromoting)
                 board[selectedTile.posY][selectedTile.posX] = null;
 
+            isBlackTurn = !isBlackTurn;
+
         }
 
     }
@@ -240,7 +248,7 @@ public class GameBoard {
                 if(board[y][x]!=null){
                     if(board[y][x].texture == null)
                         board[y][x].texture = MyGdxGame.piecesTextures.get(String.format("%s%s.png",board[y][x].type,board[y][x].isEnemy ? 1 : 0 ));
-                    batch.draw(board[y][x].texture,board[y][x].getPosX()*128+offsetToRight,board[y][x].getPosY()*128 + 8);
+                    batch.draw(board[y][x].texture,tiles[y][x].bounds.x,tiles[y][x].bounds.y + 8);
                 }
             }
 
@@ -288,10 +296,13 @@ public class GameBoard {
 
         }
     }
-    private void createTiles(){
+    public void createTiles(boolean isBlackTurn){
+
+        int rotated = isBlackTurn?7:0;
+
         for (int y = 0; y<8;y++){
             for (int x = 0; x<8;x++){
-                tiles[y][x] = new Tile(x,y,this);
+                tiles[y][x] = new Tile( x, y,rotated + (x*(isBlackTurn?-1 : 1)),rotated + (y*(isBlackTurn?-1 : 1)),this);
             }
 
         }

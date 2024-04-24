@@ -1,5 +1,6 @@
 package com.weezard12.shtokfishai.gameLogic.ui;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -11,8 +12,8 @@ import com.weezard12.shtokfishai.gameLogic.ui.base.BoardUI;
 import com.weezard12.shtokfishai.main.MyUtils;
 
 public class DebugBoardUI extends BoardUI {
-    public DebugBoardUI(GameBoard gameBoard) {
-        super(gameBoard);
+    public DebugBoardUI(GameBoard gameBoard, Game game) {
+        super(gameBoard,game);
     }
 
     private boolean checkForBlack = false;

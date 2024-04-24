@@ -1,5 +1,6 @@
 package com.weezard12.shtokfishai.gameLogic.ui;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,6 +14,7 @@ import com.weezard12.shtokfishai.gameLogic.ui.base.BoardUI;
 import com.weezard12.shtokfishai.gameLogic.ui.base.ColorSelectionUI;
 import com.weezard12.shtokfishai.main.MyGdxGame;
 import com.weezard12.shtokfishai.main.MyUtils;
+import com.weezard12.shtokfishai.scenes.HomeScreen;
 
 public class PlayVsBotUI extends BoardUI {
     Label playingText;
@@ -21,8 +23,8 @@ public class PlayVsBotUI extends BoardUI {
 
     Slider difficultySlider;
 
-    public PlayVsBotUI(GameBoard gameBoard) {
-        super(gameBoard);
+    public PlayVsBotUI(GameBoard gameBoard, Game game) {
+        super(gameBoard, game);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class PlayVsBotUI extends BoardUI {
         botTable.add(botName).align(Align.left).left().bottom().colspan(2).row();
         table.add(botTable).left().row();
 
-        Table colorSelection = ColorSelectionUI.getColorSelectionTable();
+        Table colorSelection = ColorSelectionUI.getColorSelectionTable(gameBoard);
         table.add(colorSelection).row();
 
         TextButton.TextButtonStyle style4 = new TextButton.TextButtonStyle();
@@ -64,7 +66,24 @@ public class PlayVsBotUI extends BoardUI {
             }
         });
         TextButton backButton = new TextButton("Back",style4);
+        backButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                game.setScreen(new HomeScreen((MyGdxGame) game));
+            }
+        });
+        TextButton rotateBoard = new TextButton("Rotate",style4);
+        rotateBoard.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                gameBoard.isBlackRotationBoard = !gameBoard.isBlackRotationBoard;
+                gameBoard.createTiles(gameBoard.isBlackRotationBoard);
+            }
+        });
 
+        table.add(rotateBoard).row();
         table.add(playButton).row();
         table.add(backButton).row();
     }

@@ -15,7 +15,7 @@ public class ChessVsBot extends ChessSceneBase {
 
     @Override
     protected void setupUI() {
-        boardUI = new PlayVsBotUI(gameBoard);
+        boardUI = new PlayVsBotUI(gameBoard,game);
     }
 
     @Override

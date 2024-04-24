@@ -7,6 +7,8 @@ import com.weezard12.shtokfishai.gameLogic.pieces.QueenPiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.main.MyUtils;
 
+import java.util.Arrays;
+
 
 public class Tile {
     GameBoard gameBoard;
@@ -17,12 +19,23 @@ public class Tile {
     public int posY;
     Rectangle bounds;
 
+    public int getTileBoundsYAsPos(){
+        return (int) bounds.y /128;
+    }
 
-    public Tile(int posX, int posY,GameBoard gameBoard){
+    public Tile(int posX, int posY, int boundsX, int boundsY, GameBoard gameBoard){
         this.gameBoard = gameBoard;
         this.posX = posX;
         this.posY = posY;
-        bounds = new Rectangle((posX*128)+gameBoard.offsetToRight,posY*128,128,128);
+        bounds = new Rectangle((boundsX*128)+gameBoard.offsetToRight,boundsY*128,128,128);
+    }
+
+    //creates the tile by providing the bounds of it NOT from (0 - 7) instead by a float of other tile bounds
+    public Tile(int posX, int posY, float boundsX, float boundsY, GameBoard gameBoard){
+        this.gameBoard = gameBoard;
+        this.posX = posX;
+        this.posY = posY;
+        bounds = new Rectangle(boundsX,boundsY,128,128);
     }
 
     @Override

@@ -10,7 +10,12 @@ public class PromotionTile extends Tile{
     private final boolean isEnemy;
 
     public PromotionTile(int posX, int posY, GameBoard gameBoard, PieceType type,boolean isEnemy) {
-        super(posX, posY, gameBoard);
+        super(posX, posY, posX, posY, gameBoard);
+        this.type = type;
+        this.isEnemy = isEnemy;
+    }
+    public PromotionTile(int posX, int posY, float boundsX, float boundsY, GameBoard gameBoard,PieceType type,boolean isEnemy){
+        super(posX, posY, boundsX, boundsY, gameBoard);
         this.type = type;
         this.isEnemy = isEnemy;
     }

@@ -1,5 +1,6 @@
 package com.weezard12.shtokfishai.gameLogic.ui.base;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -14,14 +15,18 @@ import com.weezard12.shtokfishai.main.MyGdxGame;
 import com.weezard12.shtokfishai.main.MyUtils;
 
 public abstract class BoardUI {
+
+    protected Game game;
+
     protected GameBoard gameBoard;
     protected Stage stage = new Stage();
     protected Table table = new Table();
 
     EvaluationBar evaluationBar;
 
-    public  BoardUI(GameBoard gameBoard){
+    public  BoardUI(GameBoard gameBoard, Game game){
         this.gameBoard = gameBoard;
+        this.game = game;
         setupUI();
     }
     protected void setupUI(){

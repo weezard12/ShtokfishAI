@@ -36,13 +36,13 @@ public abstract class ChessSceneBase extends AllScreensBase{
             "e,Br,e,e,e,e,e,e,"+
             "e,e,e,e,e,e,e,e,"+
             "r,e,e,e,e,e,e,e,"+
-            "e,e,e,e,e,e,e,e,"+
+            "e,e,e,e,e,e,Bp,e,"+
             "r,e,e,e,K,e,e,r,"
         );
 
     }
     protected void setupUI(){
-        boardUI = new DebugBoardUI(gameBoard);
+        boardUI = new DebugBoardUI(gameBoard, game);
     }
 
     @Override
