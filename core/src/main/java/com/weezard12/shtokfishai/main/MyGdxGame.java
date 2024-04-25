@@ -17,13 +17,19 @@ import java.util.HashMap;
 public class MyGdxGame extends Game {
     public static final HashMap<String,Texture> piecesTextures = new HashMap<>();
 
-    public static final int boardSize = 1024;
+    public static int tileSize = 128;
+    public static int boardSize = 1024;
+
     public static SpriteBatch batch;
 
     public static String assetsPath = "";
 
+
     @Override
     public void create() {
+
+        MyGdxGame.tileSize = Gdx.graphics.getHeight() / 8;
+        MyGdxGame.boardSize = Gdx.graphics.getHeight();
 
         //for android or desktop
         loadPiecesTextures(assetsPath+"pieces/");
@@ -31,6 +37,7 @@ public class MyGdxGame extends Game {
         batch = new SpriteBatch();
         setScreen(new ChessVsBot(this));
         //setScreen(new ChessSceneBase(this));
+
 
     }
 

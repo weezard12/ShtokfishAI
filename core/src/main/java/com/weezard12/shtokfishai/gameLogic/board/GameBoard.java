@@ -236,7 +236,7 @@ public class GameBoard {
                         break;
                 }
 
-                //shapeDrawer.filledRectangle(new Rectangle(x*128 + offsetToRight,y*128,128,128));
+                //shapeDrawer.filledRectangle(new Rectangle(x*MyGdxGame.tileSIze + offsetToRight,y*MyGdxGame.tileSIze,MyGdxGame.tileSIze,MyGdxGame.tileSIze));
                 shapeDrawer.filledRectangle(tiles[y][x].bounds);
             }
 
@@ -248,7 +248,7 @@ public class GameBoard {
                 if(board[y][x]!=null){
                     if(board[y][x].texture == null)
                         board[y][x].texture = MyGdxGame.piecesTextures.get(String.format("%s%s.png",board[y][x].type,board[y][x].isEnemy ? 1 : 0 ));
-                    batch.draw(board[y][x].texture,tiles[y][x].bounds.x,tiles[y][x].bounds.y + 8);
+                    batch.draw(board[y][x].texture,tiles[y][x].bounds.x,tiles[y][x].bounds.y + 8,MyGdxGame.tileSize,MyGdxGame.tileSize);
                 }
             }
 

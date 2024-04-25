@@ -2,6 +2,7 @@ package com.weezard12.shtokfishai.android;
 
 import android.os.Bundle;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.weezard12.shtokfishai.main.MyGdxGame;
@@ -14,5 +15,6 @@ public class AndroidLauncher extends AndroidApplication {
         AndroidApplicationConfiguration configuration = new AndroidApplicationConfiguration();
         configuration.useImmersiveMode = true; // Recommended, but not required.
         initialize(new MyGdxGame(), configuration);
+
     }
 }
