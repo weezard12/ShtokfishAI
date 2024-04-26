@@ -20,9 +20,9 @@ public class EvaluationBar {
     private Label blackEval;
     public Label whiteEval;
 
-    private float startValue;
-    private float targetValue;
-    private float elapsedTime;
+    private float startValue = 0;
+    private float targetValue = 0;
+    private float elapsedTime = 0;
 
     public EvaluationBar(ShapeDrawer shapeDrawer, Stage stage){
         this.shapeDrawer = shapeDrawer;
@@ -51,10 +51,10 @@ public class EvaluationBar {
     }
 
     public void draw() {
-        float hight = Shtokfish.currentBoardEval.getWhiteEvalAsPresent() * Gdx.graphics.getHeight();
-        if(targetValue != hight){
+        float height = Shtokfish.currentBoardEval.getWhiteEvalAsPresent() * Gdx.graphics.getHeight();
+        if(targetValue != height){
             startValue = targetValue;
-            targetValue = hight;
+            targetValue = height;
             elapsedTime = 0;
         }
 

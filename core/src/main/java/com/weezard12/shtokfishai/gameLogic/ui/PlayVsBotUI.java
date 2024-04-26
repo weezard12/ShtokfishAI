@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
+import com.weezard12.shtokfishai.gameLogic.ai.Shtokfish;
+import com.weezard12.shtokfishai.gameLogic.ai.ShtokfishThread;
 import com.weezard12.shtokfishai.gameLogic.board.GameBoard;
 import com.weezard12.shtokfishai.gameLogic.ui.base.BoardUI;
 import com.weezard12.shtokfishai.gameLogic.ui.base.ColorSelectionUI;
@@ -38,7 +40,7 @@ public class PlayVsBotUI extends BoardUI {
         botImage = new Image(new Texture(Gdx.files.internal("windowIcon/knight64.png")));
 
         playingText = new Label("Playing:",style1);
-        botName = new Label("Stokfish AI",style2);
+        botName = new Label("Shtokfish AI",style2);
 
         Slider.SliderStyle style3 = new Slider.SliderStyle();
         //difficultySlider = new Slider(,style3);
@@ -60,6 +62,14 @@ public class PlayVsBotUI extends BoardUI {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+
+                gameBoard.isUpdatingInput = true;
+                if(gameBoard.moveTheBot){
+                    gameBoard.isBlackTurn = !gameBoard.isBlackTurn;
+                    Shtokfish.thread.interrupt();
+                    Shtokfish.thread = new ShtokfishThread(gameBoard);
+                    Shtokfish.thread.start();
+                }
 
                 colorSelection.remove();
                 playButton.remove();

@@ -11,11 +11,12 @@ public class ChessVsBot extends ChessSceneBase {
 
     public ChessVsBot(MyGdxGame game) {
         super(game);
+        gameBoard.moveTheBot = true;
     }
 
     @Override
     protected void setupUI() {
-        boardUI = new PlayVsBotUI(gameBoard,game);
+        boardUI = new PlayVsBotUI(gameBoard, game);
     }
 
     @Override

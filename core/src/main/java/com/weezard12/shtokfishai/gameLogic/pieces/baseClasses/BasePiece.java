@@ -154,6 +154,20 @@ public abstract class BasePiece {
         return true;
     }
 
+    public boolean isKingInCheck(int cX, int cY,boolean isEnemy, int mX,int mY,BasePiece[][] board){
+
+        for (int y = 0; y<8;y++) {
+            for (int x = 0; x < 8; x++) {
+                if (board[y][x] != null)
+                    if (board[y][x].isEnemy == !isEnemy) {
+                        if(board[y][x].doesCheck(x,y,mX,mY))
+                            return true;
+                    }
+            }
+        }
+
+        return false;
+    }
 
 
     //move the piece in a line
@@ -242,6 +256,8 @@ public abstract class BasePiece {
 
         }
     }
+
+
 
     @Override
     public String toString() {

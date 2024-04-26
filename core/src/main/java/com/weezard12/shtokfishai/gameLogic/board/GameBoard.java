@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import com.weezard12.shtokfishai.gameLogic.ai.Shtokfish;
+import com.weezard12.shtokfishai.gameLogic.ai.ShtokfishThread;
 import com.weezard12.shtokfishai.gameLogic.pieces.*;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
@@ -21,6 +23,10 @@ import com.weezard12.shtokfishai.main.Point;
 public class GameBoard {
     public boolean isBlackTurn = false;
     public boolean isBlackRotationBoard = false;
+
+    public boolean isUpdatingInput = false;
+
+    public boolean moveTheBot = false;
 
     //region Scale and UI
     public static final int offsetToRight = ((int)(MyGdxGame.boardSize * 0.08f));
@@ -64,7 +70,8 @@ public class GameBoard {
 
     //update
     public void updateBoard(){
-        checkForInput();
+        if(isUpdatingInput)
+            checkForInput();
     }
     protected void checkForInput(){
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
@@ -207,6 +214,13 @@ public class GameBoard {
                 board[selectedTile.posY][selectedTile.posX] = null;
 
             isBlackTurn = !isBlackTurn;
+
+            if(!PromotionSelection.isPromoting){
+                Shtokfish.thread.interrupt();
+                Shtokfish.thread = new ShtokfishThread(this);
+                Shtokfish.thread.start();
+            }
+
 
         }
 

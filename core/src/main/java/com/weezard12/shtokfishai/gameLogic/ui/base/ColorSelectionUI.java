@@ -29,6 +29,9 @@ public static Table getColorSelectionTable(GameBoard gameBoard){
         }
     });
 
+    //for selecting white to start first
+    whiteKing.setColor(Color.CYAN);
+
     blackKing.addListener(new ClickListener(){
         @Override
         public void clicked(InputEvent event, float x, float y) {

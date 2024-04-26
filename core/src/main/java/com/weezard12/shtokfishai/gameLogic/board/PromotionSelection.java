@@ -3,6 +3,8 @@ package com.weezard12.shtokfishai.gameLogic.board;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
+import com.weezard12.shtokfishai.gameLogic.ai.Shtokfish;
+import com.weezard12.shtokfishai.gameLogic.ai.ShtokfishThread;
 import com.weezard12.shtokfishai.gameLogic.pieces.QueenPiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
@@ -85,11 +87,16 @@ public class PromotionSelection {
                 pieceToPromote = null;
 
                 isPromoting = false;
+
+                Shtokfish.thread.interrupt();
+                Shtokfish.thread = new ShtokfishThread(board);
+                Shtokfish.thread.start();
                 break;
             }
             else if(outlineBounds.contains(Gdx.input.getX(),MyGdxGame.boardSize - Gdx.input.getY())){
                 board.board[pieceToPromote.posY][pieceToPromote.posX] = pieceToPromote;
                 isPromoting = false;
+                board.isBlackTurn = pieceToPromote.isEnemy;
             }
         }
 

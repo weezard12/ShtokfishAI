@@ -3,6 +3,7 @@ package com.weezard12.shtokfishai.scenes.scenesBase;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.weezard12.shtokfishai.gameLogic.ai.Shtokfish;
 import com.weezard12.shtokfishai.gameLogic.board.GameBoard;
 import com.weezard12.shtokfishai.gameLogic.ui.DebugBoardUI;
 import com.weezard12.shtokfishai.gameLogic.ui.base.BoardUI;
@@ -17,9 +18,10 @@ public abstract class ChessSceneBase extends AllScreensBase{
     public ChessSceneBase(MyGdxGame game) {
         super(game);
         gameBoard = new GameBoard(MyGdxGame.batch);
+        Shtokfish.init(gameBoard);
         setupUI();
 
-/*        gameBoard.setBoardByString(
+        gameBoard.setBoardByString(
             "Br,Bk,Bb,Bq,BK,Bb,Bk,Br,"+
             "Bp,Bp,Bp,Bp,Bp,Bp,Bp,Bp,"+
             "e,e,e,e,e,e,e,e,"+
@@ -28,8 +30,8 @@ public abstract class ChessSceneBase extends AllScreensBase{
             "e,e,e,e,e,e,e,e,"+
             "p,p,p,p,p,p,p,p," +
             "r,k,b,q,K,b,k,r,"
-        );*/
-        gameBoard.setBoardByString(
+        );
+/*        gameBoard.setBoardByString(
             "Br,e,Bp,e,BK,e,e,Br,"+
             "e,p,e,e,e,e,e,e,"+
             "e,e,e,e,e,e,e,e,"+
@@ -38,7 +40,7 @@ public abstract class ChessSceneBase extends AllScreensBase{
             "r,e,e,e,e,e,e,e,"+
             "e,e,e,e,e,e,Bp,e,"+
             "r,e,e,e,K,e,e,r,"
-        );
+        );*/
 
     }
     protected void setupUI(){

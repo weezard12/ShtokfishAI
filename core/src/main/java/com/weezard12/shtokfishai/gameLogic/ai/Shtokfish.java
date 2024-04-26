@@ -2,6 +2,7 @@ package com.weezard12.shtokfishai.gameLogic.ai;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.async.ThreadUtils;
 import com.weezard12.shtokfishai.gameLogic.board.GameBoard;
 import com.weezard12.shtokfishai.gameLogic.pieces.*;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
@@ -12,18 +13,32 @@ import java.util.Objects;
 
 public class Shtokfish {
 
+    public static ShtokfishThread thread;
     public static BoardEval currentBoardEval = new BoardEval(new PositionEval(),new PositionEval());
 
+    public static boolean finishedCalculating = false;
+
+    public static void init(GameBoard gameBoard){
+        thread = new ShtokfishThread(gameBoard);
+    }
+
     public static void getBestPosition(BasePiece[][] board, boolean forBlack){
+        finishedCalculating = false;
         PositionEval bestEval = new PositionEval(0);
         PositionEval bestEvalForEnemy = new PositionEval(0);
 
         Gdx.app.log("shtokfish","thinking");
 
+
         currentBoardEval = getBestPosition(board,forBlack,1,bestEval,bestEvalForEnemy);
+        finishedCalculating = true;
 
     }
     private static BoardEval getBestPosition(BasePiece[][] board, boolean forBlack, int steps, PositionEval bestEval, PositionEval bestEvalForEnemy){
+
+        if(Thread.interrupted())
+            return currentBoardEval;
+
         Array<BasePiece[][]> allPositions = new Array<>();
         int movesCount = 0;
 
