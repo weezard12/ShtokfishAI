@@ -130,11 +130,12 @@ public class GameBoard {
 
     public void movePiece(Tile tile,BasePiece selectedPiece){
 
-        if(tile.highlightType!=TileHighlightType.CAN_MOVE_TO)
-            return;
+        if (!isFreeMove)
+            if(tile.highlightType != TileHighlightType.CAN_MOVE_TO)
+                return;
 
         clearMoveHighLight();
-        if(isFreeMove){
+
             if(board[selectedTile.posY][selectedTile.posX].type==PieceType.ROOK)
                 ((RookPiece)board[selectedTile.posY][selectedTile.posX]).isEverMoved = true;
 
@@ -222,7 +223,7 @@ public class GameBoard {
             }
 
 
-        }
+
 
     }
 
@@ -270,7 +271,7 @@ public class GameBoard {
     }
     //endregion
     //region Setup Board
-    public void setBoardByString(String s){
+    public static void setBoardByString(BasePiece[][] board,String s){
         int idx = 0;
         StringBuilder piece = new StringBuilder();
         for (int y = 7; y>-1;y--){

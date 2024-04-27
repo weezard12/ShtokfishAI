@@ -7,6 +7,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.weezard12.shtokfishai.scenes.ChessAnalysis;
 import com.weezard12.shtokfishai.scenes.ChessVsBot;
 import com.weezard12.shtokfishai.scenes.HomeScreen;
 import com.weezard12.shtokfishai.scenes.scenesBase.ChessSceneBase;

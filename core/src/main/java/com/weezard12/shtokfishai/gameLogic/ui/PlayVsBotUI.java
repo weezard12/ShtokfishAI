@@ -64,12 +64,14 @@ public class PlayVsBotUI extends BoardUI {
                 super.clicked(event, x, y);
 
                 gameBoard.isUpdatingInput = true;
-                if(gameBoard.moveTheBot){
-                    gameBoard.isBlackTurn = !gameBoard.isBlackTurn;
-                    Shtokfish.thread.interrupt();
-                    Shtokfish.thread = new ShtokfishThread(gameBoard);
-                    Shtokfish.thread.start();
-                }
+
+                if(gameBoard.isBlackTurn)
+                    if(gameBoard.moveTheBot){
+                        gameBoard.isBlackTurn = !gameBoard.isBlackTurn;
+                        Shtokfish.thread.interrupt();
+                        Shtokfish.thread = new ShtokfishThread(gameBoard);
+                        Shtokfish.thread.start();
+                    }
 
                 colorSelection.remove();
                 playButton.remove();

@@ -154,7 +154,7 @@ public abstract class BasePiece {
         return true;
     }
 
-    public boolean isKingInCheck(int cX, int cY,boolean isEnemy, int mX,int mY,BasePiece[][] board){
+    public boolean isKingInCheck(int mX, int mY,boolean isEnemy,BasePiece[][] board){
 
         for (int y = 0; y<8;y++) {
             for (int x = 0; x < 8; x++) {
@@ -167,6 +167,33 @@ public abstract class BasePiece {
         }
 
         return false;
+    }
+
+    public int getKingSafety(int kX, int kY,BasePiece[][] board){
+        int openSpace = 0;
+
+        if(isEmptyAt(kX + 1,kY,board))
+            openSpace++;
+        if(isEmptyAt(kX + 1,kY + 1,board))
+            openSpace++;
+        if(isEmptyAt(kX + 1,kY - 1,board))
+            openSpace++;
+
+
+        if(isEmptyAt(kX,kY + 1,board))
+            openSpace++;
+        if(isEmptyAt(kX,kY - 1,board))
+            openSpace++;
+
+        if(isEmptyAt(kX - 1,kY,board)) //
+            openSpace++;
+        if(isEmptyAt(kX - 1,kY + 1,board))
+            openSpace++;
+        if(isEmptyAt(kX - 1,kY - 1,board))
+            openSpace++;
+
+
+        return openSpace;
     }
 
 
@@ -258,6 +285,24 @@ public abstract class BasePiece {
     }
 
 
+    public boolean isEmptyAt(int cX,int cY, BasePiece[][] board){
+
+        if(cY < 0 || cY > 7 ||cX < 0 || cX > 7)
+            return false;
+
+        if (board[cY][cX] == null)
+            return true;
+
+        return false;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj==null)
+            return false;
+        return ((BasePiece)obj).type == type;
+    }
 
     @Override
     public String toString() {

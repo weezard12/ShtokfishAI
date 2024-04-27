@@ -2,6 +2,7 @@ package com.weezard12.shtokfishai.lwjgl3;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.graphics.glutils.HdpiMode;
 import com.weezard12.shtokfishai.main.MyGdxGame;
 
 /** Launches the desktop (LWJGL3) application. */
@@ -26,7 +27,6 @@ public class Lwjgl3Launcher {
         //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.
         configuration.setWindowedMode(MyGdxGame.boardSize+(int)(MyGdxGame.boardSize*0.6), MyGdxGame.boardSize);
         configuration.setWindowIcon("windowIcon\\knight128.png", "windowIcon\\knight64.png", "windowIcon\\knight32.png", "windowIcon\\knight16.png");
-
         //sets the assets path to be for desktop
         MyGdxGame.assetsPath = "assets\\";
 

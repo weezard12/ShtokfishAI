@@ -15,4 +15,9 @@ public class BoardEval {
     public int getWhiteEvalSubtractByBlack(){
         return (int)(whiteEval.getSumEval() - blackEval.getSumEval());
     }
+
+    @Override
+    public String toString() {
+        return String.format("White: %s \n Black: %s",whiteEval.toString(),blackEval.toString());
+    }
 }

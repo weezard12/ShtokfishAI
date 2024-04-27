@@ -23,7 +23,7 @@ public class KingPiece extends BasePiece {
         if(!this.isEverMoved)
             if(posX == 4){
 
-                if(!isKingInCheck(posX, posY, isEnemy, posX, posY, board)){
+                if(!isKingInCheck(posX, posY, isEnemy, board)){
 
                     //castle O-O
                     if (board[posY][posX + 3] != null)
@@ -114,5 +114,6 @@ public class KingPiece extends BasePiece {
 
         return false;
     }
+
 
 }

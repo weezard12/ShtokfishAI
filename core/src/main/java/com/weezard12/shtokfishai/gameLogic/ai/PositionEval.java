@@ -15,6 +15,8 @@ public class PositionEval {
 
     public float kingMoves;
 
+    public boolean isInCheck = false;
+
     public float getSumEval() {
         return materialValue + piecesActivity + kingMoves;
     }
@@ -31,15 +33,15 @@ public class PositionEval {
         return (materialValue > otherEval.materialValue);
     }
     public static boolean isLeftBiggerThanRight(PositionEval firstEval,PositionEval firstEnemyEval,PositionEval secondEval,PositionEval secondEnemyEval){
-        if(firstEval.position == null || firstEnemyEval.position==null)
+        if(firstEval.position == null || firstEnemyEval.position == null)
             return false;
-        if(secondEval.position == null || secondEnemyEval.position==null)
+        if(secondEval.position == null || secondEnemyEval.position == null)
             return true;
         return ((firstEval.getSumEval() - firstEnemyEval.getSumEval()) > (secondEval.getSumEval() - secondEnemyEval.getSumEval()));
     }
 
     @Override
     public String toString() {
-        return String.format("position: %s",position==null?"empty position": GameBoard.toStringBoardArray(position));
+        return String.format("material: %s, pieces activity: %s king moves: %s",materialValue,piecesActivity,kingMoves/*position==null?"empty position": GameBoard.toStringBoardArray(position)*/);
     }
 }
