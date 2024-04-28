@@ -2,15 +2,10 @@ package com.weezard12.shtokfishai.gameLogic.ai;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.async.ThreadUtils;
 import com.weezard12.shtokfishai.gameLogic.board.GameBoard;
-import com.weezard12.shtokfishai.gameLogic.pieces.*;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
-import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
-import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.TurnType;
 
 import com.weezard12.shtokfishai.main.Point;
-import java.util.Objects;
 
 public class Shtokfish {
 
@@ -267,10 +262,10 @@ public class Shtokfish {
         PositionEval bestEval = new PositionEval(0);
         PositionEval bestEvalForEnemy = new PositionEval(0);
 
-        Gdx.app.log("shtokfish", "thinking");
+        Gdx.app.log("shtokfish", "thinking for "+(forBlack?"black":"white"));
 
 
-        currentBoardEval = getBestPosition(board, forBlack, 0, bestEval, bestEvalForEnemy);
+        currentBoardEval = getBestPosition(board, forBlack, 1, bestEval, bestEvalForEnemy);
 
         if (stage == GameStage.OPENING)
             for (Opening opening : openings) {
@@ -330,7 +325,6 @@ public class Shtokfish {
                                     calculateEvalForPosition(position, currentEvalForEnemy, !forBlack);
                                 }
 
-
                                 if (PositionEval.isLeftBiggerThanRight(currentEval, currentEvalForEnemy, bestEval, bestEvalForEnemy)) {
                                     bestEval = currentEval;
                                     bestEvalForEnemy = currentEvalForEnemy;
@@ -348,10 +342,12 @@ public class Shtokfish {
         }
 
         //is checkmate
-        if(movesCount==0)
+        if(movesCount==0){
             bestEval.kingMoves = -100;
+            //Gdx.app.log("shtokfish","moves possible: " + forBlack);
+        }
 
-        //Gdx.app.log("shtokfish","moves possible: " + movesCount);
+
         return new BoardEval(forBlack ? bestEvalForEnemy : bestEval, forBlack ? bestEval : bestEvalForEnemy);
     }
 
@@ -373,7 +369,7 @@ public class Shtokfish {
             king = position[p.y][p.x];
 
         } else {
-            eval.kingMoves = -1000;
+            eval.kingMoves = -100;
             return;
         }
 
@@ -382,13 +378,25 @@ public class Shtokfish {
 
         //endregion
 
+
         //for checkmate
         int movesCount = 0;
+        boolean canEnemyMove = true;
+        boolean isEnemyChecked = false;
+        Point ep = GameBoard.finedKingInBoard(position, !forBlack);
 
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
                 if (position[y][x] != null)
                     if (forBlack == position[y][x].isEnemy) {
+
+                        //for enemy check
+                        if(!isEnemyChecked)
+                            if(position[y][x].doesCheck(x,y,ep.x, ep.y))
+                                isEnemyChecked = true;
+
+                        //clears the moves every time
+                        moves.clear();
 
                         //material
                         eval.materialValue += position[y][x].type.materialValue;
@@ -399,10 +407,25 @@ public class Shtokfish {
                         eval.piecesActivity += moves.size * position[y][x].type.movementValue * 0.002f;
 
                         movesCount += moves.size;
+                        //Gdx.app.log("shtokfish move count","count: "+moves.size);
+                    }
+                    else if(canEnemyMove && !isEnemyChecked){
+
+                        //clears the moves every time
+                        moves.clear();
+
+                        //piece activity
+                        position[y][x].getAllPossibleMoves(x, y, moves);
+                        if(moves.size == 0)
+                            canEnemyMove = false;
+
                     }
 
             }
         }
+        //Gdx.app.log("shtokfish enemy","count: " + canEnemyMove);
+        if(!canEnemyMove && isEnemyChecked)
+            eval.isCheckMated = true;
 
 
 

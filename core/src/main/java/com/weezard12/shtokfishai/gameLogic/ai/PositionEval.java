@@ -1,10 +1,8 @@
 package com.weezard12.shtokfishai.gameLogic.ai;
 
-import com.weezard12.shtokfishai.gameLogic.board.GameBoard;
+import com.badlogic.gdx.Gdx;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.TurnType;
-
-import java.util.Arrays;
 
 public class PositionEval {
     public BasePiece[][] position;
@@ -15,10 +13,10 @@ public class PositionEval {
 
     public float kingMoves;
 
-    public boolean isInCheck = false;
+    public boolean isCheckMated = false;
 
     public float getSumEval() {
-        return materialValue + piecesActivity + kingMoves;
+        return materialValue + piecesActivity + kingMoves + (isCheckMated ? 10000 : 0);
     }
 
     public PositionEval(){
@@ -32,6 +30,7 @@ public class PositionEval {
     public boolean isBiggerThan(PositionEval otherEval){
         return (materialValue > otherEval.materialValue);
     }
+
     public static boolean isLeftBiggerThanRight(PositionEval firstEval,PositionEval firstEnemyEval,PositionEval secondEval,PositionEval secondEnemyEval){
         if(firstEval.position == null || firstEnemyEval.position == null)
             return false;

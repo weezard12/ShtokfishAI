@@ -33,7 +33,7 @@ public abstract class ChessSceneBase extends AllScreensBase{
         );*/
         gameBoard.setBoardByString(gameBoard.board,
          "e,e,e,e,BK,e,e,e,"+
-            "e,e,e,r,e,e,q,e,"+
+            "e,e,r,e,e,e,e,e,"+
             "e,e,e,e,e,e,e,e,"+
             "e,e,e,e,e,e,e,e,"+
             "e,e,e,e,e,e,e,e,"+

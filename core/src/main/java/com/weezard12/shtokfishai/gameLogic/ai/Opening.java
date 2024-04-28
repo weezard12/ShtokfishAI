@@ -38,7 +38,7 @@ public class Opening {
     public BasePiece[][] tryGetPositionIdx(BasePiece[][] board){
         int count = 1;
         for (BasePiece[][] position : positions) {
-            Gdx.app.log("",""+count);
+            //Gdx.app.log("",""+count);
             if(Arrays.deepEquals(position, board))
                 if(count > positions.size)
                     return null;
