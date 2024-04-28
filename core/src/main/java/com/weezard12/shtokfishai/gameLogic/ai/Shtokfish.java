@@ -373,7 +373,7 @@ public class Shtokfish {
             return;
         }
 
-        eval.kingMoves = king.getKingSafety(p.x, p.y, position) * -0.004f;
+        //eval.kingMoves = king.getKingSafety(p.x, p.y, position) * -0.004f;
 
 
         //endregion
@@ -381,7 +381,7 @@ public class Shtokfish {
 
         //for checkmate
         int movesCount = 0;
-        boolean canEnemyMove = true;
+        boolean canEnemyMove = false;
         boolean isEnemyChecked = false;
         Point ep = GameBoard.finedKingInBoard(position, !forBlack);
 
@@ -392,8 +392,11 @@ public class Shtokfish {
 
                         //for enemy check
                         if(!isEnemyChecked)
-                            if(position[y][x].doesCheck(x,y,ep.x, ep.y))
+                            if(position[y][x].doesCheck(x,y,ep.x, ep.y)){
                                 isEnemyChecked = true;
+                                Gdx.app.log("",GameBoard.toStringBoardArray(position));
+                            }
+
 
                         //clears the moves every time
                         moves.clear();
@@ -404,26 +407,26 @@ public class Shtokfish {
                         //piece activity
                         position[y][x].getAllPossibleMoves(x, y, moves);
 
-                        eval.piecesActivity += moves.size * position[y][x].type.movementValue * 0.002f;
+                        //eval.piecesActivity += moves.size * position[y][x].type.movementValue * 0.002f;
 
                         movesCount += moves.size;
                         //Gdx.app.log("shtokfish move count","count: "+moves.size);
                     }
-                    else if(canEnemyMove && !isEnemyChecked){
+                    else if(!canEnemyMove){
 
                         //clears the moves every time
                         moves.clear();
 
                         //piece activity
                         position[y][x].getAllPossibleMoves(x, y, moves);
-                        if(moves.size == 0)
-                            canEnemyMove = false;
+                        if(moves.size > 0)
+                            canEnemyMove = true;
 
                     }
 
             }
         }
-        //Gdx.app.log("shtokfish enemy","count: " + canEnemyMove);
+        Gdx.app.log("shtokfish enemy","count: " + isEnemyChecked);
         if(!canEnemyMove && isEnemyChecked)
             eval.isCheckMated = true;
 
