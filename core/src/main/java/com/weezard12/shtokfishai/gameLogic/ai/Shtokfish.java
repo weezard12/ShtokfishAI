@@ -373,7 +373,7 @@ public class Shtokfish {
             return;
         }
 
-        //eval.kingMoves = king.getKingSafety(p.x, p.y, position) * -0.004f;
+        eval.kingMoves = king.getKingSafety(p.x, p.y, position) * -0.004f;
 
 
         //endregion
@@ -394,7 +394,6 @@ public class Shtokfish {
                         if(!isEnemyChecked)
                             if(position[y][x].doesCheck(x,y,ep.x, ep.y)){
                                 isEnemyChecked = true;
-                                Gdx.app.log("",GameBoard.toStringBoardArray(position));
                             }
 
 
@@ -407,7 +406,7 @@ public class Shtokfish {
                         //piece activity
                         position[y][x].getAllPossibleMoves(x, y, moves);
 
-                        //eval.piecesActivity += moves.size * position[y][x].type.movementValue * 0.002f;
+                        eval.piecesActivity += moves.size * position[y][x].type.movementValue * 0.002f;
 
                         movesCount += moves.size;
                         //Gdx.app.log("shtokfish move count","count: "+moves.size);
