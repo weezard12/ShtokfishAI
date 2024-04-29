@@ -284,6 +284,29 @@ public abstract class BasePiece {
         }
     }
 
+    public Point moveInLineUntilHitEnemy(int cX, int cY, int mX,int mY,BasePiece[][] board,boolean isEnemy, Point point){
+        cX += mX;
+        cY += mY;
+        while (true){
+            if(cX > 7 || cX < 0 || cY>7 || cY<0){
+                return null;
+            }
+
+            if(board[cY][cX] != null)
+            {
+                if(board[cY][cX].isEnemy != isEnemy){
+                    point.x = cX;
+                    point.y = cY;
+                    return point;
+                }
+
+            }
+
+            cX +=mX;
+            cY +=mY;
+
+        }
+    }
 
     public boolean isEmptyAt(int cX,int cY, BasePiece[][] board){
 

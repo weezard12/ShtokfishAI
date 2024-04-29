@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import com.weezard12.shtokfishai.gameLogic.board.GameBoard;
 import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.BasePiece;
 
+import com.weezard12.shtokfishai.gameLogic.pieces.baseClasses.PieceType;
 import com.weezard12.shtokfishai.main.Point;
 
 public class Shtokfish {
@@ -196,9 +197,9 @@ public class Shtokfish {
         ));
         //endregion
 
-        //region d4 Nh6
+        //region d4 Nf6
         openings.add(new Opening("King’s Indian Defense",
-            "Br,Bk,Bb,Bq,BK,Bb,e,Br," + //Nh6
+            "Br,Bk,Bb,Bq,BK,Bb,e,Br," + //Nf6
                 "Bp,Bp,Bp,Bp,Bp,Bp,Bp,Bp," +
                 "e,e,e,e,e,Bk,e,e," +
                 "e,e,e,e,e,e,e,e," +
@@ -358,6 +359,7 @@ public class Shtokfish {
         eval.piecesActivity = 0;
         eval.materialValue = 0;
         eval.kingMoves = 0;
+        eval.pawnStructure = 0;
 
         Array<BasePiece[][]> moves = new Array<>();
 
@@ -409,6 +411,12 @@ public class Shtokfish {
                         eval.piecesActivity += moves.size * position[y][x].type.movementValue * 0.002f;
 
                         movesCount += moves.size;
+
+                        //pawn structure
+                        if(position[y][x].type == PieceType.PAWN)
+                            eval.pawnStructure += getPawnValue(position,x,y,forBlack);
+
+
                         //Gdx.app.log("shtokfish move count","count: "+moves.size);
                     }
                     else if(!canEnemyMove){
@@ -425,11 +433,57 @@ public class Shtokfish {
 
             }
         }
-        Gdx.app.log("shtokfish enemy","count: " + isEnemyChecked);
+        //Gdx.app.log("shtokfish enemy","count: " + isEnemyChecked);
         if(!canEnemyMove && isEnemyChecked)
             eval.isCheckMated = true;
 
+    }
+    private static float getPawnValue(BasePiece[][] board,int pX, int pY,boolean isEnemy){
+        float value = 0;
+
+        float clearPathValue = (isEnemy ?  7 - pY : pY) * 0.01f;
+        float advanceValue = (isEnemy? 7 - pY : pY) * 0.002f;
+        float protectedMultiplayer = 1.1f;
 
 
+        //how much the pawn is close to promotion
+        value += advanceValue;
+
+
+        //if the pawn path is clear
+        Point p = new Point(-1,-1);
+
+        p = board[pY][pX].moveInLineUntilHitEnemy(pX,pY,0,isEnemy?-1:1,board,isEnemy,p);
+
+
+        if(p != null){
+            if(board[pY][pX].type != PieceType.PAWN) {
+                value += clearPathValue;
+                protectedMultiplayer = 8;
+            }
+        }
+        else{
+            value += clearPathValue;
+            protectedMultiplayer = 8;
+        }
+
+
+
+        //if the pawn is protected
+        for (int y = 0; y<8;y++) {
+            for (int x = 0; x < 8; x++) {
+                if (board[y][x] != null)
+                    if (board[y][x].isEnemy == isEnemy) {
+                        if(board[y][x].doesCheck(x,y,pX,pY)){
+                            value += advanceValue * protectedMultiplayer;
+                            return value;
+                        }
+
+                    }
+            }
+        }
+
+
+        return value;
     }
 }

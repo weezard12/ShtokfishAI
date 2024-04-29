@@ -12,6 +12,7 @@ public class ChessVsBot extends ChessSceneBase {
     public ChessVsBot(MyGdxGame game) {
         super(game);
         gameBoard.moveTheBot = true;
+        gameBoard.isFreeMove = false;
     }
 
     @Override

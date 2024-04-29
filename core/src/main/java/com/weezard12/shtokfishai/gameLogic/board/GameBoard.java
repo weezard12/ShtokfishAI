@@ -45,7 +45,7 @@ public class GameBoard {
     Array<BasePiece[][]> possibleMoves = new Array<>();
 
     //Debug
-    boolean isFreeMove = true;
+    public boolean isFreeMove = true;
 
     public GameBoard(SpriteBatch batch){
         this.batch = batch;

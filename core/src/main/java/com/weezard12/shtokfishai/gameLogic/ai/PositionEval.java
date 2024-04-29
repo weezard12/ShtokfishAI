@@ -11,12 +11,14 @@ public class PositionEval {
     public float materialValue;
     public float piecesActivity;
 
+    public float pawnStructure;
+
     public float kingMoves;
 
     public boolean isCheckMated = false;
 
     public float getSumEval() {
-        return materialValue + piecesActivity + kingMoves + (isCheckMated ? 10000 : 0);
+        return materialValue + piecesActivity + kingMoves + pawnStructure + (isCheckMated ? 10000 : 0);
     }
 
     public PositionEval(){
