@@ -36,7 +36,7 @@ public abstract class ChessSceneBase extends AllScreensBase{
             "e,e,e,e,e,e,e,e,"+
             "e,e,e,e,e,e,e,e,"+
             "e,e,e,e,e,e,e,e,"+
-            "e,e,e,e,e,e,e,e,"+
+            "e,e,e,Bp,e,e,e,e,"+
             "e,e,e,e,e,e,e,e,"+
             "e,e,p,e,e,e,e,e,"+
             "e,e,e,e,K,e,e,e,"

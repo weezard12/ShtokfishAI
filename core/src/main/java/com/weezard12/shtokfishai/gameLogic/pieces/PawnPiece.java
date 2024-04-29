@@ -69,8 +69,9 @@ public class PawnPiece extends BasePiece {
                         if(board[posY][posX-1] instanceof PawnPiece)
                             if(((PawnPiece)board[posY][posX-1]).isMovedTwo){
                                 BasePiece[][] enPassant = GameBoard.cloneBoard(board);
+                                enPassant[posY][posX-1] = null;
                                 movePiece(posX,posY,isEnemy,posX-1,posY+1 -2 *(this.isEnemy?1:0),enPassant,r);
-                                enPassant[posX-1][posY] = null;
+
                             }
 
             }
@@ -94,8 +95,9 @@ public class PawnPiece extends BasePiece {
                         if(board[posY][posX+1] instanceof PawnPiece)
                             if(((PawnPiece)board[posY][posX+1]).isMovedTwo){
                                 BasePiece[][] enPassant = GameBoard.cloneBoard(board);
+                                enPassant[posY][posX+1] = null;
                                 movePiece(posX,posY,isEnemy,posX+1,posY+1 -2 *(this.isEnemy?1:0),enPassant,r);
-                                enPassant[posX+1][posY] = null;
+
                             }
             }
 

@@ -75,7 +75,7 @@ public class Shtokfish {
                 "p,p,p,e,p,p,p,p," +
                 "r,k,e,q,K,b,k,r," +
 
-                "Br,Bk,Bb,Bq,BK,Bb,Bk,Br," + //e3
+                "Br,Bk,Bb,Bq,BK,Bb,e,Br," + //e3
                 "Bp,Bp,Bp,e,Bp,Bp,Bp,Bp," +
                 "e,e,e,e,e,Bk,e,e," +
                 "e,e,e,Bp,e,e,e,e," +
@@ -443,7 +443,7 @@ public class Shtokfish {
         float value = 0;
 
         float clearPathValue = (isEnemy ?  7 - pY : pY) * 0.01f;
-        float advanceValue = (isEnemy? 7 - pY : pY) * 0.002f;
+        float advanceValue = (isEnemy? 7 - pY : pY) * 0.003f;
         float protectedMultiplayer = 1.1f;
 
 
@@ -460,12 +460,12 @@ public class Shtokfish {
         if(p != null){
             if(board[pY][pX].type != PieceType.PAWN) {
                 value += clearPathValue;
-                protectedMultiplayer = 8;
+                protectedMultiplayer = 8f;
             }
         }
         else{
             value += clearPathValue;
-            protectedMultiplayer = 8;
+            protectedMultiplayer = 8.4f;
         }
 
 
