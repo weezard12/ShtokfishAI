@@ -344,7 +344,8 @@ public class Shtokfish {
 
         //is checkmate
         if(movesCount==0){
-            bestEval.kingMoves = -100;
+            if(GameBoard.isColorInCheck(board,forBlack))
+                bestEval.kingMoves = -100;
             //Gdx.app.log("shtokfish","moves possible: " + forBlack);
         }
 
@@ -486,4 +487,5 @@ public class Shtokfish {
 
         return value;
     }
+
 }
