@@ -404,7 +404,7 @@ public class Shtokfish {
                         moves.clear();
 
                         //material
-                        eval.materialValue += position[y][x].type.materialValue;
+                        eval.materialValue += position[y][x].type.realMaterialValue;
 
                         //piece activity
                         position[y][x].getAllPossibleMoves(x, y, moves);
