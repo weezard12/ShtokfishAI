@@ -3,10 +3,12 @@ package com.weezard12.shtokfishai.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -36,19 +38,25 @@ public class HomeScreen extends AllScreensBase implements ISceneWithUI {
     public void setupUI() {
         stage.setDebugAll(true);
 
+        Table bkg = new Table();
+        bkg.setFillParent(true);
+        bkg.add(new Image(new Texture(Gdx.files.internal("ui/screenBackgrounds/homeScreenBKG.png")))).expand().fill();
+        stage.addActor(bkg);
+
         //table
         playTable.setFillParent(true);
         playTable.align(Align.top);
         stage.addActor(playTable);
 
 
+
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = MyUtils.getBitMapFont("ui/fonts/Roboto-Bold.ttf",180, Color.WHITE);
+        labelStyle.font = MyUtils.getBitMapFont("ui/fonts/Roboto-Bold.ttf",180, Color.WHITE,Color.BLACK,4);
 
         logo = new Label("Chess",labelStyle);
 
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = MyUtils.getBitMapFont("ui/fonts/Roboto-Bold.ttf",60, Color.WHITE);
+        buttonStyle.font = MyUtils.getBitMapFont("ui/fonts/Roboto-Bold.ttf",60, Color.WHITE,Color.BLACK,4);
 
         playBot = new TextButton("Play VS Bot",buttonStyle);
         playBot.addListener(new InputListener(){
@@ -73,6 +81,13 @@ public class HomeScreen extends AllScreensBase implements ISceneWithUI {
         });
 
         playPlayer = new TextButton("Play VS Player",buttonStyle);
+        playPlayer.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                game.setScreen(new ChessHotSit((MyGdxGame) game));
+            }
+        });
 
         settings = new TextButton("Settings",buttonStyle);
 

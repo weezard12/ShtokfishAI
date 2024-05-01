@@ -5,7 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.weezard12.shtokfishai.main.MyGdxGame;
 
 public abstract class AllScreensBase implements Screen {
-    protected Game game;
+    protected MyGdxGame game;
     public AllScreensBase(MyGdxGame game){
         this.game = game;
     }
