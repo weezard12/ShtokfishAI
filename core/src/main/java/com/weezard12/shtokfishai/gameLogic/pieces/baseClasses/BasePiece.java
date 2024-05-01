@@ -170,30 +170,30 @@ public abstract class BasePiece {
     }
 
     public int getKingSafety(int kX, int kY,BasePiece[][] board){
-        int openSpace = 0;
+        int safty = 0;
 
         if(isEmptyAt(kX + 1,kY,board))
-            openSpace++;
+            safty--;
         if(isEmptyAt(kX + 1,kY + 1,board))
-            openSpace++;
+            safty--;
         if(isEmptyAt(kX + 1,kY - 1,board))
-            openSpace++;
+            safty--;
 
 
         if(isEmptyAt(kX,kY + 1,board))
-            openSpace++;
+            safty--;
         if(isEmptyAt(kX,kY - 1,board))
-            openSpace++;
+            safty--;
 
         if(isEmptyAt(kX - 1,kY,board)) //
-            openSpace++;
+            safty--;
         if(isEmptyAt(kX - 1,kY + 1,board))
-            openSpace++;
+            safty--;
         if(isEmptyAt(kX - 1,kY - 1,board))
-            openSpace++;
+            safty--;
 
 
-        return openSpace;
+        return safty;
     }
 
 

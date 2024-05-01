@@ -40,7 +40,7 @@ public class Opening {
         for (BasePiece[][] position : positions) {
             //Gdx.app.log("",""+count);
             if(Arrays.deepEquals(position, board))
-                if(count > positions.size)
+                if(count > positions.size-1)
                     return null;
                 else
                     return GameBoard.cloneBoard(positions.get(count));

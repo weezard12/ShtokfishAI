@@ -21,7 +21,7 @@ public abstract class ChessSceneBase extends AllScreensBase{
         Shtokfish.init(gameBoard);
         setupUI();
 
-        GameBoard.setBoardByString(gameBoard.board,
+/*        GameBoard.setBoardByString(gameBoard.board,
             "Br,Bk,Bb,Bq,BK,Bb,Bk,Br,"+
             "Bp,Bp,Bp,Bp,Bp,Bp,Bp,Bp,"+
             "e,e,e,e,e,e,e,e,"+
@@ -30,17 +30,17 @@ public abstract class ChessSceneBase extends AllScreensBase{
             "e,e,e,e,e,e,e,e,"+
             "p,p,p,p,p,p,p,p,"+
             "r,k,b,q,K,b,k,r,"
-        );
-/*        gameBoard.setBoardByString(gameBoard.board,
-         "e,e,e,e,BK,e,e,e,"+
-            "e,e,Bp,e,e,e,e,Br,"+
-            "e,e,e,e,Br,e,e,e,"+
-            "e,e,e,e,e,e,e,Br,"+
-            "e,e,e,Bp,e,K,e,e,"+
-            "e,e,e,e,e,e,e,Br,"+
-            "e,e,p,e,e,e,e,e,"+
-            "e,e,e,e,e,e,e,e,"
         );*/
+        gameBoard.setBoardByString(gameBoard.board,
+         "Br,Bk,e,Br,e,e,BK,e,"+
+            "Bp,Bp,Bp,e,e,Bp,e,e,"+
+            "e,e,e,e,e,Bb,Bp,e,"+
+            "e,e,e,e,e,e,e,Bp,"+
+            "p,e,p,e,p,e,Bb,p,"+
+            "e,e,k,e,e,k,e,e,"+
+            "e,p,e,e,e,p,p,e,"+
+            "r,e,e,e,K,b,e,r,"
+        );
 
     }
     protected void setupUI(){

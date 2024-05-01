@@ -43,6 +43,6 @@ public class PositionEval {
 
     @Override
     public String toString() {
-        return String.format("material: %s, pieces activity: %s king moves: %s",materialValue,piecesActivity,kingMoves/*position==null?"empty position": GameBoard.toStringBoardArray(position)*/);
+        return String.format("material: %s, pieces activity: %s king moves: %s, pawn structure: %s",materialValue,piecesActivity,kingMoves,pawnStructure/*position==null?"empty position": GameBoard.toStringBoardArray(position)*/);
     }
 }

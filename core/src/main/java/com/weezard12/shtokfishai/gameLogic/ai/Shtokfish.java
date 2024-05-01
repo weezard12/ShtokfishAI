@@ -268,19 +268,30 @@ public class Shtokfish {
 
         currentBoardEval = getBestPosition(board, forBlack, 1, bestEval, bestEvalForEnemy);
 
-        if (stage == GameStage.OPENING)
+        boolean isFoundOpening = false;
+        if (stage == GameStage.OPENING){
             for (Opening opening : openings) {
                 BasePiece[][] p = opening.tryGetPositionIdx(board);
                 if (p != null) {
                     currentBoardEval.whiteEval.position = p;
                     currentBoardEval.blackEval.position = p;
+                    isFoundOpening = true;
                     Gdx.app.log("shtokfish", "opening:" + opening.name);
                     break;
                 }
 
             }
+            if(!isFoundOpening)
+                stage = GameStage.START_GAME;
+        }
 
-        Gdx.app.log("shtokfish", "\n" + currentBoardEval.toString());
+        else {
+            if(isInMiddleGame(board))
+                stage = GameStage.MIDDLE_GAME;
+        }
+
+
+        Gdx.app.log("shtokfish", "game stage: "+ stage +"\n" + currentBoardEval.toString());
     }
 
     private static BoardEval getBestPosition(BasePiece[][] board, boolean forBlack, int steps, PositionEval bestEval, PositionEval bestEvalForEnemy) {
@@ -376,7 +387,7 @@ public class Shtokfish {
             return;
         }
 
-        eval.kingMoves = king.getKingSafety(p.x, p.y, position) * -0.004f;
+        eval.kingMoves = king.getKingSafety(p.x, p.y, position) * 0.004f;
 
 
         //endregion
@@ -408,7 +419,6 @@ public class Shtokfish {
 
                         //piece activity
                         position[y][x].getAllPossibleMoves(x, y, moves);
-
                         eval.piecesActivity += moves.size * position[y][x].type.movementValue * 0.002f;
 
                         movesCount += moves.size;
@@ -416,6 +426,18 @@ public class Shtokfish {
                         //pawn structure
                         if(position[y][x].type == PieceType.PAWN)
                             eval.pawnStructure += getPawnValue(position,x,y,forBlack);
+
+
+                        //center control (after the opening)
+                        if(position[y][x].doesCheck(x,y,3,3))
+                            eval.pawnStructure += stage.centerControlValue;
+                        if(position[y][x].doesCheck(x,y,3,4))
+                            eval.pawnStructure += stage.centerControlValue;
+                        if(position[y][x].doesCheck(x,y,4,3))
+                            eval.pawnStructure += stage.centerControlValue;
+                        if(position[y][x].doesCheck(x,y,4,4))
+                            eval.pawnStructure += stage.centerControlValue;
+
 
 
                         //Gdx.app.log("shtokfish move count","count: "+moves.size);
@@ -443,7 +465,7 @@ public class Shtokfish {
         float value = 0;
 
         float clearPathValue = (isEnemy ?  7 - pY : pY) * 0.01f;
-        float advanceValue = (isEnemy? 7 - pY : pY) * 0.003f;
+        float advanceValue = (isEnemy? 7 - pY : pY) * (isEnemy? 7 - pY : pY) * 0.0003f;
         float protectedMultiplayer = 1.1f;
 
 
@@ -488,4 +510,20 @@ public class Shtokfish {
         return value;
     }
 
+    private static boolean isInMiddleGame(BasePiece[][] position){
+        if(position[3][3] != null)
+            if(position[3][3].type == PieceType.PAWN)
+                return false;
+        if(position[3][4] != null)
+            if(position[3][4].type == PieceType.PAWN)
+                return false;
+        if(position[4][3] != null)
+            if(position[4][3].type == PieceType.PAWN)
+                return false;
+        if(position[4][4] != null)
+            if(position[4][4].type == PieceType.PAWN)
+                return false;
+
+        return true;
+    }
 }
