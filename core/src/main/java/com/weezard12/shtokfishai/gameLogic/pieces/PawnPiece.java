@@ -32,9 +32,10 @@ public class PawnPiece extends BasePiece {
             //double move
             if (posY == 1 + (5 * isEnemyInt)){
                 if(board[posY + 2 * (isEnemy?- 1 : 1)][posX] == null){
+                    isMovedTwo = true;
                     BasePiece[][] twoMove = GameBoard.cloneBoard(board);
                     movePiece(posX,posY,isEnemy,posX,posY+2 - (4 * isEnemyInt),twoMove,r);
-                    isMovedTwo = true;
+                    isMovedTwo = false;
                 }
             }
 
@@ -65,7 +66,9 @@ public class PawnPiece extends BasePiece {
             //en passant left
             else {
                 if (posY == 4 - isEnemyInt)
-                    if(board[posY][posX-1]!=null)
+                    if(board[posY][posX-1] != null)
+                    {
+                        Gdx.app.log("",""+((PawnPiece)board[posY][posX-1]).isMovedTwo);
                         if(board[posY][posX-1] instanceof PawnPiece)
                             if(((PawnPiece)board[posY][posX-1]).isMovedTwo){
                                 BasePiece[][] enPassant = GameBoard.cloneBoard(board);
@@ -73,6 +76,8 @@ public class PawnPiece extends BasePiece {
                                 movePiece(posX,posY,isEnemy,posX-1,posY+1 -2 *(this.isEnemy?1:0),enPassant,r);
 
                             }
+                    }
+
 
             }
         //eat right

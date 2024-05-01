@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.utils.Array;
 import com.weezard12.shtokfishai.gameLogic.ai.Shtokfish;
 import com.weezard12.shtokfishai.gameLogic.ai.ShtokfishThread;
@@ -30,12 +31,16 @@ public class GameBoard {
 
     //region Scale and UI
     public static final int offsetToRight = ((int)(MyGdxGame.boardSize * 0.08f));
+    private float elapsedTime = 1;
+    Point interpolation = new Point(0,0);
     //endregion
 
 
     //Tiles
     public static Tile[][] tiles;
     Tile selectedTile;
+    private Tile movedFromTile;
+    Tile movedToTile;
 
     public BasePiece[][] board;
     public SpriteBatch batch;
@@ -110,12 +115,15 @@ public class GameBoard {
                             selectedTile = null;
                         }
                         else{
-                            if(board[selectedTile.posY][selectedTile.posX] != null)
+                            if(board[selectedTile.posY][selectedTile.posX] != null){
                                 movePiece(tile,board[selectedTile.posY][selectedTile.posX]);
+                            }
+
 
                             clearMoveHighLight();
                             selectedTile.highlightType=TileHighlightType.NONE;
                             selectedTile = null;
+
 
                         }
 
@@ -133,6 +141,11 @@ public class GameBoard {
         if (!isFreeMove)
             if(tile.highlightType != TileHighlightType.CAN_MOVE_TO)
                 return;
+
+        //for interpolation
+        movedToTile = tile;
+        movedFromTile = selectedTile;
+        elapsedTime = 0;
 
         clearMoveHighLight();
 
@@ -215,14 +228,13 @@ public class GameBoard {
                 board[selectedTile.posY][selectedTile.posX] = null;
 
             isBlackTurn = !isBlackTurn;
+            elapsedTime = 0;
 
             if(!PromotionSelection.isPromoting){
                 Shtokfish.thread.interrupt();
                 Shtokfish.thread = new ShtokfishThread(this);
                 Shtokfish.thread.start();
             }
-
-
 
 
     }
@@ -261,13 +273,36 @@ public class GameBoard {
         for (int y = 0; y < 8;y++){
             for (int x = 0; x < 8;x++){
                 if(board[y][x]!=null){
+                    //set piece texture if null
                     if(board[y][x].texture == null)
                         board[y][x].texture = MyGdxGame.piecesTextures.get(String.format("%s%s.png",board[y][x].type,board[y][x].isEnemy ? 1 : 0 ));
-                    batch.draw(board[y][x].texture,tiles[y][x].bounds.x,tiles[y][x].bounds.y + 8,MyGdxGame.tileSize,MyGdxGame.tileSize);
+
+
+
+                    if(elapsedTime < 1)
+                    {
+                        if(movedToTile.posX == x && movedToTile.posY == y){
+                            getPieceInterpolation(movedFromTile.bounds.x,movedFromTile.bounds.y,tiles[y][x].bounds.x,tiles[y][x].bounds.y + 8);
+                            batch.draw(board[y][x].texture,interpolation.x,interpolation.y,MyGdxGame.tileSize,MyGdxGame.tileSize);
+                        }
+                        else
+                            batch.draw(board[y][x].texture,tiles[y][x].bounds.x,tiles[y][x].bounds.y + 8,MyGdxGame.tileSize,MyGdxGame.tileSize);
+                    }
+                    else{
+                        batch.draw(board[y][x].texture,tiles[y][x].bounds.x,tiles[y][x].bounds.y + 8,MyGdxGame.tileSize,MyGdxGame.tileSize);
+                    }
+
                 }
             }
 
         }
+    }
+
+    //this method works on the GameBoard interpolationPoint, elapsedTime  vars
+    protected void getPieceInterpolation(float startX, float startY, float endX, float endY){
+        interpolation.x = (int)Interpolation.pow2.apply(startX, endX, elapsedTime);
+        interpolation.y = (int)Interpolation.pow2.apply(startY, endY, elapsedTime);
+            elapsedTime += Gdx.graphics.getDeltaTime() * 5;
     }
     //endregion
     //region Setup Board
@@ -349,6 +384,7 @@ public class GameBoard {
                             break;
                         case PAWN:
                             rBoard[y][x] = new PawnPiece(board[y][x].isEnemy,rBoard);
+                            ((PawnPiece)rBoard[y][x]).isMovedTwo = ((PawnPiece)board[y][x]).isMovedTwo;
                             break;
                     }
 
