@@ -40,7 +40,14 @@ public class GameBoard {
     public static Tile[][] tiles;
     Tile selectedTile;
     private Tile movedFromTile;
-    Tile movedToTile;
+    private Tile movedToTile;
+    public void setMovedTiles(Point movedFrom, Point movedTo){
+        if(movedFrom == null || movedTo == null)
+            return;
+        movedFromTile = tiles[movedFrom.y][movedFrom.x];
+        movedToTile = tiles[movedTo.y][movedTo.x];
+        elapsedTime = 0;
+    }
 
     public BasePiece[][] board;
     public SpriteBatch batch;

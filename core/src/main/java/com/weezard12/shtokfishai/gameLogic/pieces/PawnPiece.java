@@ -68,7 +68,6 @@ public class PawnPiece extends BasePiece {
                 if (posY == 4 - isEnemyInt)
                     if(board[posY][posX-1] != null)
                     {
-                        Gdx.app.log("",""+((PawnPiece)board[posY][posX-1]).isMovedTwo);
                         if(board[posY][posX-1] instanceof PawnPiece)
                             if(((PawnPiece)board[posY][posX-1]).isMovedTwo){
                                 BasePiece[][] enPassant = GameBoard.cloneBoard(board);
