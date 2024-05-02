@@ -79,7 +79,9 @@ public class KingPiece extends BasePiece {
 
             }
 
-
+        boolean m = isEverMoved;
+        if(!m)
+            isEverMoved = true;
         BasePiece[][] option1 = GameBoard.cloneBoard(board);
         BasePiece[][] option2 = GameBoard.cloneBoard(board);
         BasePiece[][] option3 = GameBoard.cloneBoard(board);
@@ -88,6 +90,8 @@ public class KingPiece extends BasePiece {
         BasePiece[][] option6 = GameBoard.cloneBoard(board);
         BasePiece[][] option7 = GameBoard.cloneBoard(board);
         BasePiece[][] option8 = GameBoard.cloneBoard(board);
+        if(!m)
+            isEverMoved = false;
 
         movePiece(posX,posY,isEnemy,posX+1,posY +1 ,option1,r);
         movePiece(posX,posY,isEnemy,posX+1,posY,option2,r);
@@ -99,6 +103,7 @@ public class KingPiece extends BasePiece {
         movePiece(posX,posY,isEnemy,posX-1,posY+1,option6,r);
         movePiece(posX,posY,isEnemy,posX-1,posY,option7,r);
         movePiece(posX,posY,isEnemy,posX-1,posY-1,option8,r);
+
 
 
         //Tile.setTileHighlight(r,this, GameBoard.tiles);
