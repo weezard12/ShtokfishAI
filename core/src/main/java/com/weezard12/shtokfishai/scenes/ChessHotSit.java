@@ -8,6 +8,7 @@ public class ChessHotSit extends ChessSceneBase {
     public ChessHotSit(MyGdxGame game) {
         super(game);
         gameBoard.isFreeMove = false;
+        gameBoard.isUpdatingInput = true;
     }
 
     @Override

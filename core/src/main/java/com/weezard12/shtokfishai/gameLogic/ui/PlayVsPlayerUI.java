@@ -23,31 +23,10 @@ public class PlayVsPlayerUI extends BoardUI {
     @Override
     protected void setupUI() {
         super.setupUI();
-        Table colorSelection = ColorSelectionUI.getColorSelectionTable(gameBoard);
-        table.add(colorSelection).row();
 
         TextButton.TextButtonStyle style4 = new TextButton.TextButtonStyle();
         style4.font = MyUtils.getBitMapFont("ui/fonts/Roboto-Bold.ttf",80, Color.WHITE);
-        TextButton playButton = new TextButton("Play",style4);
-        playButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
 
-                gameBoard.isUpdatingInput = true;
-
-                if(gameBoard.isBlackTurn)
-                    if(gameBoard.moveTheBot){
-                        gameBoard.isBlackTurn = !gameBoard.isBlackTurn;
-                        Shtokfish.thread.interrupt();
-                        Shtokfish.thread = new ShtokfishThread(gameBoard);
-                        Shtokfish.thread.start();
-                    }
-
-                colorSelection.remove();
-                playButton.remove();
-            }
-        });
         TextButton backButton = new TextButton("Back",style4);
         backButton.addListener(new ClickListener(){
             @Override
@@ -67,7 +46,6 @@ public class PlayVsPlayerUI extends BoardUI {
         });
 
         table.add(rotateBoard).row();
-        table.add(playButton).row();
         table.add(backButton).row();
     }
 }

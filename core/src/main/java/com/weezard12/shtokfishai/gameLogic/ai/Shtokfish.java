@@ -335,6 +335,7 @@ public class Shtokfish {
                                     //gets the eval in the position (foe black and white)
                                     calculateEvalForPosition(position, currentEval, forBlack);
                                     calculateEvalForPosition(position, currentEvalForEnemy, !forBlack);
+                                    //Gdx.app.log("shtokfish","pos"+currentEvalForEnemy.getSumEval());
                                 }
 
                                 if (PositionEval.isLeftBiggerThanRight(currentEval, currentEvalForEnemy, bestEval, bestEvalForEnemy)) {
@@ -368,8 +369,8 @@ public class Shtokfish {
 
         eval.position = position;
 
-        eval.piecesActivity = 0;
         eval.materialValue = 0;
+        eval.piecesActivity = 0;
         eval.kingMoves = 0;
         eval.pawnStructure = 0;
 
@@ -460,6 +461,10 @@ public class Shtokfish {
         if(!canEnemyMove && isEnemyChecked)
             eval.isCheckMated = true;
 
+        //eval.piecesActivity = 0;
+        //eval.kingMoves = 0;
+        //eval.pawnStructure = 0;
+
     }
     private static float getPawnValue(BasePiece[][] board,int pX, int pY,boolean isEnemy){
         float value = 0;
@@ -469,20 +474,39 @@ public class Shtokfish {
         float protectedMultiplayer = 1.1f;
 
 
+        //edge pawn
+        if(pX == 0 || pX == 7)
+            value -= 0.0001f;
+
+
         //how much the pawn is close to promotion
         value += advanceValue;
 
 
-        //if the pawn path is clear
+        //if the pawn path is clear (original, left, right)
         Point p = new Point(-1,-1);
+        Point pl = new Point(-1,-1);
+        Point pr = new Point(-1,-1);
 
         p = board[pY][pX].moveInLineUntilHitEnemy(pX,pY,0,isEnemy?-1:1,board,isEnemy,p);
+        pl = board[pY][pX].moveInLineUntilHitEnemy(pX-1,pY,0,isEnemy?-1:1,board,isEnemy,pl);
+        pr = board[pY][pX].moveInLineUntilHitEnemy(pX+1,pY,0,isEnemy?-1:1,board,isEnemy,pr);
 
 
         if(p != null){
-            if(board[pY][pX].type != PieceType.PAWN) {
+            if(board[p.y][p.x].type != PieceType.PAWN) {
                 value += clearPathValue;
-                protectedMultiplayer = 8f;
+                protectedMultiplayer = 4f;
+
+                if(pl != null)
+                    if(board[pl.y][pl.x].type != PieceType.PAWN){
+                        protectedMultiplayer = 7f;
+
+                        if(pr != null)
+                            if(board[pr.y][pr.x].type != PieceType.PAWN)
+                                protectedMultiplayer = 8f;
+                    }
+
             }
         }
         else{

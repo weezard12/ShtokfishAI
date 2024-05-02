@@ -37,7 +37,7 @@ public class EvaluationBar {
         table.padBottom(Gdx.graphics.getHeight()*0.1f);
         table.setDebug(true);
 
-        Label.LabelStyle style = new Label.LabelStyle(MyUtils.getBitMapFont("ui/fonts/Roboto-Bold.ttf",30,Color.WHITE,Color.BLACK,2),Color.WHITE);
+        Label.LabelStyle style = new Label.LabelStyle(MyUtils.getBitMapFont("ui/fonts/Roboto-Bold.ttf",25,Color.WHITE,Color.BLACK,2),Color.WHITE);
         blackEval = new Label("?",style);
         blackEval.setAlignment(Align.top);
         table.add(blackEval).top().expandX().expandY().row();
@@ -70,7 +70,7 @@ public class EvaluationBar {
             blackEval.setText("M");
         }
         else {
-            whiteEval.setText(MyUtils.floatToShortString((Shtokfish.currentBoardEval.whiteEval.getSumEval() - Shtokfish.currentBoardEval.blackEval.getSumEval())*0.1f));
+            whiteEval.setText(MyUtils.floatToShortString((Shtokfish.currentBoardEval.whiteEval.getSumEval() - Shtokfish.currentBoardEval.blackEval.getSumEval())));
             if(whiteEval.textEquals("0.00"))
                 blackEval.setText("0.00");
             else

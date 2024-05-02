@@ -7,11 +7,15 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.weezard12.shtokfishai.gameLogic.ai.BoardEval;
+import com.weezard12.shtokfishai.gameLogic.ai.PositionEval;
 import com.weezard12.shtokfishai.gameLogic.ai.Shtokfish;
 import com.weezard12.shtokfishai.gameLogic.ai.ShtokfishThread;
 import com.weezard12.shtokfishai.gameLogic.board.GameBoard;
 import com.weezard12.shtokfishai.gameLogic.ui.base.BoardUI;
+import com.weezard12.shtokfishai.main.MyGdxGame;
 import com.weezard12.shtokfishai.main.MyUtils;
+import com.weezard12.shtokfishai.scenes.HomeScreen;
 
 public class DebugBoardUI extends BoardUI {
     public DebugBoardUI(GameBoard gameBoard, Game game) {
@@ -61,11 +65,36 @@ public class DebugBoardUI extends BoardUI {
             }
         });
 
+        TextButton getEval = new TextButton("get eval for white",style);
+        getEval.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                PositionEval b = new PositionEval();
+                PositionEval w = new PositionEval();
+                Shtokfish.calculateEvalForPosition(gameBoard.board,w, false);
+                Shtokfish.calculateEvalForPosition(gameBoard.board,b, true);
+                BoardEval eval = new BoardEval(w,b);
+                Gdx.app.log("EVAL","\n"+eval.toString());
+                //changeColor.getStyle().fontColor = (checkForBlack?Color.BLACK: Color.WHITE);
+
+            }
+        });
+        TextButton backButton = new TextButton("Back",style);
+        backButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                game.setScreen(new HomeScreen((MyGdxGame) game));
+            }
+        });
+
         changeColor.align(Align.left);
 
         enableBot.align(Align.left);
         table.add(enableBot).left().row();
 
         table.add(changeColor).left().row();
+        table.add(getEval).left().row();
+        table.add(backButton).left().row();
     }
 }

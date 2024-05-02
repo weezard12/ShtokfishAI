@@ -230,7 +230,7 @@ public class GameBoard {
             if(board[tile.posY][tile.posX] instanceof KingPiece)
                 ((KingPiece)board[tile.posY][tile.posX]).isEverMoved = true;
 
-            clearEnPassantOptionFromPawns(!selectedPiece.isEnemy);
+            clearEnPassantOptionFromPawns(selectedPiece.isEnemy);
             if (!PromotionSelection.isPromoting)
                 board[selectedTile.posY][selectedTile.posX] = null;
 
@@ -289,7 +289,7 @@ public class GameBoard {
                     if(elapsedTime < 1)
                     {
                         if(movedToTile.posX == x && movedToTile.posY == y){
-                            getPieceInterpolation(movedFromTile.bounds.x,movedFromTile.bounds.y,tiles[y][x].bounds.x,tiles[y][x].bounds.y + 8);
+                            getPieceInterpolation(movedFromTile.bounds.x,movedFromTile.bounds.y + 8,tiles[y][x].bounds.x,tiles[y][x].bounds.y + 8);
                             batch.draw(board[y][x].texture,interpolation.x,interpolation.y,MyGdxGame.tileSize,MyGdxGame.tileSize);
                         }
                         else
