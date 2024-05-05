@@ -36,7 +36,7 @@ public class MyGdxGame extends Game {
         loadPiecesTextures(assetsPath+"pieces/");
 
         batch = new SpriteBatch();
-        setScreen(new ChessVsBot(this));
+        setScreen(new HomeScreen(this));
         //setScreen(new ChessSceneBase(this));
 
 

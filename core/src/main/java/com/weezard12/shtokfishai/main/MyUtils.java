@@ -45,4 +45,8 @@ public class MyUtils {
         return String.format(Locale.US,"%.2f",num);
     }
 
+    public static Color rgbToFloatRgb(int r, int g, int b){
+        return new Color((float) r / 255, (float) g / 255, (float) b / 255,1);
+    }
+
 }

@@ -90,6 +90,13 @@ public class HomeScreen extends AllScreensBase implements ISceneWithUI {
         });
 
         settings = new TextButton("Settings",buttonStyle);
+        settings.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                game.setScreen(new Settings(game));
+            }
+        });
 
         playTable.add(logo).top().pad(20).padBottom(200).row();
         playTable.add(playBot).pad(20).row();
