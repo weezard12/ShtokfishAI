@@ -52,7 +52,7 @@ public class GameBoard {
     public BasePiece[][] board;
     public SpriteBatch batch;
     public ShapeDrawer shapeDrawer;
-    BoardColors boardColors;
+    public static BoardColors boardColors = new BoardColors(Color.WHITE,Color.BLACK,Color.BLUE,Color.CYAN);
 
     Array<BasePiece[][]> possibleMoves = new Array<>();
 
@@ -61,7 +61,6 @@ public class GameBoard {
 
     public GameBoard(SpriteBatch batch){
         this.batch = batch;
-        boardColors = new BoardColors(Color.WHITE,Color.BLACK,Color.BLUE,Color.CYAN);
 
         board = new BasePiece[8][8];
 
