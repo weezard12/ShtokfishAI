@@ -36,6 +36,8 @@ public class HomeScreen extends AllScreensBase implements ISceneWithUI {
 
     @Override
     public void setupUI() {
+        stage.clear();
+
         stage.setDebugAll(true);
 
         Table bkg = new Table();

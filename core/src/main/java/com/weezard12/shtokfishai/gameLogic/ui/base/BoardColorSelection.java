@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.weezard12.shtokfishai.gameLogic.board.BoardColors;
 import com.weezard12.shtokfishai.gameLogic.board.GameBoard;
 import com.weezard12.shtokfishai.main.SolidColorImageButton;
+import com.weezard12.shtokfishai.scenes.Settings;
 
 import java.awt.*;
 
@@ -25,6 +26,7 @@ public class BoardColorSelection {
                 GameBoard.boardColors.white = colors.white;
                 GameBoard.boardColors.movesHighlightColor = colors.movesHighlightColor;
                 textToChange.setText(themeName);
+                Settings.name = themeName;
             }
         };
         b.addListener(clicked);
