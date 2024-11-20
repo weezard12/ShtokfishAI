@@ -85,6 +85,11 @@ public class GameBoard {
             checkForInput();
     }
     protected void checkForInput(){
+        //if moving the bot, and he is thinking cancel the input
+        if(moveTheBot)
+            if(Shtokfish.thread.isCalculating)
+                return;
+
         if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)){
 
             //if promotion is in process

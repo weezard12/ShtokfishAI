@@ -7,6 +7,7 @@ import com.weezard12.shtokfishai.main.Point;
 
 public class ShtokfishThread extends Thread{
 
+    public boolean isCalculating = false;
     GameBoard gameBoard;
     public ShtokfishThread(GameBoard gameBoard){
         this.gameBoard = gameBoard;
@@ -14,6 +15,7 @@ public class ShtokfishThread extends Thread{
 
     @Override
     public void run() {
+        isCalculating = true;
         Shtokfish.getBestPosition(gameBoard.board,gameBoard.isBlackTurn);
 
         if(gameBoard.moveTheBot){
@@ -22,7 +24,7 @@ public class ShtokfishThread extends Thread{
             gameBoard.board = Shtokfish.currentBoardEval.whiteEval.position;
             gameBoard.isBlackTurn = !gameBoard.isBlackTurn;
         }
-
+        isCalculating = false;
     }
 
     @Override
